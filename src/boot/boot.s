@@ -16,7 +16,7 @@ _start:
     cli
 1:
     hlt
-    jmp 1b
+    jmp 1
 
 .size _start, . - _start
 
@@ -25,12 +25,22 @@ _start:
 
 gdt_flush:
     lgdt (gdtr)
-    mov %ax, 0x10
-    mov %ds, %ax
-    mov %es, %ax
-    mov %fs, %ax
-    mov %gs, %ax
-    mov %ss, %ax
+    mov $0x10, %ax
+    mov %ax, %ds
+    mov %ax, %es
+    mov %ax, %fs
+    mov %ax, %gs
+    mov %ax, %ss
     jmp $0x08,$flush2
 flush2:
+    ret
+
+.global idt_load
+.type idt_load, @function
+
+.global asm_debug
+.type asm_debug, @function
+
+idt_load:
+    lidt (idtr)
     ret

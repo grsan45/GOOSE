@@ -8,7 +8,7 @@
 size_t strlen(const char *str) {
     size_t len = 0;
     while (str[len++]);
-    return len;
+    return len-1;
 }
 
 void* memset(void* ptr, uint8_t val, size_t size) {
