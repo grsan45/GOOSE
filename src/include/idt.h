@@ -33,9 +33,6 @@ extern void idt_load();
 void add_idt_entry(uint8_t num, uint32_t offset, uint16_t segment, gate_type gate_type, uint8_t ring);
 void idt_install();
 
-extern void isr0();
-extern void isr8();
-
 typedef struct {
     uint32_t gs, fs, es, ds;
     uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;

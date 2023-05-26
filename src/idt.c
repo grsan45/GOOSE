@@ -3,31 +3,32 @@
 //
 
 #include "include/idt.h"
+#include "include/isrs.h"
 #include "include/string.h"
 
 idt_entry idt_entries[256];
 idt_ptr idtr;
 
 static const char* exception_messages[32] = {
-        "Division By Zero.",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "Double fault.",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
+        "Division By Zero Exception.",
+        "Debug Exception.",
+        "Non Maskable Interrupt Exception.",
+        "Breakpoint Exception.",
+        "Into Detected Overflow Exception.",
+        "Out of Bounds Exception.",
+        "Invalid Opcode Exception.",
+        "No Coprocessor Exception.",
+        "Double fault Exception.",
+        "Coprocessor Segment Overrun Exception.",
+        "Bad TSS Exception.",
+        "Segment Not Present Exception.",
+        "Stack Fault Exception.",
+        "General Protection Fault Exception.",
+        "Page Fault Exception.",
+        "Unknown Interrupt Exception.",
+        "Coprocessor Fault Exception.",
+        "Alignment Check Exception.",
+        "Machine Check Exception.",
         "Reserved Interrupt",
         "Reserved Interrupt",
         "Reserved Interrupt",
@@ -70,8 +71,9 @@ void idt_install() {
 #include "include/vga.h"
 
 void install_isrs() {
-    add_idt_entry(0, (unsigned)isr0, 0x08, INT_32, 0x00);
-    add_idt_entry(8, (unsigned)isr8, 0x08, INT_32, 0x00);
+    for (uint8_t id = 0; id < 32; id++) {
+        add_idt_entry(id, (uint32_t) isr_list[id], 0x08, INT_32, 0x00);
+    }
 }
 
 void handle_fault(isr_stacktrace *r) {

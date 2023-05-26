@@ -12,7 +12,7 @@ void kmain() {
 //    vga_print("Testing DBZ by calling __asm__(\"div %ah\");\n");
 //    __asm__ ("div %ah");
 //    vga_print("Shouldn't get here.\n");
-    vga_putc(100/0);
+//    vga_putc(100/0);
 }
 
 void asm_debug() {
