@@ -68,8 +68,6 @@ void idt_install() {
     idt_load();
 }
 
-#include "include/vga.h"
-
 void install_isrs() {
     for (uint8_t id = 0; id < 32; id++) {
         add_idt_entry(id, (uint32_t) isr_list[id], 0x08, INT_32, 0x00);
@@ -78,10 +76,10 @@ void install_isrs() {
 
 void handle_fault(isr_stacktrace *r) {
     if (r->int_id < 32) {
-        vga_print("Interrupt: ");
-        vga_print(exception_messages[r->int_id]);
-        vga_print("\n");
-        vga_print("Halting.");
+//        vga_print("Interrupt: ");
+//        vga_print(exception_messages[r->int_id]);
+//        vga_print("\n");
+//        vga_print("Halting.");
         while(1);
     }
 }

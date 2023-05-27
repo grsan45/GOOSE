@@ -3,7 +3,7 @@
 //
 
 #include "include/gdt.h"
-#include "include/vga.h"
+#include "include/framebuffer.h"
 
 gdt_entry gdt[3];
 gdt_ptr gdtr;

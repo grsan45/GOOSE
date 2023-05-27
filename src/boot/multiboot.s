@@ -8,14 +8,23 @@
 
 .section .multiboot
 multiboot_start:
-.align 4
+.align 8
 .long MAGIC
 .long 0
 .long (multiboot_start - multiboot_end)
 
 .long CHECKSUM
 
+framebuffer_tag_start:
+.word 5
+.word 1
+.long framebuffer_tag_end - framebuffer_tag_start
+.long 1280
+.long 720
+.long 24
+framebuffer_tag_end:
+
 .word 0
 .word FLAGS
-.long 8
+.long 0
 multiboot_end:

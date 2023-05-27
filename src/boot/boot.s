@@ -11,6 +11,12 @@ stack_top:
 _start:
     mov $stack_top, %esp
 
+    pushl   $0
+    popf
+
+    pushl %ebx
+    pushl %eax
+
     call kmain
 
     cli
@@ -37,9 +43,6 @@ flush2:
 
 .global idt_load
 .type idt_load, @function
-
-.global asm_debug
-.type asm_debug, @function
 
 idt_load:
     lidt (idtr)
