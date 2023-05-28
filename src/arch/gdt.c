@@ -2,8 +2,8 @@
 // Created by grsan on 5/23/23.
 //
 
-#include "include/gdt.h"
-#include "include/framebuffer.h"
+#include "../include/arch/gdt.h"
+#include "../include/display/framebuffer.h"
 
 gdt_entry gdt[3];
 gdt_ptr gdtr;

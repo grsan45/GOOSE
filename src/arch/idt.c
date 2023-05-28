@@ -2,9 +2,9 @@
 // Created by grsan on 5/25/23.
 //
 
-#include "include/idt.h"
-#include "include/isrs.h"
-#include "include/string.h"
+#include "src/include/arch/idt.h"
+#include "src/include/arch/isrs.h"
+#include "src/include/string.h"
 
 idt_entry idt_entries[256];
 idt_ptr idtr;

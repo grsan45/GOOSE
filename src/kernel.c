@@ -1,8 +1,8 @@
-#include "include/gdt.h"
-#include "include/idt.h"
+#include "src/include/arch/gdt.h"
+#include "src/include/arch/idt.h"
 
-#include "include/multiboot2.h"
-#include "include/framebuffer.h"
+#include "src/include/boot/multiboot2.h"
+#include "src/include/display/framebuffer.h"
 
 void kmain(uint32_t magic, uint32_t multiboot_addr) {
     gdt_install();

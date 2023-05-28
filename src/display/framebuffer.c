@@ -2,7 +2,7 @@
 // Created by grsan on 5/22/23.
 //
 
-#include "include/framebuffer.h"
+#include "src/include/display/framebuffer.h"
 
 static size_t term_row;
 static size_t term_col;
