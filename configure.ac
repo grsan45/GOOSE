@@ -10,12 +10,15 @@ LDFLAGS="-nostdlib -lgcc"
 ASFLAGS=""
 
 PACKAGE_CFLAGS="-ffreestanding -O2 -w -std=c17"
-PACKAGE_LDFLAGS="-nostdlib -lgcc -T $srcdir/src/linker.ld -ffreestanding -O2 -nostdlib"
+PACKAGE_LDFLAGS="-nostdlib -static-libgcc -T $srcdir/src/linker.ld -ffreestanding -O2 -nostdlib"
 PACKAGE_ASFLAGS=""
+
+PACKAGE_LDADD="-lgcc"
 
 AC_SUBST([PACKAGE_CFLAGS])
 AC_SUBST([PACKAGE_LDFLAGS])
 AC_SUBST([PACKAGE_ASFLAGS])
+AC_SUBST([PACKAGE_LDADD])
 
 AC_PROG_CC
 AM_PROG_AS

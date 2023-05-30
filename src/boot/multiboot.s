@@ -15,9 +15,17 @@ multiboot_start:
 
 .long CHECKSUM
 
+info_request_tag_start:
+.word 1
+.word 0
+.long info_request_tag_end - info_request_tag_start
+.long 6
+.long 8
+info_request_tag_end:
+
 framebuffer_tag_start:
 .word 5
-.word 1
+.word 0
 .long framebuffer_tag_end - framebuffer_tag_start
 .long 1280
 .long 720

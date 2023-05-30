@@ -1,14 +1,32 @@
-#include "src/include/arch/gdt.h"
-#include "src/include/arch/idt.h"
+#include "./include/arch/gdt.h"
+#include "./include/arch/idt.h"
 
-#include "src/include/boot/multiboot2.h"
-#include "src/include/display/framebuffer.h"
+#include "./include/boot/multiboot2.h"
+#include "./include/display/framebuffer.h"
+#include "./include/arch/memmgt.h"
+
+#include "./include/io/serial.h"
 
 void kmain(uint32_t magic, uint32_t multiboot_addr) {
+    // init serial for debugging COM1, if it fails then panic... or smth
+    if (init_serial(COM1)) {
+        for(;;);
+    }
+
+    serial_printf(COM1, "Hello serial world!\n");
+
+    // initialize gdt & idt
     gdt_install();
     idt_install();
 
-    multiboot_tag *tag = (multiboot_tag*) multiboot_addr+8;
+    // get info from multiboot
+    multiboot_tag_t *tag = (multiboot_tag_t*) multiboot_addr + 8;
+
+    // memory info tag
+    multiboot_memory_map_t *memory_map_tag;
+
+    // framebuffer tag
+    multiboot_framebuffer_tag_t *framebuffer_tag;
 
     if (magic != 0x36d76289) {
         return;
@@ -19,8 +37,12 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     }
 
     while (tag->type != 0) {
+        if (tag->type == 6) {
+            memory_map_tag = (multiboot_memory_map_t *) tag;
+            initialize_memory_map(memory_map_tag);
+        }
         if (tag->type == 8) {
-            multiboot_framebuffer_tag *framebuffer_tag = (multiboot_framebuffer_tag*) tag;
+            framebuffer_tag = (multiboot_framebuffer_tag_t *) tag;
             framebuffer_info info;
             info.addr = framebuffer_tag->common.framebuffer_addr;
             info.width = framebuffer_tag->common.framebuffer_width;
@@ -37,10 +59,19 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
                 info.blue_bit_depth = framebuffer_tag->blue_bit_depth;
             }
 
-            *(uint8_t*)(info.addr) = 0xFF;
+            *(uint8_t *) (info.addr) = 0xFF;
             init_framebuffer(info);
+
+            // TODO: mark the vram as used in the memory map
+
+            char digitbuffer[64];
+            serial_printf(COM1, "framebuffer location: 0x");
+            serial_printf(COM1, itoa((uint64_t)info.addr, digitbuffer, 16));
+            serial_printf(COM1, "\n");
         }
 
-        tag = (multiboot_tag*)((uint8_t*)tag+((tag->size + 7) & ~7));
+        tag = (multiboot_tag_t*)((uint8_t*)tag + ((tag->size + 7) & ~7));
     }
+
+    put_pixel(0, 0, 0xffa600);
 }
