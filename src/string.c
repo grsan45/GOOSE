@@ -39,7 +39,7 @@ char* itoa(uint64_t num, char* buf, uint8_t base) {
     while (num != 0) {
         uint8_t rem = num % base;
         buf[i++] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
-        num = num / 10;
+        num = num / base;
     }
 
     reverse_str(buf, i);

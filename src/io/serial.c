@@ -5,6 +5,8 @@
 #include "../include/io/serial.h"
 #include "../include/string.h"
 
+char digitbuffer[65]; // enough room for 64 bits + null terminator
+
 // mostly stolen from https://wiki.osdev.org/Serial_Ports
 bool init_serial(uint16_t port) {
     outb(port + 1, 0x00);    // Disable all interrupts
@@ -44,9 +46,50 @@ void serial_putc(uint16_t port, uint8_t ch) {
     outb(port, ch);
 }
 
-// his ass is NOT formatting
-void serial_printf(uint16_t port, const char* str) {
+void serial_puts(uint16_t port, const char* str) {
     uint32_t len = strlen(str);
     for (uint32_t i = 0; i < len; i++)
         serial_putc(port, str[i]);
+}
+
+// his ass is NOT formatting
+void serial_printf(uint16_t port, const char* format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    uint8_t base = 0;
+
+    uint32_t len = strlen(format);
+    for (uint32_t i = 0; i < len; i++) {
+        if (format[i] == '%' && format[++i]) {
+            insideloop:
+            switch (format[i]) {
+                case 's':
+                    serial_puts(port, va_arg(args, char*));
+                    break;
+                case '%':
+                    serial_putc(port, '%');
+                    break;
+                case 'd':
+                    serial_puts(port, itoa(va_arg(args, uint64_t), digitbuffer, base > 1 ? base : 10));
+                    break;
+                default:
+                    if (format[i] >= '0' && format[i] <= '9') {
+                        base = 0;
+                        while (format[i+1] && format[i] != 'd') {
+                            base *= 10;
+                            base += format[i] - '0';
+                            i++;
+                        }
+                        goto insideloop;
+                    }
+                    break;
+            }
+            i++;
+        }
+
+        serial_putc(port, format[i]);
+    }
+
+    va_end(args);
 }

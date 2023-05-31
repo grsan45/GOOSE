@@ -27,6 +27,6 @@ typedef struct {
 } mmap_page_t;
 
 void initialize_memory_map(multiboot_memory_map_t* memory_map);
-void calloc(uint32_t num_blocks, uint32_t block_size);
+void* calloc(uint32_t num_blocks, uint32_t block_size);
 
 #endif //GOOSE_MEMMGT_H

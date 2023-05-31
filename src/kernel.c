@@ -28,6 +28,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // framebuffer tag
     multiboot_framebuffer_tag_t *framebuffer_tag;
 
+    // validate multiboot header
     if (magic != 0x36d76289) {
         return;
     }
@@ -36,6 +37,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
         return;
     }
 
+    // get multiboot tags, or at least the ones I care about
     while (tag->type != 0) {
         if (tag->type == 6) {
             memory_map_tag = (multiboot_memory_map_t *) tag;
@@ -63,15 +65,16 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
             init_framebuffer(info);
 
             // TODO: mark the vram as used in the memory map
-
-            char digitbuffer[64];
-            serial_printf(COM1, "framebuffer location: 0x");
-            serial_printf(COM1, itoa((uint64_t)info.addr, digitbuffer, 16));
-            serial_printf(COM1, "\n");
+            serial_printf(COM1, "framebuffer location: 0x%16d\n",(uint64_t)info.addr);
         }
 
         tag = (multiboot_tag_t*)((uint8_t*)tag + ((tag->size + 7) & ~7));
     }
 
+    // test framebuffer
     put_pixel(0, 0, 0xffa600);
+
+    // test calloc
+    char* ptr = calloc(128, sizeof(char));
+    serial_printf(COM1, "Test pointer located at 0x%16d\n", ptr);
 }
