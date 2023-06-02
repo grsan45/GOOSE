@@ -51,11 +51,11 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map) {
 
     // we really only need 24KiB of padding, but im adding an extra 8 to play things safe
     serial_printf(COM1, "Moving page array 32KiB forward so we don't hit the stack\n");
-    uint64_t page_table_start_addr = largest_usable_entry.base_addr + 32768;
+    uint64_t page_table_start_addr = largest_usable_entry.base_addr + PRE_MMAP_PADDING;
 
     serial_printf(COM1, "Adjusting start addr by 16Mib\n");
     uint64_t start_addr = page_table_start_addr + 16777216;
-    uint64_t length = largest_usable_entry.length - 16777216 - 32768;
+    uint64_t length = largest_usable_entry.length - 16777216 - PRE_MMAP_PADDING;
 
     uint32_t num_pages = (length >> 12) - 1; // divide by 4096
 

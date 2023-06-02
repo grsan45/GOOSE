@@ -19,8 +19,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     gdt_install();
     idt_install();
 
-    // get info from multiboot
-    multiboot_tag_t *tag = (multiboot_tag_t*) multiboot_addr + 8;
+    serial_printf(COM1, "Multiboot addr: 0x%16d\n", multiboot_addr);
 
     // memory info tag
     multiboot_memory_map_t *memory_map_tag;
@@ -36,6 +35,9 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     if (multiboot_addr & 7) {
         return;
     }
+
+    // move multiboot header to somewhere it can be undisturbed while the memory map is created
+    multiboot_tag_t *tag = (multiboot_tag_t*) memcpy(((void*)0x1000), (void*)multiboot_addr, *((uint32_t*)multiboot_addr)) + 8;
 
     // get multiboot tags, or at least the ones I care about
     while (tag->type != 0) {
@@ -70,6 +72,8 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
         tag = (multiboot_tag_t*)((uint8_t*)tag + ((tag->size + 7) & ~7));
     }
+
+    serial_printf(COM1, "Multiboot addr: 0x%16d\n", (uint64_t) tag);
 
     // test framebuffer
     put_pixel(0, 0, 0xffa600);

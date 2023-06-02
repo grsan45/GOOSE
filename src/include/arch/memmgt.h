@@ -11,6 +11,7 @@
 #include "../boot/multiboot2.h"
 
 #define BLOCK_HEADER_SIZE sizeof(mmap_block_t)
+#define PRE_MMAP_PADDING (16384 + 8192 + 8192) // 16KiB for the stack + 8KiB stack offset + 8KiB jic
 
 typedef struct s_mmap_block_t {
     uint32_t size;
