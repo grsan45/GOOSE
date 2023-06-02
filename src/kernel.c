@@ -13,13 +13,11 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
         for(;;);
     }
 
-    serial_printf(COM1, "Hello serial world!\n");
+    serial_printf(COM1, "Starting output to COM1\n");
 
     // initialize gdt & idt
     gdt_install();
     idt_install();
-
-    serial_printf(COM1, "Multiboot addr: 0x%16d\n", multiboot_addr);
 
     // memory info tag
     multiboot_memory_map_t *memory_map_tag;
@@ -73,14 +71,12 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
         tag = (multiboot_tag_t*)((uint8_t*)tag + ((tag->size + 7) & ~7));
     }
 
-    serial_printf(COM1, "Multiboot addr: 0x%16d\n", (uint64_t) tag);
-
     // test framebuffer
     put_pixel(0, 0, 0xffa600);
 
     // test calloc
-    char* ptr = calloc(128, sizeof(char));
-    serial_printf(COM1, "Test pointer located at 0x%16d\n", ptr);
+    char* ptr = calloc(3, sizeof(char));
+    serial_printf(COM1, "Test pointer 1 located at 0x%16d\n", ptr);
 
     char* ptr2 = calloc(512, sizeof(char));
     serial_printf(COM1, "Test pointer 2 located at 0x%16d\n", ptr2);

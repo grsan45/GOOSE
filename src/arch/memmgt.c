@@ -20,17 +20,18 @@ void* calloc(uint32_t num_blocks, uint32_t block_size) {
 
     uint32_t required_block_header_size = required_pages * BLOCK_HEADER_SIZE; // for allocations that require multiple pages
     mmap_block_t* block = find_best_block(total_bytes + required_block_header_size);
-    serial_printf(COM1, "best block location: 0x%16d, size: %d bytes\n", (uint64_t) block, (uint64_t) block->size);
+//    serial_printf(COM1, "best block location: 0x%16d, size: %d bytes\n", (uint64_t) block, (uint64_t) block->size);
     block = split_block(block, total_bytes + required_block_header_size);
     serial_printf(COM1, "new block location: 0x%16d, size: %d bytes\n", (uint64_t) block, (uint64_t) block->size);
 
-    memset(block + BLOCK_HEADER_SIZE, 0, total_bytes);
+    memset((void*)((uint64_t) block) + BLOCK_HEADER_SIZE, 0, total_bytes);
 
     block->free = false;
     return (void*) block + BLOCK_HEADER_SIZE;
 }
 
 void initialize_memory_map(multiboot_memory_map_t* memory_map) {
+    serial_printf(COM1, "Creating memory map...\n");
     uint32_t num_sectors = (memory_map->size-16)/memory_map->entry_size;
 
     // find the largest usable entry, maybe take advantage of others once paging is implemented?
@@ -96,7 +97,6 @@ mmap_block_t* split_block(mmap_block_t* block, uint32_t size) {
 //        serial_printf(COM1, "splitting block at 0x%16d\n", (uint64_t) block);
         while (block->size >> 1 > size) {
             uint32_t new_size = block->size >> 1;
-//            serial_printf(COM1, "test %d, %d, %d\n", (uint64_t) size, (uint64_t) block->size, (uint64_t) new_size);
             block->size = new_size;
             mmap_block_t* next_block = get_next_block(block);
             next_block->size = new_size;
@@ -114,6 +114,7 @@ mmap_block_t* split_block(mmap_block_t* block, uint32_t size) {
 mmap_block_t* find_best_block(uint32_t size) {
     mmap_block_t *block = earliest_free_page.first_block;
     while (!block->free || block->size < size) {
+//        serial_printf(COM1, "block addr: 0x%16d, size: %d, free: %d\n", (uint64_t) block, (uint64_t) block->size, (uint64_t) block->free);
         block = get_next_block(block);
     }
 
