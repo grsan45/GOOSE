@@ -77,4 +77,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // test calloc
     char* ptr = calloc(128, sizeof(char));
     serial_printf(COM1, "Test pointer located at 0x%16d\n", ptr);
+
+    char* ptr2 = calloc(512, sizeof(char));
+    serial_printf(COM1, "Test pointer 2 located at 0x%16d\n", ptr2);
 }

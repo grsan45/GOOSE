@@ -52,7 +52,6 @@ void serial_puts(uint16_t port, const char* str) {
         serial_putc(port, str[i]);
 }
 
-// his ass is NOT formatting
 void serial_printf(uint16_t port, const char* format, ...) {
     va_list args;
     va_start(args, format);
@@ -72,6 +71,7 @@ void serial_printf(uint16_t port, const char* format, ...) {
                     break;
                 case 'd':
                     serial_puts(port, itoa(va_arg(args, uint64_t), digitbuffer, base > 1 ? base : 10));
+                    base = 0;
                     break;
                 default:
                     if (format[i] >= '0' && format[i] <= '9') {

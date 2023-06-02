@@ -10,23 +10,24 @@
 
 #include "../boot/multiboot2.h"
 
-typedef struct s_mmap_block_t{
-    struct s_mmap_block_t* buddy;
-    struct s_mmap_block_t* left;
-    struct s_mmap_block_t* right;
+#define BLOCK_HEADER_SIZE sizeof(mmap_block_t)
 
-    uint64_t location;
-    uint64_t size;
+typedef struct s_mmap_block_t {
+    uint32_t size;
     bool free; // TODO: replace this with owner proc when implemented
 } mmap_block_t;
 
 typedef struct {
-    uint64_t start_addr;
+    mmap_block_t *first_block;
     uint64_t length; // should be a power of 2
-    mmap_block_t root_block;
+    bool free; // true if the page has at least one free block
 } mmap_page_t;
 
 void initialize_memory_map(multiboot_memory_map_t* memory_map);
 void* calloc(uint32_t num_blocks, uint32_t block_size);
+
+mmap_block_t* split_block(mmap_block_t* block, uint32_t size);
+mmap_block_t* get_next_block(mmap_block_t* block);
+mmap_block_t* find_best_block(uint32_t size);
 
 #endif //GOOSE_MEMMGT_H

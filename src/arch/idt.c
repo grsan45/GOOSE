@@ -77,10 +77,7 @@ void install_isrs() {
 
 void handle_fault(isr_stacktrace *r) {
     if (r->int_id < 32) {
-        serial_printf(COM1, "Interrupt: ");
-        serial_printf(COM1, exception_messages[r->int_id]);
-        serial_printf(COM1, "\n");
-        serial_printf(COM1, "Halting.");
+        serial_printf(COM1, "Interrupt: %s\nHalting.", exception_messages[r->int_id]);
         for(;;);
     }
 }
