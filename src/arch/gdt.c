@@ -3,7 +3,6 @@
 //
 
 #include "../include/arch/gdt.h"
-#include "../include/display/framebuffer.h"
 
 gdt_entry gdt[3];
 gdt_ptr gdtr;

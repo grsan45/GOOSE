@@ -75,9 +75,19 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     put_pixel(0, 0, 0xffa600);
 
     // test calloc
-    char* ptr = calloc(3, sizeof(char));
-    serial_printf(COM1, "Test pointer 1 located at 0x%16d\n", ptr);
+    char* ptr = calloc(119, sizeof(char));
+    char* ptr2 = calloc(4096, sizeof(char));
+    char* ptr3 = calloc(512, sizeof(char));
+    char* ptr4 = calloc(424, sizeof(char));
+    char* ptr5 = calloc(24576, sizeof(char));
 
-    char* ptr2 = calloc(512, sizeof(char));
+    serial_printf(COM1, "Test pointer 1 located at 0x%16d\n", ptr);
     serial_printf(COM1, "Test pointer 2 located at 0x%16d\n", ptr2);
+    serial_printf(COM1, "Test pointer 3 located at 0x%16d\n", ptr3);
+    serial_printf(COM1, "Test pointer 4 located at 0x%16d\n", ptr4);
+    serial_printf(COM1, "Test pointer 5 located at 0x%16d\n", ptr5);
+
+//    mmap_page_t* page = find_best_page(4096);
+//    serial_printf(COM1, "First block: 0x%16d, %d\nLast block: 0x%16d, %d\n",
+//                  (uint64_t) page->first_block, (uint64_t) page->first_block->size, (uint64_t) page->last_block, (uint64_t) page->last_block->size);
 }
