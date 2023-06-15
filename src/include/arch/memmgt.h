@@ -37,6 +37,6 @@ mmap_page_t *find_best_page(uint32_t size);
 
 mmap_page_t *get_block_page(mmap_block_t *block);
 
-void serial_print_mmap(uint16_t serial_port, uint32_t start_page, uint32_t end_page);
+mmap_block_t *get_block_of_ptr(uint64_t addr);
 
 #endif //GOOSE_MEMMGT_H

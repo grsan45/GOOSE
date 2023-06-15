@@ -81,11 +81,16 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     char* ptr4 = calloc(424, sizeof(char));
     char* ptr5 = calloc(24576, sizeof(char));
 
-    serial_printf(COM1, "Test pointer 1 located at 0x%16d\n", ptr);
-    serial_printf(COM1, "Test pointer 2 located at 0x%16d\n", ptr2);
-    serial_printf(COM1, "Test pointer 3 located at 0x%16d\n", ptr3);
-    serial_printf(COM1, "Test pointer 4 located at 0x%16d\n", ptr4);
-    serial_printf(COM1, "Test pointer 5 located at 0x%16d\n", ptr5);
+    serial_printf(COM1, "Test pointer 1 located at 0x%16d, block size: %d\n", (uint64_t) ptr,
+                  (uint64_t) get_block_of_ptr((uint64_t) ptr)->size);
+    serial_printf(COM1, "Test pointer 2 located at 0x%16d, block size: %d\n", (uint64_t) ptr2,
+                  (uint64_t) get_block_of_ptr((uint64_t) ptr2)->size);
+    serial_printf(COM1, "Test pointer 3 located at 0x%16d, block size: %d\n", (uint64_t) ptr3,
+                  (uint64_t) get_block_of_ptr((uint64_t) ptr3)->size);
+    serial_printf(COM1, "Test pointer 4 located at 0x%16d, block size: %d\n", (uint64_t) ptr4,
+                  (uint64_t) get_block_of_ptr((uint64_t) ptr4)->size);
+    serial_printf(COM1, "Test pointer 5 located at 0x%16d, block size: %d\n", (uint64_t) ptr5,
+                  (uint64_t) get_block_of_ptr((uint64_t) ptr5)->size);
 
 //    mmap_page_t* page = find_best_page(4096);
 //    serial_printf(COM1, "First block: 0x%16d, %d\nLast block: 0x%16d, %d\n",

@@ -34,14 +34,14 @@ void* calloc(uint32_t num_blocks, uint32_t block_size) {
     } else {
         // multi-page allocation
 
-        // find the number of remaining bytes the ending page will have, then compute the next lowest power of 2 & divide by 2
-        uint32_t ending_page_new_size = (total_bytes - block->size) % 4096;
-        ending_page_new_size = flp2(ending_page_new_size) >> 1;
+        // find the number of remaining bytes the ending page will have, then compute the next lowest power of 2
+        uint32_t ending_page_new_size = PAGE_SIZE - ((total_bytes - block->size) % PAGE_SIZE);
+        ending_page_new_size = flp2(ending_page_new_size);
 
         // update the first block on the end page to ensure it still functions properly
         mmap_page_t *ending_page = best_page + required_pages - 1;
 
-        ending_page->first_block = (mmap_block_t *) ((uint64_t) ending_page->first_block + (4096-ending_page_new_size));
+        ending_page->first_block = (mmap_block_t *) ((uint64_t) ending_page->first_block + (PAGE_SIZE-ending_page_new_size));
         ending_page->first_block->size = ending_page_new_size;
         ending_page->first_block->free = true;
 
@@ -205,35 +205,6 @@ mmap_page_t *get_block_page(mmap_block_t *block) {
     return (mmap_page_t*) pages + page_index;
 }
 
-void serial_print_mmap(uint16_t serial_port, uint32_t start_page, uint32_t end_page) {
-    for (uint32_t i = start_page; i < end_page; i++) {
-        mmap_page_t *page = pages + i;
-
-        serial_printf(serial_port, "Page %d: \t", (uint64_t) page);
-        serial_putc(serial_port, '|');
-        for (mmap_block_t *block = page->first_block; block != page->last_block; block = get_next_block(block)) {
-            for (uint32_t j = 0; j < block->size / 16; j++) {
-                serial_putc(serial_port, block->free ? ' ' : '*');
-            }
-            serial_putc(serial_port, '|');
-        }
-        serial_putc(serial_port, '\n');
-
-        serial_printf(serial_port, "Addr: 0x%16d ", (uint64_t) page->first_block);
-        for (mmap_block_t *block = page->first_block; block != (page + 1)->first_block; block = get_next_block(block)) {
-            uint32_t size = block->size;
-            uint8_t digits = 0;
-            while (size != 0) {
-                size /= 10;
-                digits++;
-            }
-            serial_printf(serial_port, "%d", (uint64_t) block->size);
-
-            for (uint32_t j = digits - 1; j < block->size / 16; j++) {
-                serial_putc(serial_port, ' ');
-            }
-        }
-        serial_printf(serial_port, "Total size %d", (uint64_t) page->length);
-        serial_putc(serial_port, '\n');
-    }
+mmap_block_t *get_block_of_ptr(uint64_t addr) {
+    return (mmap_block_t*) (addr - BLOCK_HEADER_SIZE);
 }
