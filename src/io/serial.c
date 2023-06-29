@@ -4,6 +4,7 @@
 
 #include "../include/io/serial.h"
 #include "../include/string.h"
+#include "../include/io/ioutils.h"
 
 char digitbuffer[65]; // enough room for 64 bits + null terminator
 
@@ -70,7 +71,7 @@ void serial_printf(uint16_t port, const char* format, ...) {
                     serial_putc(port, '%');
                     break;
                 case 'd':
-                    serial_puts(port, itoa(va_arg(args, uint64_t), digitbuffer, base > 1 ? base : 10));
+                    serial_puts(port, itoa(va_arg(args, uint32_t), digitbuffer, base > 1 ? base : 10));
                     base = 0;
                     break;
                 default:

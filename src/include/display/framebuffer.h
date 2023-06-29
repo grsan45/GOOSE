@@ -10,7 +10,7 @@
 #include "../string.h"
 
 typedef struct {
-    uint64_t addr;
+    void *addr;
     uint32_t width;
     uint32_t height;
     uint32_t pitch;

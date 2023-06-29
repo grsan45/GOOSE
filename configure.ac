@@ -9,7 +9,7 @@ CFLAGS="-ffreestanding -nostdlib -gdwarf-4 -m32 -ggdb3 -Wall -Wextra -Werror -st
 LDFLAGS="-nostdlib -lgcc"
 ASFLAGS=""
 
-PACKAGE_CFLAGS="-ffreestanding -O2 -w -std=c17"
+PACKAGE_CFLAGS="-ffreestanding -O2 -Wall -Werror -std=c17"
 PACKAGE_LDFLAGS="-nostdlib -static-libgcc -T $srcdir/src/linker.ld -ffreestanding -O2 -nostdlib"
 PACKAGE_ASFLAGS=""
 

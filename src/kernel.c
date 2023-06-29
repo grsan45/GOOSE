@@ -46,7 +46,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
         if (tag->type == 8) {
             framebuffer_tag = (multiboot_framebuffer_tag_t *) tag;
             framebuffer_info info;
-            info.addr = framebuffer_tag->common.framebuffer_addr;
+            info.addr = (void *) (long) framebuffer_tag->common.framebuffer_addr;
             info.width = framebuffer_tag->common.framebuffer_width;
             info.height = framebuffer_tag->common.framebuffer_height;
             info.pitch = framebuffer_tag->common.framebuffer_pitch;
@@ -65,7 +65,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
             init_framebuffer(info);
 
             // TODO: mark the vram as used in the memory map
-            serial_printf(COM1, "framebuffer location: 0x%16d\n",(uint64_t)info.addr);
+            serial_printf(COM1, "framebuffer location: 0x%16d\n",(uint32_t)info.addr);
         }
 
         tag = (multiboot_tag_t*)((uint8_t*)tag + ((tag->size + 7) & ~7));
@@ -81,18 +81,18 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     char* ptr4 = calloc(424, sizeof(char));
     char* ptr5 = calloc(24576, sizeof(char));
 
-    serial_printf(COM1, "Test pointer 1 located at 0x%16d, block size: %d\n", (uint64_t) ptr,
-                  (uint64_t) get_block_of_ptr((uint64_t) ptr)->size);
-    serial_printf(COM1, "Test pointer 2 located at 0x%16d, block size: %d\n", (uint64_t) ptr2,
-                  (uint64_t) get_block_of_ptr((uint64_t) ptr2)->size);
-    serial_printf(COM1, "Test pointer 3 located at 0x%16d, block size: %d\n", (uint64_t) ptr3,
-                  (uint64_t) get_block_of_ptr((uint64_t) ptr3)->size);
-    serial_printf(COM1, "Test pointer 4 located at 0x%16d, block size: %d\n", (uint64_t) ptr4,
-                  (uint64_t) get_block_of_ptr((uint64_t) ptr4)->size);
-    serial_printf(COM1, "Test pointer 5 located at 0x%16d, block size: %d\n", (uint64_t) ptr5,
-                  (uint64_t) get_block_of_ptr((uint64_t) ptr5)->size);
+    serial_printf(COM1, "Test pointer 1 located at 0x%16d, block size: %d\n", (uint32_t) ptr,
+                  (uint32_t) get_block_of_ptr((uint32_t) ptr)->size);
+    serial_printf(COM1, "Test pointer 2 located at 0x%16d, block size: %d\n", (uint32_t) ptr2,
+                  (uint32_t) get_block_of_ptr((uint32_t) ptr2)->size);
+    serial_printf(COM1, "Test pointer 3 located at 0x%16d, block size: %d\n", (uint32_t) ptr3,
+                  (uint32_t) get_block_of_ptr((uint32_t) ptr3)->size);
+    serial_printf(COM1, "Test pointer 4 located at 0x%16d, block size: %d\n", (uint32_t) ptr4,
+                  (uint32_t) get_block_of_ptr((uint32_t) ptr4)->size);
+    serial_printf(COM1, "Test pointer 5 located at 0x%16d, block size: %d\n", (uint32_t) ptr5,
+                  (uint32_t) get_block_of_ptr((uint32_t) ptr5)->size);
 
 //    mmap_page_t* page = find_best_page(4096);
 //    serial_printf(COM1, "First block: 0x%16d, %d\nLast block: 0x%16d, %d\n",
-//                  (uint64_t) page->first_block, (uint64_t) page->first_block->size, (uint64_t) page->last_block, (uint64_t) page->last_block->size);
+//                  (uint32_t) page->first_block, (uint32_t) page->first_block->size, (uint32_t) page->last_block, (uint32_t) page->last_block->size);
 }

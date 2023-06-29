@@ -8,7 +8,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h>
-#include "ioutils.h"
 
 #define COM1 0x3f8
 
