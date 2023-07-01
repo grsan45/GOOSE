@@ -43,7 +43,7 @@ void* calloc(uint32_t num_blocks, uint32_t block_size) {
 
         ending_page->first_block = (mmap_block_t *) ((uint32_t) ending_page->first_block + (PAGE_SIZE-ending_page_new_size));
         ending_page->first_block->size = ending_page_new_size;
-        ending_page->first_block->free = true;
+        ending_page->first_block->flags |= FREE;
 
         // update the block size so itll lead to the first block on the ending page
         block->size = ((uint32_t) ending_page->first_block) - ((uint32_t) block);
@@ -61,8 +61,14 @@ void* calloc(uint32_t num_blocks, uint32_t block_size) {
                   (uint32_t) block + BLOCK_HEADER_SIZE + ((uint32_t) total_bytes - BLOCK_HEADER_SIZE));
     memset((void*)((uint32_t) block) + BLOCK_HEADER_SIZE, 0, total_bytes - BLOCK_HEADER_SIZE);
 
-    block->free = false;
+    block->flags &= ~FREE;
     return (void*) block + BLOCK_HEADER_SIZE;
+}
+
+void free(void *ptr) {
+    mmap_block_t *block = get_block_of_ptr((long) ptr);
+    block->flags |= FREE;
+    merge_blocks(block);
 }
 
 void initialize_memory_map(multiboot_memory_map_t* memory_map) {
@@ -110,7 +116,7 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map) {
 
         pages[i].first_block = (mmap_block_t *) page_addr;
         pages[i].first_block->size = PAGE_SIZE;
-        pages[i].first_block->free = true;
+        pages[i].first_block->flags |= FREE;
 
         pages[i].last_block = pages[i].first_block;
     }
@@ -127,6 +133,10 @@ mmap_block_t* get_next_block(mmap_block_t* block) {
     return (mmap_block_t*)((uint32_t) block + block->size);
 }
 
+mmap_block_t *get_prev_block(mmap_block_t *block) {
+    return (mmap_block_t*)((uint32_t) block - block->size);
+}
+
 mmap_block_t* split_block(mmap_block_t* block, uint32_t size) {
     if (block && size < block->size) {
         mmap_page_t *page = get_block_page(block);
@@ -136,7 +146,7 @@ mmap_block_t* split_block(mmap_block_t* block, uint32_t size) {
 
             mmap_block_t* next_block = get_next_block(block);
             next_block->size = new_size;
-            next_block->free = true;
+            next_block->flags |= FREE;
 
             // determine if this the first time we are splitting this block, if so set the last block ptr
             if (page->first_block == block && page->last_block == block) {
@@ -152,12 +162,27 @@ mmap_block_t* split_block(mmap_block_t* block, uint32_t size) {
     return NULL;
 }
 
+mmap_block_t *merge_blocks(mmap_block_t *block) {
+    //TODO: add multi-page blocks here
+
+    if (block->size == PAGE_SIZE) {
+        return block; // no merging to be done, this block spans the entire page
+    }
+
+    // different behavior based on merge direction
+    if (get_next_block(block)->size > block->size) { // merging backwards
+
+    }
+
+    return block;
+}
+
 mmap_block_t* find_best_block(mmap_page_t *page, uint32_t size) {
     if (size > 4096)
         return page->last_block;
 
     mmap_block_t *block = page->first_block;
-    while (!block->free || block->size < size) {
+    while (!(block->flags & FREE) || block->size < size) {
 //        serial_printf(COM1, "block addr: 0x%16d, size: %d, free: %d\n", (uint64_t) block, (uint64_t) block->size, (uint64_t) block->free);
         block = get_next_block(block);
     }
@@ -176,7 +201,7 @@ mmap_page_t *find_best_page(uint32_t size) {
         if (size < PAGE_SIZE) break;
 
         loop_body:
-        if (!page->last_block->free) continue; // skip if the last block in this page isn't free
+        if (!(page->last_block->flags & FREE)) continue; // skip if the last block in this page isn't free
 
         // determine whether we have enough free physical space to fit this allocation
         while (remaining_size) {
