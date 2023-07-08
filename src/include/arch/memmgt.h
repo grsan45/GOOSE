@@ -36,7 +36,6 @@ mmap_block_t *split_block(mmap_block_t* block, uint32_t size);
 mmap_block_t *merge_blocks(mmap_block_t*);
 
 mmap_block_t *get_next_block(mmap_block_t *block);
-mmap_block_t *get_prev_block(mmap_block_t *block);
 mmap_block_t *find_best_block(mmap_page_t *page, uint32_t size);
 
 mmap_page_t *find_best_page(uint32_t size);

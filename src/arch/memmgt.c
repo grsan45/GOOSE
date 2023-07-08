@@ -146,7 +146,7 @@ mmap_block_t* split_block(mmap_block_t* block, uint32_t size) {
 
             mmap_block_t* next_block = get_next_block(block);
             next_block->size = new_size;
-            next_block->flags |= FREE;
+            next_block->flags |= FREE | HIGH_BLOCK;
 
             // determine if this the first time we are splitting this block, if so set the last block ptr
             if (page->first_block == block && page->last_block == block) {
@@ -163,15 +163,30 @@ mmap_block_t* split_block(mmap_block_t* block, uint32_t size) {
 }
 
 mmap_block_t *merge_blocks(mmap_block_t *block) {
-    //TODO: add multi-page blocks here
+    //TODO: add multi-page blocks here, just need to mark area as free and restore blocks at start of each page
 
     if (block->size == PAGE_SIZE) {
         return block; // no merging to be done, this block spans the entire page
     }
 
+    mmap_block_t *merge_target;
+    mmap_block_t *resulting_block;
     // different behavior based on merge direction
-    if (get_next_block(block)->size > block->size) { // merging backwards
+    if (block->flags & HIGH_BLOCK) { // merging backwards
+        merge_target = (mmap_block_t*) ((uint32_t) block - block->size);
+        resulting_block = merge_target;
+    } else {
+        merge_target = get_next_block(block);
+        resulting_block = block;
+    }
 
+    serial_printf(COM1, "merge target addr: 0x%16d, free: %d, size: %d\n",
+                  (uint32_t) merge_target, merge_target->flags & FREE, merge_target->size);
+
+    // we only want to merge if this block is free AND it has no "child" blocks
+    if (merge_target->flags & FREE && merge_target->size == block->size) {
+        resulting_block->size = block->size << 1; // fix size
+        return merge_blocks(resulting_block); // merge upwards as far as we can go
     }
 
     return block;
