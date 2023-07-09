@@ -11,6 +11,7 @@ This project is just for learning and experimenting. Maybe I'll have a "full" us
 
 No custom bootloaders here, using GRUB 2 (multiboot2). As educational as writing a custom bootloader is, I didn't want
 to go through the hassle for my first serious toy OS.
+
 ---
 
 ### Task List:
@@ -24,7 +25,9 @@ to go through the hassle for my first serious toy OS.
 - [ ] 64-bit support
 - [ ] FS support
 - [ ] User Mode!
+
 ---
+
 ### Want to build?
 This project can only be built on linux or WSL. You'll need autotools and qemu installed.
 
@@ -42,4 +45,5 @@ To create the ISO image, run `./create_iso.sh` inside the `tools` directory.
 Use `qemu-system-i386 -serial stdio --cdrom goose.iso` to run the OS.
 
 ---
+
 <sub>Licensed under GPLv3.0</sub>
