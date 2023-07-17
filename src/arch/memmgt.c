@@ -34,12 +34,22 @@ void* calloc(uint32_t num_blocks, uint32_t block_size) {
     } else {
         // multi-page allocation
 
+        for (uint32_t i = 0; i < required_pages - 2; i++) {
+            (best_page + i)->flags |= ALLOCATED_OUTSIDE;
+        }
+
         // find the number of remaining bytes the ending page will have, then compute the next lowest power of 2
         uint32_t ending_page_new_size = PAGE_SIZE - ((total_bytes - block->size) % PAGE_SIZE);
         ending_page_new_size = flp2(ending_page_new_size);
 
         // update the first block on the end page to ensure it still functions properly
         mmap_page_t *ending_page = best_page + required_pages - 1;
+
+        serial_printf(COM1, "chose ending page %d\n", required_pages - 1);
+
+        serial_printf(COM1, "ending page pre format firstblock addr: 0x%16d, size: %d\nending page lastblock addr: 0x%16d, size: %d\n",
+                      (uint32_t) ending_page->first_block, (uint32_t) ending_page->first_block->size,
+                      (uint32_t) ending_page->last_block, (uint32_t) ending_page->last_block->size);
 
         ending_page->first_block = (mmap_block_t *) ((uint32_t) ending_page->first_block + (PAGE_SIZE-ending_page_new_size));
         ending_page->first_block->size = ending_page_new_size;
@@ -50,7 +60,7 @@ void* calloc(uint32_t num_blocks, uint32_t block_size) {
 
         ending_page->last_block = ending_page->first_block;
 
-        serial_printf(COM1, "ending page firstblock addr: 0x%16d, size: %d\nending page lastblock addr: 0x%16d, size: %d\n",
+        serial_printf(COM1, "ending page post format firstblock addr: 0x%16d, size: %d\nending page lastblock addr: 0x%16d, size: %d\n",
                       (uint32_t) ending_page->first_block, (uint32_t) ending_page->first_block->size,
                       (uint32_t) ending_page->last_block, (uint32_t) ending_page->last_block->size);
     }
@@ -110,10 +120,6 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map) {
 
     for(uint32_t i = 0; i < num_pages; i++) {
         uint32_t page_addr = (i << 12) + usable_memory_start_address; // multiply by 4096
-        pages[i].length = PAGE_SIZE;
-//        serial_printf(COM1, "page %d addr 0x%16d\n", (uint64_t) i, (uint64_t) page_addr);
-//        serial_printf(COM1, "page %d info addr 0x%16d\n", (uint64_t) i, (uint64_t) pages + (i * sizeof(mmap_page_t)));
-
         pages[i].first_block = (mmap_block_t *) page_addr;
         pages[i].first_block->size = PAGE_SIZE;
         pages[i].first_block->flags |= FREE;
@@ -165,6 +171,54 @@ mmap_block_t* split_block(mmap_block_t* block, uint32_t size) {
 mmap_block_t *merge_blocks(mmap_block_t *block) {
     //TODO: add multi-page blocks here, just need to mark area as free and restore blocks at start of each page
 
+    if (block->size > PAGE_SIZE) {
+        uint32_t num_pages_to_fix = block->size / PAGE_SIZE - 1;
+
+        // we really just need to ensure that the first block on each page is restored with accurate information
+        mmap_page_t* page = get_block_page(block) + 1; // the first fully occupied page
+        for (uint32_t i = 0; i < num_pages_to_fix; i++, page++) {
+            page->first_block->size = PAGE_SIZE;
+            page->first_block->flags |= FREE;
+
+            page->flags &= ~ALLOCATED_OUTSIDE;
+        }
+
+        // fix ending page
+        uint32_t remaining_size = PAGE_SIZE - block->size % PAGE_SIZE;
+
+        // keep the original ending block for later, set it as a high block since that it would end up as if created naturally
+        mmap_block_t *original_block = page->first_block;
+        original_block->flags |= HIGH_BLOCK;
+
+        // "new" first block
+        mmap_block_t *restored_block = (mmap_block_t *) ((uint32_t) page->first_block - remaining_size);
+        page->first_block = restored_block;
+
+        // weird bitmasking masking loop to create a reasonable block structure
+        uint32_t mask = PAGE_SIZE;
+        bool high = false;
+        while (mask > 0) {
+            if (remaining_size & mask) {
+                restored_block->size = remaining_size & mask;
+                restored_block->flags = FREE;
+
+                // weird mess that seems to reliably ensure the page structure is restored properly
+                if (high) {
+                    restored_block->flags |= HIGH_BLOCK;
+                }
+                high = !high;
+
+                restored_block = get_next_block(restored_block);
+            }
+            mask >>= 1;
+        }
+
+        merge_blocks(original_block); // merge blocks on last page
+
+        // update original block size
+        block->size = PAGE_SIZE - ((uint32_t) block % PAGE_SIZE);
+    }
+
     if (block->size == PAGE_SIZE) {
         return block; // no merging to be done, this block spans the entire page
     }
@@ -179,9 +233,6 @@ mmap_block_t *merge_blocks(mmap_block_t *block) {
         merge_target = get_next_block(block);
         resulting_block = block;
     }
-
-    serial_printf(COM1, "merge target addr: 0x%16d, free: %d, size: %d\n",
-                  (uint32_t) merge_target, merge_target->flags & FREE, merge_target->size);
 
     // we only want to merge if this block is free AND it has no "child" blocks
     if (merge_target->flags & FREE && merge_target->size == block->size) {
@@ -216,7 +267,8 @@ mmap_page_t *find_best_page(uint32_t size) {
         if (size < PAGE_SIZE) break;
 
         loop_body:
-        if (!(page->last_block->flags & FREE)) continue; // skip if the last block in this page isn't free
+        // skip if the last block in this page isn't free or if it's already allocated to an outside pointer
+        if (!(page->last_block->flags & FREE) || page->flags & ALLOCATED_OUTSIDE) continue;
 
         // determine whether we have enough free physical space to fit this allocation
         while (remaining_size) {

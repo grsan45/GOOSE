@@ -46,4 +46,4 @@ Use `qemu-system-i386 -serial stdio --cdrom goose.iso` to run the OS.
 
 ---
 
-<sub>Licensed under GPLv3.0</sub>
+<sub>Licensed under GPL-3.0</sub>

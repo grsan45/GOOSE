@@ -16,6 +16,8 @@
 #define FREE 0b00000001
 #define HIGH_BLOCK 0b00000010
 
+#define ALLOCATED_OUTSIDE 0b00000001
+
 typedef struct s_mmap_block_t {
     uint32_t size;
     uint8_t flags; // | 1-6 unused | 7 high block | 8 free |
@@ -25,7 +27,7 @@ typedef struct {
     mmap_block_t *first_block;
     mmap_block_t *last_block; // used for allocations spanning multiple pages,
                               // if this is free then this page is eligible for one of those allocations
-    uint64_t length; // should be a power of 2
+    uint8_t flags; // 1-7 unused | 8 allocated to pointer outside this page
 } mmap_page_t;
 
 void initialize_memory_map(multiboot_memory_map_t* memory_map);

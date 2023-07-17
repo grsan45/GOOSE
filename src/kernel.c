@@ -96,6 +96,17 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     serial_printf(COM1, "PRE FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
     free(ptr);
     serial_printf(COM1, "POST FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
+    free(ptr4);
+
+    mmap_block_t *ptr5_block = (mmap_block_t *) ((uint32_t) ptr5 - BLOCK_HEADER_SIZE);
+    serial_printf(COM1, "PRE FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
+    free(ptr5);
+    serial_printf(COM1, "POST FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
+
+    free(ptr3);
+    free(ptr2);
+
+    serial_printf(COM1, "All pointers freed\n");
 
 //    mmap_page_t* page = find_best_page(4096);
 //    serial_printf(COM1, "First block: 0x%16d, %d\nLast block: 0x%16d, %d\n",
