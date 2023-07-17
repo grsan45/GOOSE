@@ -7,6 +7,8 @@
 #include "../include/string.h"
 #include "../include/math.h"
 
+// things seem to break with PAGE_SIZE < 4096... so keep it above that
+// in bytes
 #define PAGE_SIZE 4096
 
 mmap_page_t *pages = 0;
@@ -16,21 +18,20 @@ uint32_t num_pages;
 
 uint64_t usable_memory_start_address;
 
-void* calloc(uint32_t num_blocks, uint32_t block_size) {
-    uint64_t total_bytes = num_blocks * block_size;
-    total_bytes += BLOCK_HEADER_SIZE;
+void* malloc(uint32_t num_bytes) {
+    num_bytes += BLOCK_HEADER_SIZE;
 
-    uint32_t required_pages = total_bytes / PAGE_SIZE;
-    if (total_bytes % PAGE_SIZE > 0) required_pages++;
+    uint32_t required_pages = num_bytes / PAGE_SIZE;
+    if (num_bytes % PAGE_SIZE > 0) required_pages++;
 
 //    serial_printf(COM1, "Allocation of %d bytes requires %d pages\n", total_bytes, (uint64_t) required_pages);
 
-    mmap_page_t *best_page = find_best_page(total_bytes);
+    mmap_page_t *best_page = find_best_page(num_bytes);
     serial_printf(COM1, "best page: %d\n", (uint64_t) (best_page - pages)/ sizeof(mmap_page_t*));
-    mmap_block_t *block = find_best_block(best_page, total_bytes);
+    mmap_block_t *block = find_best_block(best_page, num_bytes);
     serial_printf(COM1, "best block location: 0x%16d, size: %d bytes\n", (uint32_t) block, (uint64_t) block->size);
     if (required_pages == 1) {
-        block = split_block(block, total_bytes);
+        block = split_block(block, num_bytes);
     } else {
         // multi-page allocation
 
@@ -39,7 +40,7 @@ void* calloc(uint32_t num_blocks, uint32_t block_size) {
         }
 
         // find the number of remaining bytes the ending page will have, then compute the next lowest power of 2
-        uint32_t ending_page_new_size = PAGE_SIZE - ((total_bytes - block->size) % PAGE_SIZE);
+        uint32_t ending_page_new_size = PAGE_SIZE - ((num_bytes - block->size) % PAGE_SIZE);
         ending_page_new_size = flp2(ending_page_new_size);
 
         // update the first block on the end page to ensure it still functions properly
@@ -66,13 +67,17 @@ void* calloc(uint32_t num_blocks, uint32_t block_size) {
     }
 //    serial_printf(COM1, "new block location: 0x%16d, size: %d bytes\n", (uint64_t) block, (uint64_t) block->size);
 
-    serial_printf(COM1, "zeroing 0x%16d - 0x%16d\n",
-                  (uint32_t) block + BLOCK_HEADER_SIZE,
-                  (uint32_t) block + BLOCK_HEADER_SIZE + ((uint32_t) total_bytes - BLOCK_HEADER_SIZE));
-    memset((void*)((uint32_t) block) + BLOCK_HEADER_SIZE, 0, total_bytes - BLOCK_HEADER_SIZE);
-
     block->flags &= ~FREE;
     return (void*) block + BLOCK_HEADER_SIZE;
+}
+
+void *calloc(uint32_t num_blocks, uint32_t block_size) {
+    uint32_t total_bytes = num_blocks * block_size;
+
+    void *ptr = malloc(total_bytes);
+    memset(ptr, 0, total_bytes);
+
+    return ptr;
 }
 
 void free(void *ptr) {
