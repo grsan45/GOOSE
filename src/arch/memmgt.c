@@ -109,7 +109,7 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map) {
     usable_memory_start_address = page_table_start_addr + 16777216;
     uint32_t length = largest_usable_entry.length - 16777216 - PRE_MMAP_PADDING;
 
-    num_pages = (length >> 12) - 1; // divide by 4096
+    num_pages = (length >> log2(PAGE_SIZE)) - 1; // divide by PAGE_SIZE
 
     serial_printf(COM1, "Creating %d pages\n", num_pages);
 
@@ -119,7 +119,7 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map) {
     serial_printf(COM1, "sizeof page: %d, sizeof block %d\n", (uint64_t) sizeof(mmap_page_t), (uint64_t) sizeof(mmap_block_t));
 
     for(uint32_t i = 0; i < num_pages; i++) {
-        uint32_t page_addr = (i << 12) + usable_memory_start_address; // multiply by 4096
+        uint32_t page_addr = (i << log2(PAGE_SIZE)) + usable_memory_start_address; // multiply by 4096
         pages[i].first_block = (mmap_block_t *) page_addr;
         pages[i].first_block->size = PAGE_SIZE;
         pages[i].first_block->flags |= FREE;
@@ -244,7 +244,7 @@ mmap_block_t *merge_blocks(mmap_block_t *block) {
 }
 
 mmap_block_t* find_best_block(mmap_page_t *page, uint32_t size) {
-    if (size > 4096)
+    if (size > PAGE_SIZE)
         return page->last_block;
 
     mmap_block_t *block = page->first_block;
@@ -274,12 +274,12 @@ mmap_page_t *find_best_page(uint32_t size) {
         while (remaining_size) {
             i++;
             remaining_size -= page->last_block->size;
-            if ((++page)->first_block->size < ((remaining_size > 4096) ? 4096 : remaining_size)) {
+            if ((++page)->first_block->size < ((remaining_size > PAGE_SIZE) ? PAGE_SIZE : remaining_size)) {
                 remaining_size = size;
                 goto loop_body; // yucky goto, sorry
             }
             page_moved_by++;
-            remaining_size -= ((remaining_size > 4096) ? 4096 : remaining_size);
+            remaining_size -= ((remaining_size > PAGE_SIZE) ? PAGE_SIZE : remaining_size);
         }
 
         return page - page_moved_by;
@@ -293,7 +293,7 @@ mmap_page_t *get_block_page(mmap_block_t *block) {
     uint32_t page_addr = (uint32_t) block - ((uint32_t) block % PAGE_SIZE);
 
     // get the page index from its address
-    uint32_t page_index = (page_addr - usable_memory_start_address) >> 12;
+    uint32_t page_index = (page_addr - usable_memory_start_address) >> log2(PAGE_SIZE);
 
     return (mmap_page_t*) pages + page_index;
 }
