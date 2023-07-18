@@ -3,6 +3,7 @@
 
 #include "./include/boot/multiboot2.h"
 #include "./include/display/framebuffer.h"
+#include "./include/display/psf_font.h"
 #include "./include/arch/memmgt.h"
 
 #include "./include/io/serial.h"
@@ -71,8 +72,11 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
         tag = (multiboot_tag_t*)((uint8_t*)tag + ((tag->size + 7) & ~7));
     }
 
-    // test framebuffer
-    put_pixel(0, 0, 0xffa600);
+    // prepare framebuffer for use
+    init_psf();
+    clear();
+
+    printf("Hello world!!\n");
 
     // test calloc
     char* ptr = calloc(119, sizeof(char));
@@ -81,32 +85,36 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     char* ptr4 = calloc(424, sizeof(char));
     char* ptr5 = calloc(24576, sizeof(char));
 
-    serial_printf(COM1, "Test pointer 1 located at 0x%16d, block size: %d\n", (uint32_t) ptr,
+    printf("Test pointer 1 located at 0x%16d, block size: %d\n", (uint32_t) ptr,
                   (uint32_t) get_block_of_ptr((uint32_t) ptr)->size);
-    serial_printf(COM1, "Test pointer 2 located at 0x%16d, block size: %d\n", (uint32_t) ptr2,
+    printf("Test pointer 2 located at 0x%16d, block size: %d\n", (uint32_t) ptr2,
                   (uint32_t) get_block_of_ptr((uint32_t) ptr2)->size);
-    serial_printf(COM1, "Test pointer 3 located at 0x%16d, block size: %d\n", (uint32_t) ptr3,
+    printf("Test pointer 3 located at 0x%16d, block size: %d\n", (uint32_t) ptr3,
                   (uint32_t) get_block_of_ptr((uint32_t) ptr3)->size);
-    serial_printf(COM1, "Test pointer 4 located at 0x%16d, block size: %d\n", (uint32_t) ptr4,
+    printf("Test pointer 4 located at 0x%16d, block size: %d\n", (uint32_t) ptr4,
                   (uint32_t) get_block_of_ptr((uint32_t) ptr4)->size);
-    serial_printf(COM1, "Test pointer 5 located at 0x%16d, block size: %d\n", (uint32_t) ptr5,
+    printf("Test pointer 5 located at 0x%16d, block size: %d\n", (uint32_t) ptr5,
                   (uint32_t) get_block_of_ptr((uint32_t) ptr5)->size);
 
     mmap_block_t *ptr1_block = (mmap_block_t *) ((uint32_t) ptr - BLOCK_HEADER_SIZE);
-    serial_printf(COM1, "PRE FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
+    printf("PRE FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
     free(ptr);
-    serial_printf(COM1, "POST FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
+    printf("POST FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
     free(ptr4);
 
     mmap_block_t *ptr5_block = (mmap_block_t *) ((uint32_t) ptr5 - BLOCK_HEADER_SIZE);
-    serial_printf(COM1, "PRE FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
+    printf("PRE FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
     free(ptr5);
-    serial_printf(COM1, "POST FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
+    printf("POST FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
 
     free(ptr3);
     free(ptr2);
 
-    serial_printf(COM1, "All pointers freed\n");
+    printf("All pointers freed\n");
+
+    for (uint32_t i = 0; i < 80; i++) {
+        printf("line %d\n", i);
+    }
 
 //    mmap_page_t* page = find_best_page(4096);
 //    serial_printf(COM1, "First block: 0x%16d, %d\nLast block: 0x%16d, %d\n",

@@ -10,10 +10,10 @@ LDFLAGS="-nostdlib -lgcc"
 ASFLAGS=""
 
 PACKAGE_CFLAGS="-ffreestanding -O2 -Wall -Werror -std=c17"
-PACKAGE_LDFLAGS="-nostdlib -static-libgcc -T $srcdir/src/linker.ld -ffreestanding -O2 -nostdlib"
+PACKAGE_LDFLAGS="-nostdlib -static-libgcc -T $srcdir/src/linker.ld -ffreestanding -O2"
 PACKAGE_ASFLAGS=""
 
-PACKAGE_LDADD="-lgcc"
+PACKAGE_LDADD="$srcdir/src/display/font.o -lgcc"
 
 AC_SUBST([PACKAGE_CFLAGS])
 AC_SUBST([PACKAGE_LDFLAGS])

@@ -7,7 +7,12 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdarg.h>
+#include <stdbool.h>
 #include "../string.h"
+#include "psf_font.h"
+#include "../math.h"
+#include "../arch/memmgt.h"
 
 typedef struct {
     void *addr;
@@ -26,6 +31,16 @@ typedef struct {
 
 void init_framebuffer(framebuffer_info info);
 void put_pixel(uint32_t x, uint32_t y, uint32_t color);
-void putc(unsigned char ch, uint8_t x, uint8_t y);
+
+void clear();
+
+void set_cursor(uint32_t x, uint32_t y);
+void increment_cursor();
+
+void set_color(uint32_t fg, uint32_t bg);
+
+void putc(uint8_t ch);
+void puts(const char* str);
+void printf(const char *format, ...);
 
 #endif //GOOSE_FRAMEBUFFER_H

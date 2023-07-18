@@ -18,8 +18,9 @@ to go through the hassle for my first serious toy OS.
 - [x] Kernel Boots
 - [x] GDT, IDT, ISRs
 - [x] Output to framebuffer
-- [ ] Memory Management ***(WIP)***
-- [ ] Font rendering
+- [x] Memory Management  
+Forever a work in progress, but at least functional for now*
+- [ ] Font rendering ***(WIP)***
 - [ ] IRQs
 - [ ] Paging
 - [ ] 64-bit support
