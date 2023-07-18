@@ -112,10 +112,6 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
     printf("All pointers freed\n");
 
-    for (uint32_t i = 0; i < 80; i++) {
-        printf("line %d\n", i);
-    }
-
 //    mmap_page_t* page = find_best_page(4096);
 //    serial_printf(COM1, "First block: 0x%16d, %d\nLast block: 0x%16d, %d\n",
 //                  (uint32_t) page->first_block, (uint32_t) page->first_block->size, (uint32_t) page->last_block, (uint32_t) page->last_block->size);
