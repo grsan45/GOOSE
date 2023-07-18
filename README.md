@@ -51,8 +51,8 @@ Use `qemu-system-i386 -serial stdio --cdrom goose.iso` to run the OS.
 ---
 
 ### Notes: 
-Any code not of my own design (mostly mundane match functions) is 
-credited to its original author via a comment.
+Any code not of my own design (mundane math functions) is 
+credited to its "original" author via a comment.
 
 The font is temporarily stored in the `src/` folder until (S)ATA / IDE and filesystem
 support is implemented.
