@@ -6,6 +6,7 @@
 #include "../include/string.h"
 #include "../include/io/ioutils.h"
 
+// assumes we have **nothing** to work with, so everything memory related is done on the stack.
 char digitbuffer[65]; // enough room for 64 bits + null terminator
 
 // mostly stolen from https://wiki.osdev.org/Serial_Ports

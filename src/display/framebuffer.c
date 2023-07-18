@@ -45,6 +45,8 @@ void increment_cursor() {
         cursor_y++;
     }
 
+    // slow operation to move the entire framebuffer up if we reach the bottom
+    // will not be an issue once we go to long mode and have faster memory operations
     if (cursor_y > fbinfo.height / font->height - 1) {
         uint32_t row_size = fbinfo.pitch * font->height;
         memcpy(fbinfo.addr, fbinfo.addr + row_size, (fbinfo.height * fbinfo.pitch) - row_size);
@@ -70,7 +72,7 @@ void putc(uint8_t ch) {
 
     for (uint8_t row = 0; row < font->height; row++) {
         for (uint8_t col = 0; col < font->width; col++) {
-            uint8_t glyph_row = reverse_byte(g[row]);
+            uint8_t glyph_row = reverse_byte(g[row]); // big endian moment
             put_pixel(x + col, y + row, glyph_row & (1 << col) ? fg : bg);
         }
     }

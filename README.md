@@ -28,6 +28,7 @@ to go through the hassle for my first serious toy OS.
   - [ ] FAT32 support (or ext4?)
 - [ ] Paging
 - [ ] Long mode (64-bit)
+  - [ ] SSEn for optimized memory operations
 - [ ] User Mode!
 
 ---
@@ -54,8 +55,7 @@ Use `qemu-system-i386 -serial stdio --cdrom goose.iso` to run the OS.
 Any code not of my own design (mundane math functions) is 
 credited to its "original" author via a comment.
 
-The font is temporarily stored in the `src/` folder until (S)ATA / IDE and filesystem
-support is implemented.
+The font is temporarily stored in the `src/` folder until filesystem support is implemented.
 
 ---
 

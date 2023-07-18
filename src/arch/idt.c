@@ -6,6 +6,7 @@
 #include "../include/arch/isrs.h"
 #include "../include/string.h"
 #include "../include/io/serial.h"
+#include "../include/display/framebuffer.h"
 
 idt_entry idt_entries[256];
 idt_ptr idtr;
@@ -77,7 +78,8 @@ void install_isrs() {
 
 void handle_fault(isr_stacktrace *r) {
     if (r->int_id < 32) {
-        serial_printf(COM1, "Interrupt: %s\nHalting.", exception_messages[r->int_id]);
+        serial_printf(COM1, "Interrupt: %s\nHalting.\n", exception_messages[r->int_id]);
+        printf("Interrupt: %s\nHalting.\n", exception_messages[r->int_id]);
         for(;;);
     }
 }

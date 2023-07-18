@@ -12,7 +12,7 @@ size_t strlen(const char *str) {
 }
 
 void* memset(void* ptr, uint8_t val, size_t size) {
-    unsigned char *buf = (unsigned char *)ptr;
+    uint8_t *buf = (uint8_t *)ptr;
     for (size_t i = 0; i < size; i++)
         buf[i] = val;
 
@@ -20,8 +20,8 @@ void* memset(void* ptr, uint8_t val, size_t size) {
 }
 
 void* memcpy(void *restrict dest, const void* restrict src, size_t size) {
-    unsigned char *destBuf = (unsigned char *) dest;
-    const unsigned char *srcBuf = (const unsigned char*) src;
+    uint8_t *destBuf = (uint8_t *) dest;
+    const uint8_t *srcBuf = (const uint8_t *) src;
     for (size_t i = 0; i < size; i++)
         destBuf[i] = srcBuf[i];
     return destBuf;
