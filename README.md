@@ -21,8 +21,11 @@ to go through the hassle for my first serious toy OS.
 - [x] Memory Management  
 <em>Forever a work in progress, but at least functional for now</em>
 - [x] Font rendering
-- [ ] IRQs
-- [ ] FS support
+- [ ] IRQs ***(WIP)***
+- [ ] Filesystem
+  - [ ] (S)ATA Driver
+  - [ ] IDE Driver
+  - [ ] FAT32 support (or ext4?)
 - [ ] Paging
 - [ ] Long mode (64-bit)
 - [ ] User Mode!
@@ -44,6 +47,15 @@ you'll need to remove the first if statement from autogen.sh and update the auto
 To create the ISO image, run `./create_iso.sh` inside the `tools` directory.
 
 Use `qemu-system-i386 -serial stdio --cdrom goose.iso` to run the OS.
+
+---
+
+### Notes: 
+Any code not of my own design (mostly mundane match functions) is 
+credited to its original author via a comment.
+
+The font is temporarily stored in the `src/` folder until (S)ATA / IDE and filesystem
+support is implemented.
 
 ---
 
