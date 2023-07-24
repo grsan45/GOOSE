@@ -1,4 +1,4 @@
-mkdir -p ./isodir/boot/grub
+mkdir -p ./isodir/boot/grub/
 cp ./grub.cfg ./isodir/boot/grub
 
 cp ../build/goose ./isodir/boot

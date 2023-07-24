@@ -31,8 +31,9 @@ typedef struct {
 } mmap_page_t;
 
 void initialize_memory_map(multiboot_memory_map_t* memory_map);
-void* malloc(uint32_t num_bytes);
-void* calloc(uint32_t num_blocks, uint32_t block_size);
+void *malloc(uint32_t num_bytes);
+void *calloc(uint32_t num_blocks, uint32_t block_size);
+void *realloc(void* ptr, uint32_t size);
 void free(void* ptr);
 
 mmap_block_t *split_block(mmap_block_t* block, uint32_t size);

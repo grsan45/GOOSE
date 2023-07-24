@@ -83,6 +83,14 @@ void *calloc(uint32_t num_blocks, uint32_t block_size) {
     return ptr;
 }
 
+void *realloc(void *ptr, uint32_t size) {
+    void* ret = malloc(size);
+    memcpy(ret, ptr, get_block_of_ptr((uint32_t) ptr)->size);
+    free(ptr);
+
+    return ret;
+}
+
 void free(void *ptr) {
     mmap_block_t *block = get_block_of_ptr((long) ptr);
     block->flags |= FREE;
