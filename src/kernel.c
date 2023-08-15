@@ -85,6 +85,8 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     char* ptr4 = calloc(424, sizeof(char));
     char* ptr5 = calloc(24576, sizeof(char));
 
+    ptr3 = realloc(ptr3, 1024);
+
     printf("Test pointer 1 located at 0x%16d, block size: %d\n", (uint32_t) ptr,
                   (uint32_t) get_block_of_ptr((uint32_t) ptr)->size);
     printf("Test pointer 2 located at 0x%16d, block size: %d\n", (uint32_t) ptr2,

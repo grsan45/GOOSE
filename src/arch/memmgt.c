@@ -84,7 +84,7 @@ void *calloc(uint32_t num_blocks, uint32_t block_size) {
 }
 
 void *realloc(void *ptr, uint32_t size) {
-    void* ret = malloc(size);
+    void *ret = malloc(size);
     memcpy(ret, ptr, get_block_of_ptr((uint32_t) ptr)->size);
     free(ptr);
 

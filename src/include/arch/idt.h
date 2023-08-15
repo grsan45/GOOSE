@@ -40,7 +40,12 @@ typedef struct {
     uint32_t eip, cs, eflags, useresp, ss; //pushed automatically by the processor
 } isr_stacktrace;
 
+void set_irq_handler(uint8_t irq, void (*handler)(isr_stacktrace *r));
+
 void install_isrs();
+void install_irqs();
+
 void handle_fault(isr_stacktrace *r);
+void handle_irq(isr_stacktrace *r);
 
 #endif //GOOSE_IDT_H
