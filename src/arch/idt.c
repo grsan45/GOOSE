@@ -76,13 +76,18 @@ void idt_install() {
 
     install_isrs();
 
+    // enable irqs
+    __asm__ __volatile__ ("sti");
+
     // call asm func to load idt
     idt_load();
 }
 
 void install_isrs() {
-
     // setup pics and fix vector map
+    uint8_t pic1_mask = inb(PIC1_DATA);
+    uint8_t pic2_mask = inb(PIC2_DATA);
+
     outb(PIC1_CMD, 0x11); // initialize command (0x10) | 4 initialization words (0x01)
     outb(PIC2_CMD, 0x11); // initialize command (0x10) | 4 initialization words (0x01)
     outb(PIC1_DATA, 0x20); // master pic vector offset
@@ -91,8 +96,8 @@ void install_isrs() {
     outb(PIC2_DATA, 0x02); // tell slave pic we're using single cascade mode
     outb(PIC1_DATA, 0x01); // use 8086 mode
     outb(PIC2_DATA, 0x01); // use 8086 mode
-    outb(PIC1_DATA, 0x0);
-    outb(PIC2_DATA, 0x0);
+    outb(PIC1_DATA, pic1_mask);
+    outb(PIC2_DATA, pic2_mask);
 
     for (uint8_t id = 0; id < 32; id++) {
         add_idt_entry(id, (uint32_t) isr_list[id], 0x08, INT_32, 0x00);
@@ -106,6 +111,12 @@ void install_isrs() {
 void handle_fault(isr_stacktrace *r) {
     if (r->int_id < 32) {
         serial_printf(COM1, "Interrupt: %s\nHalting.\n", exception_messages[r->int_id]);
+        serial_printf(COM1, "gs: 0x%16d, fs: 0x%16d, es: 0x%16d, ds: 0x%16d\n", r->es, r->fs, r->es, r->ds);
+        serial_printf(COM1, "edi: 0x%16d, esi: 0x%16d, ebp: 0x%16d, esp: 0x%16d\n",
+                      r->edi, r->esi, r->ebp, r->esp);
+        serial_printf(COM1, "ebx: 0x%16d, edx: 0x%16d, ecx: 0x%16d, eax: 0x%16d\n",
+                      r->ebx, r->edx, r->ecx, r->eax);
+        serial_printf(COM1, "error code: 0x%16d\n", r->error_code);
         printf("Interrupt: %s\nHalting.\n", exception_messages[r->int_id]);
         for(;;);
     }

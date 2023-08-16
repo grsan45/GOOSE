@@ -10,12 +10,13 @@ push \errcode
 jmp isr_stub
 .endm
 
-.macro irq, id, index=$0x02
+.macro irq, id, index=$0x020
 .global irq\id
 .type irq\id, @function
 
 irq\id :
 cli
+push 0x00
 push \index
 jmp irq_stub
 .endm

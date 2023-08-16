@@ -5,6 +5,7 @@
 #include "./include/display/framebuffer.h"
 #include "./include/display/psf_font.h"
 #include "./include/arch/memmgt.h"
+#include "./include/io/timer.h"
 
 #include "./include/io/serial.h"
 
@@ -19,6 +20,10 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // initialize gdt & idt
     gdt_install();
     idt_install();
+
+    serial_printf(COM1,"test1\n");
+    setup_timer();
+    serial_printf(COM1,"test2\n");
 
     // memory info tag
     multiboot_memory_map_t *memory_map_tag;
@@ -113,4 +118,10 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     free(ptr2);
 
     printf("All pointers freed\n");
+
+    for(;;) {
+        if (get_millis() % 1000 == 0) {
+            printf("1 second has passed\n");
+        }
+    }
 }
