@@ -23,6 +23,12 @@ void clear() {
     memset((uint8_t *) vram, 0x00, fbinfo.width * fbinfo.height * 3);
 }
 
+void clearLine() {
+    for (uint32_t y = cursor_y * font->height; y < cursor_y * font->height + font->height; y++) {
+        memset((uint8_t *) vram + (y * fbinfo.width), 0x00, fbinfo.width * 3);
+    }
+}
+
 void put_pixel(uint32_t x, uint32_t y, uint32_t color) {
     uint32_t* pixel = vram + fbinfo.pitch * y + 3 * x;
     *pixel = (color & 0xFFFFFF) | (*pixel & 0xFF000000);
@@ -62,6 +68,23 @@ void putc(uint8_t ch) {
     }
     if (ch == '\r') {
         cursor_x = 0;
+        return;
+    }
+    if (ch == '\b') {
+        if (cursor_x == 0) {
+            cursor_y--;
+            cursor_x = fbinfo.width / font->width;
+        } else {
+            cursor_x--;
+        }
+
+        uint32_t x = cursor_x * font->width;
+        uint32_t y = cursor_y * font->height;
+        for (uint8_t row = 0; row < font->height; row++) {
+            for (uint8_t col = 0; col < font->width; col++) {
+                put_pixel(x + col, y + row, bg);
+            }
+        }
         return;
     }
 

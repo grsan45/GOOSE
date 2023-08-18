@@ -30,9 +30,9 @@ void* malloc(uint32_t num_bytes) {
 //    serial_printf(COM1, "Allocation of %d bytes requires %d pages\n", total_bytes, (uint64_t) required_pages);
 
     mmap_page_t *best_page = find_best_page(num_bytes);
-    serial_printf(COM1, "best page: %d\n", (uint32_t) (best_page - pages)/ sizeof(mmap_page_t*));
+//    serial_printf(COM1, "best page: %d\n", (uint32_t) (best_page - pages)/ sizeof(mmap_page_t*));
     mmap_block_t *block = find_best_block(best_page, num_bytes);
-    serial_printf(COM1, "best block location: 0x%16d, size: %d bytes\n", (uint32_t) block, (uint32_t) block->size);
+//    serial_printf(COM1, "best block location: 0x%16d, size: %d bytes\n", (uint32_t) block, (uint32_t) block->size);
     if (required_pages == 1) {
         block = split_block(block, num_bytes);
     } else {

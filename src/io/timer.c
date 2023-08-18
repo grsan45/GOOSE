@@ -4,7 +4,6 @@
 
 #include "../include/io/timer.h"
 #include "../include/io/ioutils.h"
-#include "../include/io/serial.h"
 
 static uint64_t millis_since_startup = 0;
 
@@ -24,8 +23,6 @@ uint64_t get_millis() {
 }
 
 void setup_timer() {
-    serial_printf(COM1, "setting phase\n");
     set_timer_phase(1000);
-    serial_printf(COM1, "setting up handler\n");
     set_irq_handler(0, timer_handler);
 }

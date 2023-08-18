@@ -33,6 +33,7 @@ void init_framebuffer(framebuffer_info info);
 void put_pixel(uint32_t x, uint32_t y, uint32_t color);
 
 void clear();
+void clearLine();
 
 void set_cursor(uint32_t x, uint32_t y);
 void increment_cursor();
