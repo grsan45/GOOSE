@@ -22,10 +22,13 @@ first serious OS project.
 - [x] Memory Management  
 <em>Forever a work in progress, but at least functional for now</em>
 - [x] Font rendering
-- [ ] IRQs ***(WIP)***
+- [x] IRQs
   - [x] Architecture setup
-  - [ ] PIT
-  - [ ] Keyboard
+  - [x] PIT
+  - [x] Keyboard
+- [ ] Custom toolchain **(WIP)**
+- [ ] Kernel Modules
+<em>Using GRUB here</em>
 - [ ] Filesystem
   - [ ] (S)ATA Driver
   - [ ] IDE Driver
