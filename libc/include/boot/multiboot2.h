@@ -2,8 +2,8 @@
 // Created by grsan on 5/26/23.
 //
 
-#ifndef GOOSE_MULTIBOOT2_H
-#define GOOSE_MULTIBOOT2_H
+#ifndef MULTIBOOT2_H
+#define MULTIBOOT2_H
 
 #include <stdint.h>
 
@@ -56,4 +56,4 @@ typedef struct {
     multiboot_memory_map_entry_t entries[];
 } multiboot_memory_map_t;
 
-#endif //GOOSE_MULTIBOOT2_H
+#endif //MULTIBOOT2_H

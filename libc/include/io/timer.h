@@ -2,8 +2,8 @@
 // Created by grsan on 8/14/23.
 //
 
-#ifndef GOOSE_TIMER_H
-#define GOOSE_TIMER_H
+#ifndef TIMER_H
+#define TIMER_H
 
 #include <stdint.h>
 #include <stddef.h>
@@ -41,4 +41,4 @@ uint64_t get_millis();
 
 void setup_timer();
 
-#endif //GOOSE_TIMER_H
+#endif //TIMER_H

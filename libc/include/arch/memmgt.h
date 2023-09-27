@@ -2,8 +2,8 @@
 // Created by grsan on 5/29/23.
 //
 
-#ifndef GOOSE_MEMMGT_H
-#define GOOSE_MEMMGT_H
+#ifndef MEMMGT_H
+#define MEMMGT_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -47,4 +47,4 @@ mmap_page_t *find_best_page(uint32_t size);
 mmap_page_t *get_block_page(mmap_block_t *block);
 mmap_block_t *get_block_of_ptr(uint32_t addr);
 
-#endif //GOOSE_MEMMGT_H
+#endif //MEMMGT_H

@@ -2,8 +2,8 @@
 // Created by grsan on 8/17/23.
 //
 
-#ifndef GOOSE_KEYBOARD_LAYOUTS_H
-#define GOOSE_KEYBOARD_LAYOUTS_H
+#ifndef KEYBOARD_LAYOUTS_H
+#define KEYBOARD_LAYOUTS_H
 
 #include <stdint.h>
 
@@ -92,4 +92,4 @@ static uint8_t kbdus_shifted[128] = {
         0,    /* All other keys are undefined */
 };
 
-#endif //GOOSE_KEYBOARD_LAYOUTS_H
+#endif //KEYBOARD_LAYOUTS_H

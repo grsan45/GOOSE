@@ -2,8 +2,8 @@
 // Created by grsan on 5/26/23.
 //
 
-#ifndef GOOSE_ISRS_H
-#define GOOSE_ISRS_H
+#ifndef ISRS_H
+#define ISRS_H
 
 extern void isr0();
 extern void isr1();
@@ -67,4 +67,4 @@ static void* irq_list[32] = {
 
 static void* irq_handlers[16] = {0};
 
-#endif //GOOSE_ISRS_H
+#endif //ISRS_H

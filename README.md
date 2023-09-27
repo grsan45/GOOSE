@@ -27,7 +27,7 @@ first serious OS project.
   - [x] PIT
   - [x] Keyboard
 - [ ] Custom toolchain **(WIP)**
-- [ ] Kernel Modules
+- [ ] Kernel Modules  
 <em>Using GRUB here</em>
 - [ ] Filesystem
   - [ ] (S)ATA Driver

@@ -1,3 +1,6 @@
+diff --git a/ar-lib b/ar-lib
+old mode 100755
+new mode 100644
 diff --git a/bfd/config.bfd b/bfd/config.bfd
 index bdee53957c0..23020ad27d8 100644
 --- a/bfd/config.bfd
@@ -26,8 +29,40 @@ index bdee53957c0..23020ad27d8 100644
    am33_2.0-*-linux*)
      targ_defvec=am33_elf32_linux_vec
      ;;
+diff --git a/bfd/configure b/bfd/configure
+old mode 100755
+new mode 100644
+diff --git a/bfd/mep-relocs.pl b/bfd/mep-relocs.pl
+old mode 100755
+new mode 100644
+diff --git a/binutils/configure b/binutils/configure
+old mode 100755
+new mode 100644
+diff --git a/binutils/ranlib.sh b/binutils/ranlib.sh
+old mode 100755
+new mode 100644
+diff --git a/binutils/sanity.sh b/binutils/sanity.sh
+old mode 100755
+new mode 100644
+diff --git a/binutils/testsuite/binutils-all/strings-1.bin b/binutils/testsuite/binutils-all/strings-1.bin
+old mode 100755
+new mode 100644
+diff --git a/binutils/testsuite/binutils-all/windres/msupdate b/binutils/testsuite/binutils-all/windres/msupdate
+old mode 100755
+new mode 100644
+diff --git a/compile b/compile
+old mode 100755
+new mode 100644
+diff --git a/config.guess b/config.guess
+old mode 100755
+new mode 100644
+diff --git a/config.rpath b/config.rpath
+old mode 100755
+new mode 100644
 diff --git a/config.sub b/config.sub
-index f6ede1d0dc0..9d5889bcc11 100755
+old mode 100755
+new mode 100644
+index f6ede1d0dc0..9d5889bcc11
 --- a/config.sub
 +++ b/config.sub
 @@ -1758,7 +1758,7 @@ case $os in
@@ -39,6 +74,30 @@ index f6ede1d0dc0..9d5889bcc11 100755
  		;;
  	# This one is extra strict with allowed versions
  	sco3.2v2 | sco3.2v[4-9]* | sco5v6*)
+diff --git a/configure b/configure
+old mode 100755
+new mode 100644
+diff --git a/contrib/dg-extract-results.sh b/contrib/dg-extract-results.sh
+old mode 100755
+new mode 100644
+diff --git a/contrib/mklog.py b/contrib/mklog.py
+old mode 100755
+new mode 100644
+diff --git a/depcomp b/depcomp
+old mode 100755
+new mode 100644
+diff --git a/djunpack.bat b/djunpack.bat
+old mode 100755
+new mode 100644
+diff --git a/etc/configure b/etc/configure
+old mode 100755
+new mode 100644
+diff --git a/etc/update-copyright.py b/etc/update-copyright.py
+old mode 100755
+new mode 100644
+diff --git a/gas/configure b/gas/configure
+old mode 100755
+new mode 100644
 diff --git a/gas/configure.tgt b/gas/configure.tgt
 index 3429f850d05..de5d05798d6 100644
 --- a/gas/configure.tgt
@@ -51,6 +110,651 @@ index 3429f850d05..de5d05798d6 100644
    aarch64*-*-elf*)			fmt=elf;;
    aarch64*-*-fuchsia*)			fmt=elf;;
    aarch64*-*-haiku*)			fmt=elf em=haiku ;;
+diff --git a/gas/testsuite/gas/i386/avx512_fp16_vl-intel.d b/gas/testsuite/gas/i386/avx512_fp16_vl-intel.d
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/i386/avx512_fp16_vl.d b/gas/testsuite/gas/i386/avx512_fp16_vl.d
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/i386/x86-64-avx512_fp16_pseudo_ops.s b/gas/testsuite/gas/i386/x86-64-avx512_fp16_pseudo_ops.s
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/i386/x86-64-avx512_fp16_vl-intel.d b/gas/testsuite/gas/i386/x86-64-avx512_fp16_vl-intel.d
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/i386/x86-64-avx512_fp16_vl.d b/gas/testsuite/gas/i386/x86-64-avx512_fp16_vl.d
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/mmix/pr25331.s b/gas/testsuite/gas/mmix/pr25331.s
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/ppc/generate.sh b/gas/testsuite/gas/ppc/generate.sh
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/rx/explode b/gas/testsuite/gas/rx/explode
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/rx/make-d b/gas/testsuite/gas/rx/make-d
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/tic4x/rebuild.sh b/gas/testsuite/gas/tic4x/rebuild.sh
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/xstormy16/allinsn.sh b/gas/testsuite/gas/xstormy16/allinsn.sh
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/gas/xstormy16/gcc.sh b/gas/testsuite/gas/xstormy16/gcc.sh
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/lib/doboth b/gas/testsuite/lib/doboth
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/lib/doobjcmp b/gas/testsuite/lib/doobjcmp
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/lib/dostriptest b/gas/testsuite/lib/dostriptest
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/lib/dotest b/gas/testsuite/lib/dotest
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/lib/dounsreloc b/gas/testsuite/lib/dounsreloc
+old mode 100755
+new mode 100644
+diff --git a/gas/testsuite/lib/dounssym b/gas/testsuite/lib/dounssym
+old mode 100755
+new mode 100644
+diff --git a/gdb/ada-unicode.py b/gdb/ada-unicode.py
+old mode 100755
+new mode 100644
+diff --git a/gdb/configure b/gdb/configure
+old mode 100755
+new mode 100644
+diff --git a/gdb/contrib/ari/gdb_ari.sh b/gdb/contrib/ari/gdb_ari.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/contrib/cc-with-tweaks.sh b/gdb/contrib/cc-with-tweaks.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/contrib/expect-read1.sh b/gdb/contrib/expect-read1.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/contrib/gdb-add-index.sh b/gdb/contrib/gdb-add-index.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/contrib/words.sh b/gdb/contrib/words.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/copyright.py b/gdb/copyright.py
+old mode 100755
+new mode 100644
+diff --git a/gdb/doc/filter-for-doxygen b/gdb/doc/filter-for-doxygen
+old mode 100755
+new mode 100644
+diff --git a/gdb/features/feature_to_c.sh b/gdb/features/feature_to_c.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/gdb_mbuild.sh b/gdb/gdb_mbuild.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/gdbarch.py b/gdb/gdbarch.py
+old mode 100755
+new mode 100644
+diff --git a/gdb/gdbarch_types.py b/gdb/gdbarch_types.py
+old mode 100755
+new mode 100644
+diff --git a/gdb/make-init-c b/gdb/make-init-c
+old mode 100755
+new mode 100644
+diff --git a/gdb/make-target-delegates.py b/gdb/make-target-delegates.py
+old mode 100755
+new mode 100644
+diff --git a/gdb/po/gdbtext b/gdb/po/gdbtext
+old mode 100755
+new mode 100644
+diff --git a/gdb/regformats/regdat.sh b/gdb/regformats/regdat.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/syscalls/update-freebsd.sh b/gdb/syscalls/update-freebsd.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/syscalls/update-linux-defaults.sh b/gdb/syscalls/update-linux-defaults.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/syscalls/update-linux-from-src.sh b/gdb/syscalls/update-linux-from-src.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/syscalls/update-linux.sh b/gdb/syscalls/update-linux.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/syscalls/update-netbsd.sh b/gdb/syscalls/update-netbsd.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/analyze-racy-logs.py b/gdb/testsuite/analyze-racy-logs.py
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/configure b/gdb/testsuite/configure
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.base/jump_multiple_objfiles-foo.c b/gdb/testsuite/gdb.base/jump_multiple_objfiles-foo.c
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.base/jump_multiple_objfiles.c b/gdb/testsuite/gdb.base/jump_multiple_objfiles.c
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.base/jump_multiple_objfiles.exp b/gdb/testsuite/gdb.base/jump_multiple_objfiles.exp
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.base/jump_multiple_objfiles.h b/gdb/testsuite/gdb.base/jump_multiple_objfiles.h
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.btrace/exception.exp b/gdb/testsuite/gdb.btrace/exception.exp
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.fortran/nested-funcs.exp b/gdb/testsuite/gdb.fortran/nested-funcs.exp
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.fortran/nested-funcs.f90 b/gdb/testsuite/gdb.fortran/nested-funcs.f90
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.fortran/oop_extend_type.exp b/gdb/testsuite/gdb.fortran/oop_extend_type.exp
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.fortran/oop_extend_type.f90 b/gdb/testsuite/gdb.fortran/oop_extend_type.f90
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.fortran/print_type.exp b/gdb/testsuite/gdb.fortran/print_type.exp
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.fortran/vla-type.exp b/gdb/testsuite/gdb.fortran/vla-type.exp
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/gdb.fortran/vla-type.f90 b/gdb/testsuite/gdb.fortran/vla-type.f90
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/lib/compiler.cc b/gdb/testsuite/lib/compiler.cc
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/lib/dg-add-core-file-count.sh b/gdb/testsuite/lib/dg-add-core-file-count.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/lib/notty-wrap b/gdb/testsuite/lib/notty-wrap
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/lib/pdtrace.in b/gdb/testsuite/lib/pdtrace.in
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/make-check-all.sh b/gdb/testsuite/make-check-all.sh
+old mode 100755
+new mode 100644
+diff --git a/gdb/testsuite/print-ts.py b/gdb/testsuite/print-ts.py
+old mode 100755
+new mode 100644
+diff --git a/gdbserver/configure b/gdbserver/configure
+old mode 100755
+new mode 100644
+diff --git a/gdbsupport/configure b/gdbsupport/configure
+old mode 100755
+new mode 100644
+diff --git a/gdbsupport/create-version.sh b/gdbsupport/create-version.sh
+old mode 100755
+new mode 100644
+diff --git a/gnulib/import/extra/gendocs.sh b/gnulib/import/extra/gendocs.sh
+old mode 100755
+new mode 100644
+diff --git a/gnulib/import/extra/gitlog-to-changelog b/gnulib/import/extra/gitlog-to-changelog
+old mode 100755
+new mode 100644
+diff --git a/gnulib/import/extra/update-copyright b/gnulib/import/extra/update-copyright
+old mode 100755
+new mode 100644
+diff --git a/gnulib/update-gnulib.sh b/gnulib/update-gnulib.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/configure b/gold/configure
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/aarch64_reloc_none.sh b/gold/testsuite/aarch64_reloc_none.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/aarch64_relocs.sh b/gold/testsuite/aarch64_relocs.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/aarch64_tlsdesc.sh b/gold/testsuite/aarch64_tlsdesc.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_abs_global.sh b/gold/testsuite/arm_abs_global.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_attr_merge.sh b/gold/testsuite/arm_attr_merge.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_branch_in_range.sh b/gold/testsuite/arm_branch_in_range.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_branch_out_of_range.sh b/gold/testsuite/arm_branch_out_of_range.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_cortex_a8.sh b/gold/testsuite/arm_cortex_a8.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_exidx_test.sh b/gold/testsuite/arm_exidx_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_farcall_arm_arm.sh b/gold/testsuite/arm_farcall_arm_arm.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_farcall_arm_arm_be8.sh b/gold/testsuite/arm_farcall_arm_arm_be8.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_farcall_arm_thumb.sh b/gold/testsuite/arm_farcall_arm_thumb.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_farcall_thumb_arm.sh b/gold/testsuite/arm_farcall_thumb_arm.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_farcall_thumb_thumb.sh b/gold/testsuite/arm_farcall_thumb_thumb.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_farcall_thumb_thumb_be8.sh b/gold/testsuite/arm_farcall_thumb_thumb_be8.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_fix_1176.sh b/gold/testsuite/arm_fix_1176.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_fix_v4bx.sh b/gold/testsuite/arm_fix_v4bx.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_target1_abs.sh b/gold/testsuite/arm_target1_abs.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_target1_rel.sh b/gold/testsuite/arm_target1_rel.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_target2_abs.sh b/gold/testsuite/arm_target2_abs.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_target2_got_rel.sh b/gold/testsuite/arm_target2_got_rel.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_target2_rel.sh b/gold/testsuite/arm_target2_rel.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/arm_unaligned_reloc.sh b/gold/testsuite/arm_unaligned_reloc.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/copy_test_protected.sh b/gold/testsuite/copy_test_protected.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/debug_msg.sh b/gold/testsuite/debug_msg.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/defsym_test.sh b/gold/testsuite/defsym_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/discard_locals_test.sh b/gold/testsuite/discard_locals_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/dwp_test_1.sh b/gold/testsuite/dwp_test_1.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/dwp_test_2.sh b/gold/testsuite/dwp_test_2.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/dyn_weak_ref.sh b/gold/testsuite/dyn_weak_ref.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/dynamic_list.sh b/gold/testsuite/dynamic_list.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/eh_test_2.sh b/gold/testsuite/eh_test_2.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ehdr_start_test_4.sh b/gold/testsuite/ehdr_start_test_4.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/empty_command_line_test.sh b/gold/testsuite/empty_command_line_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/exclude_libs_test.sh b/gold/testsuite/exclude_libs_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/file_in_many_sections_test.sh b/gold/testsuite/file_in_many_sections_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/final_layout.sh b/gold/testsuite/final_layout.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gc_comdat_test.sh b/gold/testsuite/gc_comdat_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gc_dynamic_list_test.sh b/gold/testsuite/gc_dynamic_list_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gc_orphan_section_test.sh b/gold/testsuite/gc_orphan_section_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gc_tls_test.sh b/gold/testsuite/gc_tls_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gdb_index_test_1.sh b/gold/testsuite/gdb_index_test_1.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gdb_index_test_2.sh b/gold/testsuite/gdb_index_test_2.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gdb_index_test_2_gabi.sh b/gold/testsuite/gdb_index_test_2_gabi.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gdb_index_test_2_zstd.sh b/gold/testsuite/gdb_index_test_2_zstd.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gdb_index_test_3.sh b/gold/testsuite/gdb_index_test_3.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gdb_index_test_4.sh b/gold/testsuite/gdb_index_test_4.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gdb_index_test_comm.sh b/gold/testsuite/gdb_index_test_comm.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/gnu_property_test.sh b/gold/testsuite/gnu_property_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/hidden_test.sh b/gold/testsuite/hidden_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/i386_mov_to_lea.sh b/gold/testsuite/i386_mov_to_lea.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/icf_keep_unique_test.sh b/gold/testsuite/icf_keep_unique_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/icf_preemptible_functions_test.sh b/gold/testsuite/icf_preemptible_functions_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/icf_safe_pie_test.sh b/gold/testsuite/icf_safe_pie_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/icf_safe_so_test.sh b/gold/testsuite/icf_safe_so_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/icf_safe_test.sh b/gold/testsuite/icf_safe_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/icf_sht_rel_addend_test.sh b/gold/testsuite/icf_sht_rel_addend_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/icf_string_merge_test.sh b/gold/testsuite/icf_string_merge_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/icf_test.sh b/gold/testsuite/icf_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/icf_test_pr21066.sh b/gold/testsuite/icf_test_pr21066.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ifuncmod1.sh b/gold/testsuite/ifuncmod1.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/incremental_test.sh b/gold/testsuite/incremental_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/keep_text_section_prefix.sh b/gold/testsuite/keep_text_section_prefix.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/memory_test.sh b/gold/testsuite/memory_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/merge_string_literals.sh b/gold/testsuite/merge_string_literals.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/missing_key_func.sh b/gold/testsuite/missing_key_func.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/no_version_test.sh b/gold/testsuite/no_version_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_final_layout.sh b/gold/testsuite/plugin_final_layout.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_layout_with_alignment.sh b/gold/testsuite/plugin_layout_with_alignment.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_pr22868.sh b/gold/testsuite/plugin_pr22868.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_1.sh b/gold/testsuite/plugin_test_1.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_10.sh b/gold/testsuite/plugin_test_10.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_11.sh b/gold/testsuite/plugin_test_11.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_12.sh b/gold/testsuite/plugin_test_12.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_2.sh b/gold/testsuite/plugin_test_2.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_3.sh b/gold/testsuite/plugin_test_3.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_4.sh b/gold/testsuite/plugin_test_4.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_6.sh b/gold/testsuite/plugin_test_6.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_7.sh b/gold/testsuite/plugin_test_7.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_defsym.sh b/gold/testsuite/plugin_test_defsym.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_start_lib.sh b/gold/testsuite/plugin_test_start_lib.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_tls.sh b/gold/testsuite/plugin_test_tls.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/plugin_test_wrap_symbols.sh b/gold/testsuite/plugin_test_wrap_symbols.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/pr12826.sh b/gold/testsuite/pr12826.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/pr14265.sh b/gold/testsuite/pr14265.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/pr18689.sh b/gold/testsuite/pr18689.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/pr20717.sh b/gold/testsuite/pr20717.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/pr21430.sh b/gold/testsuite/pr21430.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/pr23016_1.sh b/gold/testsuite/pr23016_1.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/pr23016_2.sh b/gold/testsuite/pr23016_2.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/pr26936.sh b/gold/testsuite/pr26936.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/relro_test.sh b/gold/testsuite/relro_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/retain.sh b/gold/testsuite/retain.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/retain_symbols_file_test.sh b/gold/testsuite/retain_symbols_file_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_10.sh b/gold/testsuite/script_test_10.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_13.sh b/gold/testsuite/script_test_13.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_14.sh b/gold/testsuite/script_test_14.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_15a.sh b/gold/testsuite/script_test_15a.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_15b.sh b/gold/testsuite/script_test_15b.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_15c.sh b/gold/testsuite/script_test_15c.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_3.sh b/gold/testsuite/script_test_3.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_4.sh b/gold/testsuite/script_test_4.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_5.sh b/gold/testsuite/script_test_5.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_6.sh b/gold/testsuite/script_test_6.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_7.sh b/gold/testsuite/script_test_7.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_8.sh b/gold/testsuite/script_test_8.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/script_test_9.sh b/gold/testsuite/script_test_9.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/section_sorting_name.sh b/gold/testsuite/section_sorting_name.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/split_i386.sh b/gold/testsuite/split_i386.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/split_s390.sh b/gold/testsuite/split_s390.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/split_x32.sh b/gold/testsuite/split_x32.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/split_x86_64.sh b/gold/testsuite/split_x86_64.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/strong_ref_weak_def.sh b/gold/testsuite/strong_ref_weak_def.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/text_section_grouping.sh b/gold/testsuite/text_section_grouping.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/text_unlikely_segment.sh b/gold/testsuite/text_unlikely_segment.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/tls_pie_test.sh b/gold/testsuite/tls_pie_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/two_file_shared.sh b/gold/testsuite/two_file_shared.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/undef_symbol.sh b/gold/testsuite/undef_symbol.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_matching_test.sh b/gold/testsuite/ver_matching_test.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_1.sh b/gold/testsuite/ver_test_1.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_10.sh b/gold/testsuite/ver_test_10.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_13.sh b/gold/testsuite/ver_test_13.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_14.sh b/gold/testsuite/ver_test_14.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_2.sh b/gold/testsuite/ver_test_2.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_4.sh b/gold/testsuite/ver_test_4.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_5.sh b/gold/testsuite/ver_test_5.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_7.sh b/gold/testsuite/ver_test_7.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_8.sh b/gold/testsuite/ver_test_8.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_pr16504.sh b/gold/testsuite/ver_test_pr16504.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/ver_test_pr23409.sh b/gold/testsuite/ver_test_pr23409.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/weak_as_needed.sh b/gold/testsuite/weak_as_needed.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/weak_plt.sh b/gold/testsuite/weak_plt.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/x32_overflow_pc32.sh b/gold/testsuite/x32_overflow_pc32.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/x86_64_gd_to_le.sh b/gold/testsuite/x86_64_gd_to_le.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/x86_64_indirect_call_to_direct.sh b/gold/testsuite/x86_64_indirect_call_to_direct.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/x86_64_mov_to_lea.sh b/gold/testsuite/x86_64_mov_to_lea.sh
+old mode 100755
+new mode 100644
+diff --git a/gold/testsuite/x86_64_overflow_pc32.sh b/gold/testsuite/x86_64_overflow_pc32.sh
+old mode 100755
+new mode 100644
+diff --git a/gprof/bbconv.pl b/gprof/bbconv.pl
+old mode 100755
+new mode 100644
+diff --git a/gprof/configure b/gprof/configure
+old mode 100755
+new mode 100644
+diff --git a/gprofng/configure b/gprofng/configure
+old mode 100755
+new mode 100644
+diff --git a/gprofng/doc/mdate-sh b/gprofng/doc/mdate-sh
+old mode 100755
+new mode 100644
+diff --git a/gprofng/libcollector/CHK_LIBC_OBJ b/gprofng/libcollector/CHK_LIBC_OBJ
+old mode 100755
+new mode 100644
+diff --git a/gprofng/libcollector/configure b/gprofng/libcollector/configure
+old mode 100755
+new mode 100644
+diff --git a/gprofng/testsuite/gprofng.display/jsynprog/check_results.pl b/gprofng/testsuite/gprofng.display/jsynprog/check_results.pl
+old mode 100755
+new mode 100644
+diff --git a/gprofng/testsuite/gprofng.display/synprog/check_results.pl b/gprofng/testsuite/gprofng.display/synprog/check_results.pl
+old mode 100755
+new mode 100644
+diff --git a/install-sh b/install-sh
+old mode 100755
+new mode 100644
+diff --git a/intl/configure b/intl/configure
+old mode 100755
+new mode 100644
 diff --git a/ld/Makefile.am b/ld/Makefile.am
 index c3adbb0ccad..7115091a233 100644
 --- a/ld/Makefile.am
@@ -11200,8 +11904,8 @@ index 893e973e4f2..88ed7cc83f8 100644
 +# pkg.m4 - Macros to locate and utilise pkg-config.   -*- Autoconf -*-
 +# serial 11 (pkg-config-0.29.1)
 +
-+dnl Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
-+dnl Copyright © 2012-2015 Dan Nicholson <dbn.lists@gmail.com>
++dnl Copyright ┬⌐ 2004 Scott James Remnant <scott@netsplit.com>.
++dnl Copyright ┬⌐ 2012-2015 Dan Nicholson <dbn.lists@gmail.com>
 +dnl
 +dnl This program is free software; you can redistribute it and/or modify
 +dnl it under the terms of the GNU General Public License as published by
@@ -12568,6 +13272,9 @@ index 893e973e4f2..88ed7cc83f8 100644
 -m4_include([../ltsugar.m4])
 -m4_include([../ltversion.m4])
 -m4_include([../lt~obsolete.m4])
+diff --git a/ld/configure b/ld/configure
+old mode 100755
+new mode 100644
 diff --git a/ld/configure.tgt b/ld/configure.tgt
 index c62b9581d9b..66404bdbd1b 100644
 --- a/ld/configure.tgt
@@ -12586,3 +13293,123 @@ index c62b9581d9b..66404bdbd1b 100644
  aarch64_be-*-elf)	targ_emul=aarch64elfb
  			targ_extra_emuls="aarch64elf aarch64elf32 aarch64elf32b armelfb armelf"
  			;;
+diff --git a/ld/genscripts.sh b/ld/genscripts.sh
+old mode 100755
+new mode 100644
+diff --git a/libbacktrace/allocfail.sh b/libbacktrace/allocfail.sh
+old mode 100755
+new mode 100644
+diff --git a/libbacktrace/configure b/libbacktrace/configure
+old mode 100755
+new mode 100644
+diff --git a/libctf/configure b/libctf/configure
+old mode 100755
+new mode 100644
+diff --git a/libdecnumber/configure b/libdecnumber/configure
+old mode 100755
+new mode 100644
+diff --git a/libiberty/configure b/libiberty/configure
+old mode 100755
+new mode 100644
+diff --git a/libsframe/configure b/libsframe/configure
+old mode 100755
+new mode 100644
+diff --git a/missing b/missing
+old mode 100755
+new mode 100644
+diff --git a/mkdep b/mkdep
+old mode 100755
+new mode 100644
+diff --git a/mkinstalldirs b/mkinstalldirs
+old mode 100755
+new mode 100644
+diff --git a/move-if-change b/move-if-change
+old mode 100755
+new mode 100644
+diff --git a/opcodes/configure b/opcodes/configure
+old mode 100755
+new mode 100644
+diff --git a/readline/configure b/readline/configure
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/configure b/readline/readline/configure
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/doc/texi2dvi b/readline/readline/doc/texi2dvi
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/doc/texi2html b/readline/readline/doc/texi2html
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/examples/rlfe/configure b/readline/readline/examples/rlfe/configure
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/support/config.guess b/readline/readline/support/config.guess
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/support/config.rpath b/readline/readline/support/config.rpath
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/support/config.sub b/readline/readline/support/config.sub
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/support/install.sh b/readline/readline/support/install.sh
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/support/mkdirs b/readline/readline/support/mkdirs
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/support/mkdist b/readline/readline/support/mkdist
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/support/mkinstalldirs b/readline/readline/support/mkinstalldirs
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/support/shlib-install b/readline/readline/support/shlib-install
+old mode 100755
+new mode 100644
+diff --git a/readline/readline/support/shobj-conf b/readline/readline/support/shobj-conf
+old mode 100755
+new mode 100644
+diff --git a/sim/common/cgen.sh b/sim/common/cgen.sh
+old mode 100755
+new mode 100644
+diff --git a/sim/common/create-version.sh b/sim/common/create-version.sh
+old mode 100755
+new mode 100644
+diff --git a/sim/common/genmloop.sh b/sim/common/genmloop.sh
+old mode 100755
+new mode 100644
+diff --git a/sim/common/gennltvals.py b/sim/common/gennltvals.py
+old mode 100755
+new mode 100644
+diff --git a/sim/configure b/sim/configure
+old mode 100755
+new mode 100644
+diff --git a/sim/igen/compare_igen_models b/sim/igen/compare_igen_models
+old mode 100755
+new mode 100644
+diff --git a/sim/ppc/configure b/sim/ppc/configure
+old mode 100755
+new mode 100644
+diff --git a/sim/ppc/spreg-gen.py b/sim/ppc/spreg-gen.py
+old mode 100755
+new mode 100644
+diff --git a/sim/testsuite/bfin/run-tests.sh b/sim/testsuite/bfin/run-tests.sh
+old mode 100755
+new mode 100644
+diff --git a/src-release.sh b/src-release.sh
+old mode 100755
+new mode 100644
+diff --git a/symlink-tree b/symlink-tree
+old mode 100755
+new mode 100644
+diff --git a/test-driver b/test-driver
+old mode 100755
+new mode 100644
+diff --git a/ylwrap b/ylwrap
+old mode 100755
+new mode 100644
+diff --git a/zlib/configure b/zlib/configure
+old mode 100755
+new mode 100644

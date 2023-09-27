@@ -2,8 +2,8 @@
 // Created by grsan on 5/29/23.
 //
 
-#ifndef GOOSE_SERIAL_H
-#define GOOSE_SERIAL_H
+#ifndef SERIAL_H
+#define SERIAL_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -21,4 +21,4 @@ void serial_putc(uint16_t port, uint8_t ch);
 void serial_puts(uint16_t port, const char* str);
 void serial_printf(uint16_t port, const char* format, ...);
 
-#endif //GOOSE_SERIAL_H
+#endif //SERIAL_H

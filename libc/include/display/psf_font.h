@@ -2,8 +2,8 @@
 // Created by grsan on 7/17/23.
 //
 
-#ifndef GOOSE_PSF_FONT_H
-#define GOOSE_PSF_FONT_H
+#ifndef PSF_FONT_H
+#define PSF_FONT_H
 
 #include <stdint.h>
 #include <stddef.h>
@@ -28,4 +28,4 @@ extern PSF2_font *font;
 void init_psf();
 glyph get_glyph(uint16_t c);
 
-#endif //GOOSE_PSF_FONT_H
+#endif //PSF_FONT_H

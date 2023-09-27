@@ -2,8 +2,8 @@
 // Created by grsan on 8/15/23.
 //
 
-#ifndef GOOSE_KEYBOARD_H
-#define GOOSE_KEYBOARD_H
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
 
 #include <stdint.h>
 #include "../arch/idt.h"
@@ -22,4 +22,4 @@
 void keyboard_handler();
 void setup_keyboard();
 
-#endif //GOOSE_KEYBOARD_H
+#endif //KEYBOARD_H

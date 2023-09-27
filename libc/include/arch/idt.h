@@ -2,8 +2,8 @@
 // Created by grsan on 5/25/23.
 //
 
-#ifndef GOOSE_IDT_H
-#define GOOSE_IDT_H
+#ifndef IDT_H
+#define IDT_H
 
 #include <stdint.h>
 
@@ -48,4 +48,4 @@ void install_irqs();
 void handle_fault(isr_stacktrace *r);
 void handle_irq(isr_stacktrace *r);
 
-#endif //GOOSE_IDT_H
+#endif //IDT_H

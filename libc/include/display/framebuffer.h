@@ -2,8 +2,8 @@
 // Created by grsan on 5/22/23.
 //
 
-#ifndef GOOSE_FRAMEBUFFER_H
-#define GOOSE_FRAMEBUFFER_H
+#ifndef FRAMEBUFFER_H
+#define FRAMEBUFFER_H
 
 #include <stddef.h>
 #include <stdint.h>
@@ -44,4 +44,4 @@ void putc(uint8_t ch);
 void puts(const char* str);
 void printf(const char *format, ...);
 
-#endif //GOOSE_FRAMEBUFFER_H
+#endif //FRAMEBUFFER_H

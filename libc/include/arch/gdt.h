@@ -2,8 +2,8 @@
 // Created by grsan on 5/23/23.
 //
 
-#ifndef GOOSE_GDT_H
-#define GOOSE_GDT_H
+#ifndef GDT_H
+#define GDT_H
 
 #include <stdint.h>
 
@@ -26,4 +26,4 @@ extern void gdt_flush();
 void gdt_set_entry(uint8_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity);
 void gdt_install();
 
-#endif //GOOSE_GDT_H
+#endif //GDT_H
