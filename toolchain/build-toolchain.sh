@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pushd $( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd ) >> /dev/null
+
 SYSROOT_DIR=sysroot
 INCLUDE_DIR=usr/include
 
@@ -13,8 +15,6 @@ if git apply --check ../binutils.patch ; then
 else
   echo "Patch applied"
 fi
-
-
 
 popd
 
@@ -32,3 +32,5 @@ cp -R $LIBC_INCLUDE $SYSROOT_DIR/$INCLUDE_DIR
 popd >> /dev/null
 
 echo "Building binutils"
+
+popd >> /dev/null

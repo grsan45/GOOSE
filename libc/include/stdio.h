@@ -24,9 +24,9 @@ void fflush(FILE *stream);
 void fseek(FILE *stream, long offset, int origin);
 long ftell(FILE *stream);
 
-void fprintf(FILE *stream, const char *format, ...);
-void sprintf(char *s, const char *format, ...);
-void vfprintf(FILE *stream, const char *format, va_list arg);
+int fprintf(FILE *stream, const char *format, ...);
+int sprintf(char *s, const char *format, ...);
+int vfprintf(FILE *stream, const char *format, va_list arg);
 
 void setbuf(FILE *stream, char *buf);
 

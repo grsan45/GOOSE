@@ -2,7 +2,8 @@
 // Created by grsan on 5/22/23.
 //
 
-#include "../include/display/framebuffer.h"
+#include <display/framebuffer.h>
+#include <stdlib.h>
 
 framebuffer_info fbinfo;
 void* vram;
@@ -128,7 +129,7 @@ void printf(const char *format, ...) {
                     putc('%');
                     break;
                 case 'd':
-                    puts(itoa(va_arg(args, uint32_t), digitbuffer, base > 1 ? base : 10));
+                    puts(itob(va_arg(args, uint32_t), digitbuffer, base > 1 ? base : 10));
                     base = 0;
                     break;
                 default:

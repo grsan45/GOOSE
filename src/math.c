@@ -2,7 +2,7 @@
 // Created by grsan on 7/18/23.
 //
 
-#include "./include/math.h"
+#include <math.h>
 
 uint32_t flp2 (uint32_t x) {
     x = x | (x >> 1);

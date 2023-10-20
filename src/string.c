@@ -2,8 +2,8 @@
 // Created by grsan on 5/22/23.
 //
 
-#include <stdint.h>
-#include "include/string.h"
+#include <stdlib.h>
+#include <string.h>
 
 size_t strlen(const char *str) {
     size_t len = 0;
@@ -28,7 +28,7 @@ void* memcpy(void *restrict dest, const void* restrict src, size_t size) {
 }
 
 // doesn't support negatives :)
-char* itoa(uint64_t num, char* buf, uint8_t base) {
+char* itob(uint64_t num, char* buf, uint8_t base) {
     uint8_t i = 0;
 
     if (num == 0) {

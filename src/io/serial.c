@@ -2,9 +2,10 @@
 // Created by grsan on 5/30/23.
 //
 
-#include "../include/io/serial.h"
-#include "../include/string.h"
-#include "../include/io/ioutils.h"
+#include <io/serial.h>
+#include <string.h>
+#include <io/ioutils.h>
+#include <stdlib.h>
 
 // assumes we have **nothing** to work with, so everything memory related is done on the stack.
 char digitbuffer[65]; // enough room for 64 bits + null terminator
@@ -72,7 +73,7 @@ void serial_printf(uint16_t port, const char* format, ...) {
                     serial_putc(port, '%');
                     break;
                 case 'd':
-                    serial_puts(port, itoa(va_arg(args, uint32_t), digitbuffer, base > 1 ? base : 10));
+                    serial_puts(port, itob(va_arg(args, uint32_t), digitbuffer, base > 1 ? base : 10));
                     base = 0;
                     break;
                 default:

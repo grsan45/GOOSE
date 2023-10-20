@@ -106,7 +106,7 @@ index 3429f850d05..de5d05798d6 100644
  generic_target=${cpu_type}-$vendor-$os
  # Note: This table is alpha-sorted, please try to keep it that way.
  case ${generic_target} in
-+  i386-*-goose*)			fmt=elf;; em=gnu ;;
++  i386-*-goose*)			fmt=elf em=gnu ;;
    aarch64*-*-elf*)			fmt=elf;;
    aarch64*-*-fuchsia*)			fmt=elf;;
    aarch64*-*-haiku*)			fmt=elf em=haiku ;;

@@ -2,12 +2,12 @@
 // Created by grsan on 5/25/23.
 //
 
-#include "../include/arch/idt.h"
-#include "../include/arch/isrs.h"
-#include "../include/string.h"
-#include "../include/io/serial.h"
-#include "../include/display/framebuffer.h"
-#include "../include/io/ioutils.h"
+#include <arch/idt.h>
+#include <arch/isrs.h>
+#include <string.h>
+#include <io/serial.h>
+#include <display/framebuffer.h>
+#include <io/ioutils.h>
 
 #define PIC1_CMD 0x20
 #define PIC1_DATA 0x21

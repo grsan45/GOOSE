@@ -2,8 +2,8 @@
 // Created by grsan on 8/14/23.
 //
 
-#include "../include/io/timer.h"
-#include "../include/io/ioutils.h"
+#include <io/timer.h>
+#include <io/ioutils.h>
 
 static uint64_t millis_since_startup = 0;
 

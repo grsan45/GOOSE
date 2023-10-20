@@ -1,15 +1,15 @@
-#include "./include/arch/gdt.h"
-#include "./include/arch/idt.h"
+#include <arch/gdt.h>
+#include <arch/idt.h>
 
-#include "./include/boot/multiboot2.h"
-#include "./include/display/framebuffer.h"
-#include "./include/display/psf_font.h"
-#include "./include/arch/memmgt.h"
+#include <boot/multiboot2.h>
+#include <display/framebuffer.h>
+#include <display/psf_font.h>
+#include <arch/memmgt.h>
 
-#include "./include/io/timer.h"
-#include "./include/io/keyboard.h"
+#include <io/timer.h>
+#include <io/keyboard.h>
 
-#include "./include/io/serial.h"
+#include <io/serial.h>
 
 void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // init serial for debugging COM1, if it fails then panic... or smth

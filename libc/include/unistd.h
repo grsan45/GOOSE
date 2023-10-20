@@ -6,7 +6,7 @@
 #define UNISTD_H
 
 typedef int pid_t;
-typedef unsigned int intptr_t;
+//typedef unsigned int intptr_t;
 
 pid_t fork();
 pid_t getpid();

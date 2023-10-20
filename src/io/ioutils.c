@@ -2,7 +2,7 @@
 // Created by grsan on 8/14/23.
 //
 
-#include "../include/io/ioutils.h"
+#include <io/ioutils.h>
 
 void outb(uint16_t port, uint8_t data) {
     __asm__ __volatile__ ("out %1, %0" : : "dN" (port), "a" (data));

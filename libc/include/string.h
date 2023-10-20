@@ -7,8 +7,9 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stddef.h>
 
-typedef int size_t;
+//typedef int size_t;
 
 void* memset(void* restrict ptr, uint8_t val, size_t size);
 void* memcpy(void* restrict dest, const void* restrict src, size_t size);

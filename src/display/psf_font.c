@@ -2,9 +2,9 @@
 // Created by grsan on 7/17/23.
 //
 
-#include "../include/display/psf_font.h"
-#include "../include/arch/memmgt.h"
-#include "../include/io/serial.h"
+#include <display/psf_font.h>
+#include <arch/memmgt.h>
+#include <io/serial.h>
 
 // NOTE: obsolete once FS in implemented
 extern PSF2_font _binary_Tamsyn8x16b_psf_start;

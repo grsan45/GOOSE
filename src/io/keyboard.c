@@ -2,10 +2,10 @@
 // Created by grsan on 8/15/23.
 //
 
-#include "../include/io/keyboard.h"
-#include "../include/io/keyboard_layouts.h"
-#include "../include/io/serial.h"
-#include "../include/display/framebuffer.h"
+#include <io/keyboard.h>
+#include <io/keyboard_layouts.h>
+#include <io/serial.h>
+#include <display/framebuffer.h>
 
 uint8_t modifiers = 0;
 uint8_t *kb_layout = kbdus;

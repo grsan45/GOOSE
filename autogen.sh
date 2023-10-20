@@ -14,7 +14,7 @@ else
 
   mkdir -p build
   cd build
-  ../configure --build x86_64-linux-gnu --host i686-elf
+  ../configure --build x86_64-linux-gnu --host i686-goose
   echo "Build files generated, run \"make all\" from the build directory"
   cd ..
 fi

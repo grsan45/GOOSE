@@ -1,4 +1,6 @@
 i686-elf-cc/
+toolchain/i686-goose
+toolchain/build-*
 .idea/
 sysroot/
 

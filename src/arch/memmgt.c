@@ -2,10 +2,10 @@
 // Created by grsan on 5/29/23.
 //
 
-#include "../include/arch/memmgt.h"
-#include "../include/io/serial.h"
-#include "../include/string.h"
-#include "../include/math.h"
+#include <arch/memmgt.h>
+#include <io/serial.h>
+#include <string.h>
+#include <math.h>
 
 // things seem to break with PAGE_SIZE < 4096... so keep it above that
 // in bytes
