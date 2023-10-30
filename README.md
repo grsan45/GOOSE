@@ -58,6 +58,10 @@ credited to its "original" author via a comment.
 
 The font is temporarily stored in the `src/` folder until filesystem support is implemented.
 
+The custom toolchain does not (and likely never will) support C++. Support is easy enough to add, but I
+do not plan on using it for this project. If you desperately want C++ support, modify the configuration
+and libc crt* files and open a PR.
+
 ---
 
 <sub>Licensed under GPL-3.0</sub>
