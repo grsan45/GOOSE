@@ -7,8 +7,6 @@ set(toolchain ${PROJECT_SOURCE_DIR}/toolchain/i686-goose)
 set(CMAKE_C_COMPILER ${toolchain}/bin/i686-goose-gcc)
 set(CMAKE_ASM_COMPILER ${toolchain}/bin/i686-goose-as)
 
-#set(CMAKE_SYSROOT ${PROJECT_SOURCE_DIR}/toolchain/sysroot)
-
 set(CMAKE_C_FLAGS "-ffreestanding -O2 -Wall -Werror -std=c17")
 set(CMAKE_ASM_FLAGS "")
 

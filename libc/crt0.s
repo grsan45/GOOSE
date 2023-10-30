@@ -5,14 +5,14 @@
 .global _start
 _start:
 	# Set up end of the stack frame linked list.
-	movq $0, %ebp
-	pushq %ebp # eip=0
-	pushq %ebp # ebp=0
-	movq %esp, %ebp
+	mov $0, %ebp
+	pushl %ebp # eip=0
+	pushl %ebp # ebp=0
+	mov %esp, %ebp
 
 	# We need those in a moment when we call main.
-	pushq %esi
-	pushq %edi
+	pushl %esi
+	pushl %edi
 
 	# Prepare signals, memory allocation, stdio and such.
 	# call initialize_standard_library #TODO
@@ -21,13 +21,13 @@ _start:
 	call _init
 
 	# Restore argc and argv.
-	popq %edi
-	popq %esi
+	popl %edi
+	popl %esi
 
 	# Run main
 	call main
 
 	# Terminate the process with the exit code.
-	movl %eax, %edi
+	mov %eax, %edi
 	call exit
 .size _start, . - _start

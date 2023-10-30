@@ -7,6 +7,7 @@
 void abort();
 
 int atexit(void  (*f)(void));
+void exit(int status);
 
 char *getenv(const char *name);
 
