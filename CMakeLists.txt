@@ -10,11 +10,11 @@ set(CMAKE_ASM_COMPILER ${toolchain}/bin/i686-goose-as)
 set(CMAKE_C_FLAGS "-ffreestanding -O2 -Wall -Werror -std=c17")
 set(CMAKE_ASM_FLAGS "")
 
-file(GLOB SRCS src/**/*.c src/**/*.s src/*.s src/*.c)
+file(GLOB SRCS kernel/**/*.c kernel/**/*.s kernel/*.s kernel/*.c)
 
 add_library(font OBJECT IMPORTED GLOBAL)
-set_property(TARGET font PROPERTY IMPORTED_OBJECTS ${PROJECT_SOURCE_DIR}/src/display/font.o)
+set_property(TARGET font PROPERTY IMPORTED_OBJECTS ${PROJECT_SOURCE_DIR}/kernel/display/font.o)
 
-add_executable(goose ${PROJECT_SOURCE_DIR}/src/display/font.o ${SRCS})
+add_executable(goose ${PROJECT_SOURCE_DIR}/kernel/display/font.o ${SRCS})
 target_link_libraries(goose gcc)
-target_link_options(goose PUBLIC -nostdlib -static-libgcc -T ${PROJECT_SOURCE_DIR}/src/linker.ld -ffreestanding -O2)
+target_link_options(goose PUBLIC -nostdlib -static-libgcc -T ${PROJECT_SOURCE_DIR}/kernel/linker.ld -ffreestanding -O2)
