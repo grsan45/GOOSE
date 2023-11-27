@@ -15,11 +15,13 @@ PREFIX=$SCRIPT_DIR/$TARGET
 
 REBUILD=0
 
-while getopts 'abc:h' opt; do
+while getopts 'r' opt; do
   case "$opt" in
-    rebuild-compiler)
+    r)
       echo "Rebuilding..."
-      $REBUILD=1
+      REBUILD=1
+      ;;
+    *)
       ;;
   esac
 done
@@ -36,14 +38,12 @@ cp -R $LIBC_INCLUDE $SYSROOT_DIR/$INCLUDE_DIR
 
 if [[ ! -f $PREFIX/bin/i686-goose-gcc || $REBUILD == 1 ]] ; then
   echo "Setting up binutils build"
-  pushd ./binutils-gdb
-  if git apply --check ../binutils.patch ; then
+  if git apply --check ./binutils.patch ; then
     echo "Applying binutils patch..."
-    git apply ../binutils.patch
+    git apply ./binutils.patch
   else
-    echo "Patch applied"
+    echo "Patch already applied"
   fi
-  popd >> /dev/null
 
   echo "Building binutils"
 
@@ -53,21 +53,19 @@ if [[ ! -f $PREFIX/bin/i686-goose-gcc || $REBUILD == 1 ]] ; then
 
   mkdir -p build-binutils
   pushd $SCRIPT_DIR/build-binutils >> /dev/null
-  ../binutils-gdb/configure --target=i686-goose --prefix="$PREFIX" --with-sysroot=$SYSROOT_DIR --disable-werror
+  ../binutils-gdb/configure --target=$TARGET --prefix="$PREFIX" --with-sysroot=$SYSROOT_DIR --disable-werror
   make -j$(nproc) && make install
   popd >> /dev/null
 
   echo "Binutils build complete."
 
   echo "Setting up gcc build"
-  pushd ./gcc
-  if git apply --check ../gcc.patch ; then
+  if git apply --check ./gcc.patch ; then
     echo "Applying gcc patch..."
-    git apply ../gcc.patch
+    git apply ./gcc.patch
   else
-    echo "Patch applied"
+    echo "Patch already applied"
   fi
-  popd >> /dev/null
 
   echo "Starting GCC Build"
 
@@ -81,6 +79,8 @@ if [[ ! -f $PREFIX/bin/i686-goose-gcc || $REBUILD == 1 ]] ; then
   echo "GCC configured"
   make -j$(nproc) all-gcc all-target-libgcc && make -j$(nproc) install-gcc install-target-libgcc
   popd >> /dev/null
+
+  echo "GCC build complete."
 
   popd >> /dev/null
 
@@ -100,9 +100,9 @@ cp libc.a $SYSROOT_DIR/usr/lib
 # this is dirty but necessary (for now)
 pushd CMakeFiles >> /dev/null
 
-cp libc.dir/crt0.s.o $SYSROOT_DIR/usr/lib/crt0.o
-cp libc.dir/crti.s.o $SYSROOT_DIR/usr/lib/crti.o
-cp libc.dir/crtn.s.o $SYSROOT_DIR/usr/lib/crtn.o
+cp c.dir/crt0.s.o $SYSROOT_DIR/usr/lib/crt0.o
+cp c.dir/crti.s.o $SYSROOT_DIR/usr/lib/crti.o
+cp c.dir/crtn.s.o $SYSROOT_DIR/usr/lib/crtn.o
 
 popd >> /dev/null
 

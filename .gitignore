@@ -63,5 +63,8 @@ m4/lt~obsolete.m4
 Makefile
 
 *.iso
+*.log
 /cmake-build-debug-wsl---goose/
+/cmake-build-debug-wsl-goose/
+/cmake-build-debug-wsl/
 cmake-build-debug
