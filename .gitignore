@@ -68,3 +68,5 @@ Makefile
 /cmake-build-debug-wsl-goose/
 /cmake-build-debug-wsl/
 cmake-build-debug
+
+__pycache__
