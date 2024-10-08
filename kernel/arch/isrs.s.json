@@ -1,0 +1,35 @@
+{
+  "commentFormat": "#",
+  "constants": {
+    "ISR_COUNT": 32,
+    "IRQ_COUNT": 224
+  },
+  "sections": [
+    {
+      "type": "string",
+      "expr": ".section .text\n\n.macro isr, id, errcode=$0x00\n.global isr\\id\n.type isr\\id, @function\n\nisr\\id :\ncli\npush \\errcode\njmp isr_stub\n.endm\n\n.macro irq, id, index=$0x020\n.global irq\\id\n.type irq\\id, @function\n\nirq\\id :\ncli\npush 0x00\npush \\index\njmp irq_stub\n.endm\n"
+    },
+    {
+      "type": "string",
+      "expr": "/* isrs */"
+    },
+    {
+      "type": "loop",
+      "operation": "range(0, #ISR_COUNT)",
+      "expr": "isr @, {{'$0x{:0X}'.format(@)}}"
+    },
+    {
+      "type": "string",
+      "expr": "/* isqs */"
+    },
+    {
+      "type": "loop",
+      "operation": "range(0, #IRQ_COUNT)",
+      "expr": "irq @, {{'$0x{:0X}'.format(#ISR_COUNT + @)}}"
+    },
+    {
+      "type": "string",
+      "expr": ".global handle_fault\n.type handle_fault, @function\n\n.global handle_irq\n.type handle_irq, @function\n\nisr_stub:\n    pusha               /* push everything we care about to the stack */\n    push %ds\n    push %es\n    push %fs\n    push %gs\n\n    mov $0x10, %ax       /* mov 0x10 (kernel data segment) into ax */\n    mov %ax, %ds\n    mov %ax, %es\n    mov %ax, %fs\n    mov %ax, %gs\n\n    mov %esp, %eax      /* put the stack pointer onto eax, */\n    push %eax           /* then push that onto the stack so we can access it in handle_fault */\n\n    mov $handle_fault, %eax\n    call *%eax\n\n    pop %eax            /* cleanup stack */\n    pop %gs\n    pop %fs\n    pop %es\n    pop %ds\n    popa\n\n    add $0x08, %esp\n    iret\n\nirq_stub:               /* this is the exact same as isr_stub, but calls a different handler method */\n    pusha               /* push everything we care about to the stack */\n    push %ds\n    push %es\n    push %fs\n    push %gs\n\n    mov $0x10, %ax       /* mov 0x10 (kernel data segment) into ax */\n    mov %ax, %ds\n    mov %ax, %es\n    mov %ax, %fs\n    mov %ax, %gs\n\n    mov %esp, %eax      /* put the stack pointer onto eax, */\n    push %eax           /* then push that onto the stack so we can access it in handle_fault */\n\n    mov $handle_irq, %eax\n    call *%eax\n\n    pop %eax            /* cleanup stack */\n    pop %gs\n    pop %fs\n    pop %es\n    pop %ds\n    popa\n\n    add $0x08, %esp\n    iret\n"
+    }
+  ]
+}

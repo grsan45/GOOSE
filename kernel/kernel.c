@@ -1,5 +1,6 @@
 #include <arch/gdt.h>
 #include <arch/idt.h>
+#include <arch/syscall.h>
 
 #include <boot/multiboot2.h>
 #include <display/framebuffer.h>
@@ -11,9 +12,20 @@
 
 #include <io/serial.h>
 
+#include <cpuid.h>
+#include <arch/cpu.h>
+
 void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // init serial for debugging COM1, if it fails then panic... or smth
     if (init_serial(COM1)) {
+        for(;;);
+    }
+
+    // check apic availability
+    uint32_t eax, edx, unused;
+    __get_cpuid(1, &eax, &unused, &unused, &edx);
+    if (!(edx | CPUID_FEAT_EDX_APIC)) {
+        serial_printf(COM1, "APIC Not supported, refusing to continue.");
         for(;;);
     }
 
@@ -24,6 +36,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     idt_install();
 
     setup_timer();
+    setup_syscall_handler();
 
     // memory info tag
     multiboot_memory_map_t *memory_map_tag;
@@ -121,6 +134,8 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
     // allow user input now
     setup_keyboard();
+
+    __asm__("int $128");
 
     for(;;);
 }

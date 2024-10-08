@@ -1,0 +1,49 @@
+{
+  "commentFormat": "//",
+  "constants": {
+    "ISR_COUNT": 32,
+    "IRQ_COUNT": 224
+  },
+  "sections": [
+    {
+      "type": "loop",
+      "operation": "range(0, #ISR_COUNT)",
+      "expr": "extern void isr$();"
+    },
+    {
+      "type": "loop",
+      "operation": "range(0, #IRQ_COUNT)",
+      "expr": "extern void irq@();"
+    },
+    {
+      "type": "string",
+      "expr": "static void *isr_list[#ISR_COUNT] = {"
+    },
+    {
+      "type": "loop",
+      "operation": "range(0, #ISR_COUNT)",
+      "expr": "isr@,"
+    },
+    {
+      "type": "string",
+      "expr": "};"
+    },
+    {
+      "type": "string",
+      "expr": "static void *irq_list[#IRQ_COUNT] = {"
+    },
+    {
+      "type": "loop",
+      "operation": "range(0, #IRQ_COUNT)",
+      "expr": "irq@,"
+    },
+    {
+      "type": "string",
+      "expr": "};"
+    },
+    {
+      "type": "string",
+      "expr": "static void *irq_handlers[{{#IRQ_COUNT + #ISR_COUNT}}] = {0};"
+    }
+  ]
+}

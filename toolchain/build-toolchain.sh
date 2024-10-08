@@ -36,6 +36,9 @@ fi
 mkdir -p $SYSROOT_DIR/$INCLUDE_DIR
 cp -R $LIBC_INCLUDE $SYSROOT_DIR/$INCLUDE_DIR
 
+echo "Running codegen on sysroot dir"
+python3 -m codegen $SYSROOT_DIR
+
 if [[ ! -f $PREFIX/bin/i686-goose-gcc || $REBUILD == 1 ]] ; then
   echo "Setting up binutils build"
   if git apply --check ./binutils.patch ; then

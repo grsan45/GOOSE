@@ -103,7 +103,7 @@ void install_isrs() {
         add_idt_entry(id, (uint32_t) isr_list[id], 0x08, INT_32, 0x00);
     }
 
-    for (uint8_t id = 0; id < 16; id++) {
+    for (uint8_t id = 0; id < 224; id++) {
         add_idt_entry(id + 32, (uint32_t) irq_list[id], 0x08, INT_32, 0x00);
     }
 }
