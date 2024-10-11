@@ -27,6 +27,7 @@ first serious OS project.
   - [x] PIT
   - [x] Keyboard
 - [x] Custom toolchain
+- [ ] More correct/robust libc impl, syscalls ***(WIP)***
 - [ ] Kernel Modules ***(WIP)***
   - [ ] ELF loader  
 - [ ] Filesystem

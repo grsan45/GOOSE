@@ -192,8 +192,6 @@ mmap_block_t* split_block(mmap_block_t* block, uint32_t size) {
 }
 
 mmap_block_t *merge_blocks(mmap_block_t *block) {
-    //TODO: add multi-page blocks here, just need to mark area as free and restore blocks at start of each page
-
     if (block->size > PAGE_SIZE) {
         uint32_t num_pages_to_fix = block->size / PAGE_SIZE - 1;
 

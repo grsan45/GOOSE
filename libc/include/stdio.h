@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include "string.h"
 
-typedef struct { char* start, end, cursor } FILE;
+typedef struct { char* start, end, cursor; } FILE;
 extern FILE* stderr;
 extern FILE* stdout;
 
@@ -24,6 +24,7 @@ void fflush(FILE *stream);
 void fseek(FILE *stream, long offset, int origin);
 long ftell(FILE *stream);
 
+int printf(const char *format, ...);
 int fprintf(FILE *stream, const char *format, ...);
 int sprintf(char *s, const char *format, ...);
 int vfprintf(FILE *stream, const char *format, va_list arg);

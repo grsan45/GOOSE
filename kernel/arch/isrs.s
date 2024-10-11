@@ -329,7 +329,7 @@ irq_stub:               /* this is the exact same as isr_stub, but calls a diffe
     mov %ax, %gs
 
     mov %esp, %eax      /* put the stack pointer onto eax, */
-    push %eax           /* then push that onto the stack so we can access it in handle_fault */
+    push %eax           /* then push that onto the stack so we can access it in handle_irq */
 
     mov $handle_irq, %eax
     call *%eax

@@ -1,6 +1,6 @@
 #include <arch/gdt.h>
 #include <arch/idt.h>
-#include <arch/syscall.h>
+#include <arch/syscalls.h>
 
 #include <boot/multiboot2.h>
 #include <display/framebuffer.h>
@@ -14,6 +14,8 @@
 
 #include <cpuid.h>
 #include <arch/cpu.h>
+
+#include <sys/syscall.h>
 
 void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // init serial for debugging COM1, if it fails then panic... or smth
@@ -135,7 +137,13 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // allow user input now
     setup_keyboard();
 
-    __asm__("int $128");
+    char *test_str = malloc(64);
+    memcpy(test_str, "Test str\n", 10);
+
+    uint32_t test_str_pointer = (uint32_t) test_str;
+    syscall(1, 56, test_str_pointer);
+
+    free(test_str);
 
     for(;;);
 }

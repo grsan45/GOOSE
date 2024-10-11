@@ -11,6 +11,7 @@ set(CMAKE_AR ${toolchain}/bin/i686-goose-ar)
 set(CMAKE_C_FLAGS "-ffreestanding -nostdlib -O2 -Wall -Werror -std=c17")
 set(CMAKE_ASM_FLAGS "")
 
-file(GLOB SRCS *.s *.c)
+file(GLOB_RECURSE SRCS *.s *.c)
+list(FILTER SRCS EXCLUDE REGEX "CMakeFiles")
 
 add_library(c STATIC ${SRCS})

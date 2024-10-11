@@ -16,5 +16,5 @@ add_library(font OBJECT IMPORTED GLOBAL)
 set_property(TARGET font PROPERTY IMPORTED_OBJECTS ${PROJECT_SOURCE_DIR}/kernel/display/font.o)
 
 add_executable(goose ${PROJECT_SOURCE_DIR}/kernel/display/font.o ${SRCS})
-target_link_libraries(goose gcc)
+target_link_libraries(goose gcc c)
 target_link_options(goose PUBLIC -nostdlib -static-libgcc -T ${PROJECT_SOURCE_DIR}/kernel/linker.ld -ffreestanding -O2)
