@@ -117,7 +117,7 @@ void handle_fault(isr_stacktrace *r) {
         serial_printf(COM1, "ebx: 0x%16d, edx: 0x%16d, ecx: 0x%16d, eax: 0x%16d\n",
                       r->ebx, r->edx, r->ecx, r->eax);
         serial_printf(COM1, "error code: 0x%16d\n", r->error_code);
-        printf("Interrupt: %s\nHalting.\n", exception_messages[r->int_id]);
+        fb_printf("Interrupt: %s\nHalting.\n", exception_messages[r->int_id]);
         for(;;);
     }
 }

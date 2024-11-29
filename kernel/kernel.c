@@ -96,7 +96,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     init_psf();
     clear();
 
-    printf("Hello world!!\n");
+    fb_printf("Hello world!!\n");
 
     // test calloc
     char* ptr = calloc(119, sizeof(char));
@@ -107,32 +107,32 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
     ptr3 = realloc(ptr3, 1024);
 
-    printf("Test pointer 1 located at 0x%16d, block size: %d\n", (uint32_t) ptr,
-                  (uint32_t) get_block_of_ptr((uint32_t) ptr)->size);
-    printf("Test pointer 2 located at 0x%16d, block size: %d\n", (uint32_t) ptr2,
-                  (uint32_t) get_block_of_ptr((uint32_t) ptr2)->size);
-    printf("Test pointer 3 located at 0x%16d, block size: %d\n", (uint32_t) ptr3,
-                  (uint32_t) get_block_of_ptr((uint32_t) ptr3)->size);
-    printf("Test pointer 4 located at 0x%16d, block size: %d\n", (uint32_t) ptr4,
-                  (uint32_t) get_block_of_ptr((uint32_t) ptr4)->size);
-    printf("Test pointer 5 located at 0x%16d, block size: %d\n", (uint32_t) ptr5,
-                  (uint32_t) get_block_of_ptr((uint32_t) ptr5)->size);
+    fb_printf("Test pointer 1 located at 0x%16d, block size: %d\n", (uint32_t) ptr,
+              (uint32_t) get_block_of_ptr((uint32_t) ptr)->size);
+    fb_printf("Test pointer 2 located at 0x%16d, block size: %d\n", (uint32_t) ptr2,
+              (uint32_t) get_block_of_ptr((uint32_t) ptr2)->size);
+    fb_printf("Test pointer 3 located at 0x%16d, block size: %d\n", (uint32_t) ptr3,
+              (uint32_t) get_block_of_ptr((uint32_t) ptr3)->size);
+    fb_printf("Test pointer 4 located at 0x%16d, block size: %d\n", (uint32_t) ptr4,
+              (uint32_t) get_block_of_ptr((uint32_t) ptr4)->size);
+    fb_printf("Test pointer 5 located at 0x%16d, block size: %d\n", (uint32_t) ptr5,
+              (uint32_t) get_block_of_ptr((uint32_t) ptr5)->size);
 
     mmap_block_t *ptr1_block = (mmap_block_t *) ((uint32_t) ptr - BLOCK_HEADER_SIZE);
-    printf("PRE FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
+    fb_printf("PRE FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
     free(ptr);
-    printf("POST FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
+    fb_printf("POST FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
     free(ptr4);
 
     mmap_block_t *ptr5_block = (mmap_block_t *) ((uint32_t) ptr5 - BLOCK_HEADER_SIZE);
-    printf("PRE FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
+    fb_printf("PRE FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
     free(ptr5);
-    printf("POST FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
+    fb_printf("POST FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
 
     free(ptr3);
     free(ptr2);
 
-    printf("All pointers freed\n");
+    fb_printf("All pointers freed\n");
 
     // allow user input now
     setup_keyboard();

@@ -110,7 +110,7 @@ void puts(const char* str) {
     }
 }
 
-void printf(const char *format, ...) {
+void fb_printf(const char *format, ...) {
     va_list args;
     va_start(args, format);
 

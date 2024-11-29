@@ -3,7 +3,7 @@
 //
 
 #include <arch/memmgt.h>
-#include <io/serial.h>
+#include <stdio.h>
 #include <string.h>
 #include <math.h>
 
@@ -28,12 +28,12 @@ void* malloc(uint32_t num_bytes) {
     uint32_t required_pages = num_bytes / PAGE_SIZE;
     if (num_bytes % PAGE_SIZE > 0) required_pages++;
 
-//    serial_printf(COM1, "Allocation of %d bytes requires %d pages\n", total_bytes, (uint64_t) required_pages);
+//    fprintf(NULL, "Allocation of %d bytes requires %d pages\n", total_bytes, (uint64_t) required_pages);
 
     mmap_page_t *best_page = find_best_page(num_bytes);
-//    serial_printf(COM1, "best page: %d\n", (uint32_t) (best_page - pages)/ sizeof(mmap_page_t*));
+//    fprintf(NULL, "best page: %d\n", (uint32_t) (best_page - pages)/ sizeof(mmap_page_t*));
     mmap_block_t *block = find_best_block(best_page, num_bytes);
-//    serial_printf(COM1, "best block location: 0x%16d, size: %d bytes\n", (uint32_t) block, (uint32_t) block->size);
+//    fprintf(NULL, "best block location: 0x%16d, size: %d bytes\n", (uint32_t) block, (uint32_t) block->size);
     if (required_pages == 1) {
         block = split_block(block, num_bytes);
     } else {
@@ -50,9 +50,9 @@ void* malloc(uint32_t num_bytes) {
         // update the first block on the end page to ensure it still functions properly
         mmap_page_t *ending_page = best_page + required_pages - 1;
 
-        serial_printf(COM1, "chose ending page %d\n", required_pages - 1);
+        fprintf(NULL, "chose ending page %d\n", required_pages - 1);
 
-        serial_printf(COM1, "ending page pre format firstblock addr: 0x%16d, size: %d\nending page lastblock addr: 0x%16d, size: %d\n",
+        fprintf(NULL, "ending page pre format firstblock addr: 0x%16d, size: %d\nending page lastblock addr: 0x%16d, size: %d\n",
                       (uint32_t) ending_page->first_block, (uint32_t) ending_page->first_block->size,
                       (uint32_t) ending_page->last_block, (uint32_t) ending_page->last_block->size);
 
@@ -65,11 +65,11 @@ void* malloc(uint32_t num_bytes) {
 
         ending_page->last_block = ending_page->first_block;
 
-        serial_printf(COM1, "ending page post format firstblock addr: 0x%16d, size: %d\nending page lastblock addr: 0x%16d, size: %d\n",
+        fprintf(NULL, "ending page post format firstblock addr: 0x%16d, size: %d\nending page lastblock addr: 0x%16d, size: %d\n",
                       (uint32_t) ending_page->first_block, (uint32_t) ending_page->first_block->size,
                       (uint32_t) ending_page->last_block, (uint32_t) ending_page->last_block->size);
     }
-//    serial_printf(COM1, "new block location: 0x%16d, size: %d bytes\n", (uint64_t) block, (uint64_t) block->size);
+//    fprintf(NULL, "new block location: 0x%16d, size: %d bytes\n", (uint64_t) block, (uint64_t) block->size);
 
     block->flags &= ~FREE;
     return (void*) block + BLOCK_HEADER_SIZE;
@@ -99,7 +99,7 @@ void free(void *ptr) {
 }
 
 void initialize_memory_map(multiboot_memory_map_t* memory_map) {
-    serial_printf(COM1, "Creating memory map...\n");
+    fprintf(NULL, "Creating memory map...\n");
     uint32_t num_sectors = (memory_map->size-16)/memory_map->entry_size;
 
     // find the largest usable entry, maybe take advantage of others once paging is implemented?
@@ -108,38 +108,38 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map) {
         multiboot_memory_map_entry_t entry = memory_map->entries[i];
         if (entry.type != 1) continue; // cant use anything else
 
-        serial_printf(COM1, "Found map entry: \n\tbaseaddr: 0x%16d, length: 0x%16d, type: %d\n\n",
+        fprintf(NULL, "Found map entry: \n\tbaseaddr: 0x%16d, length: 0x%16d, type: %d\n\n",
                       (uint32_t) entry.base_addr, (uint32_t) entry.length, (uint32_t) entry.type);
 
         if (entry.length > largest_usable_entry.length)
             largest_usable_entry = entry;
     }
 
-    serial_printf(COM1, "Largest map entry: \n\tbaseaddr: 0x%16d, length: 0x%16d, type: %d\n\n",
+    fprintf(NULL, "Largest map entry: \n\tbaseaddr: 0x%16d, length: 0x%16d, type: %d\n\n",
                   (uint32_t) largest_usable_entry.base_addr, (uint32_t) largest_usable_entry.length, (uint32_t) largest_usable_entry.type);
 
     // we really only need 24KiB of padding, but im adding an extra 8 to play things safe
-    serial_printf(COM1, "Moving page array 32KiB forward so we don't hit the stack\n");
+    fprintf(NULL, "Moving page array 32KiB forward so we don't hit the stack\n");
     uint32_t page_table_start_addr = largest_usable_entry.base_addr + PRE_MMAP_PADDING;
 
     uint32_t font_offest = flp2((uint32_t) &_binary_Tamsyn8x16b_psf_end - 0x100000) << 1;
 
     // move forward to end of font object so we don't cause any issues
-    serial_printf(COM1, "Moving page array forward to avoid hitting the font object (0x%16d bytes)\n", font_offest);
+    fprintf(NULL, "Moving page array forward to avoid hitting the font object (0x%16d bytes)\n", font_offest);
     page_table_start_addr += font_offest;
 
-    serial_printf(COM1, "Adjusting start addr by 16Mib\n");
+    fprintf(NULL, "Adjusting start addr by 16Mib\n");
     usable_memory_start_address = page_table_start_addr + 16777216;
     uint32_t length = largest_usable_entry.length - 16777216 - PRE_MMAP_PADDING;
 
     num_pages = (length >> log2(PAGE_SIZE)) - 1; // divide by PAGE_SIZE
 
-    serial_printf(COM1, "Creating %d pages\n", num_pages);
+    fprintf(NULL, "Creating %d pages\n", num_pages);
 
     pages = (mmap_page_t*) page_table_start_addr;
 
-    serial_printf(COM1, "Putting the page array at 0x%16d\n", pages);
-    serial_printf(COM1, "sizeof page: %d, sizeof block %d\n", (uint32_t) sizeof(mmap_page_t), (uint32_t) sizeof(mmap_block_t));
+    fprintf(NULL, "Putting the page array at 0x%16d\n", pages);
+    fprintf(NULL, "sizeof page: %d, sizeof block %d\n", (uint32_t) sizeof(mmap_page_t), (uint32_t) sizeof(mmap_block_t));
 
     for(uint32_t i = 0; i < num_pages; i++) {
         uint32_t page_addr = (i << log2(PAGE_SIZE)) + usable_memory_start_address; // multiply by 4096
@@ -152,9 +152,9 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map) {
 
     earliest_free_page = pages;
 
-    serial_printf(COM1, "first page firstblock addr: 0x%16d, size: %d\n", (uint32_t) pages[0].first_block,
+    fprintf(NULL, "first page firstblock addr: 0x%16d, size: %d\n", (uint32_t) pages[0].first_block,
                   (uint32_t) pages[0].first_block->size);
-    serial_printf(COM1, "last page firstblock addr: 0x%16d, size: %d\n", (uint32_t) pages[num_pages-1].first_block,
+    fprintf(NULL, "last page firstblock addr: 0x%16d, size: %d\n", (uint32_t) pages[num_pages-1].first_block,
                   (uint32_t) pages[num_pages-1].first_block->size);
 }
 
@@ -270,7 +270,7 @@ mmap_block_t* find_best_block(mmap_page_t *page, uint32_t size) {
 
     mmap_block_t *block = page->first_block;
     while (!(block->flags & FREE) || block->size < size) {
-//        serial_printf(COM1, "block addr: 0x%16d, size: %d, free: %d\n", (uint64_t) block, (uint64_t) block->size, (uint64_t) block->free);
+//        fprintf(NULL, "block addr: 0x%16d, size: %d, free: %d\n", (uint64_t) block, (uint64_t) block->size, (uint64_t) block->free);
         block = get_next_block(block);
     }
 

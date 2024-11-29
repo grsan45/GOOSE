@@ -42,6 +42,6 @@ void set_color(uint32_t fg, uint32_t bg);
 
 void putc(uint8_t ch);
 void puts(const char* str);
-void printf(const char *format, ...);
+void fb_printf(const char *format, ...);
 
 #endif //FRAMEBUFFER_H

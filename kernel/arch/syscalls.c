@@ -22,8 +22,11 @@ int sys_write(syscall_args *args) {
 //    FILE *fp = (FILE *) argArr[0];
     char *str = (char *) argArr[1];
 
-    serial_printf(COM1, "sys_write, fp: %d, str: %s\n", argArr[0], str);
-    printf("%s", str);
+//    serial_printf(COM1, "sys_write, fp: %d, str: %s\n", argArr[0], str);
+    if (argArr[0] == 0)
+        fb_printf("%s", str);
+    else
+        serial_printf(COM1, "%s", str);
 
     return 0;
 }
