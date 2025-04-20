@@ -28,7 +28,7 @@ void* memcpy(void *restrict dest, const void* restrict src, size_t size) {
 }
 
 // doesn't support negatives :)
-char* itob(uint64_t num, char* buf, uint8_t base) {
+char* itob(uint32_t num, char* buf, uint8_t base) {
     uint8_t i = 0;
 
     if (num == 0) {
@@ -46,6 +46,18 @@ char* itob(uint64_t num, char* buf, uint8_t base) {
     buf[i] = '\0';
 
     return buf;
+}
+
+uint32_t atoi(char* str, uint8_t base) {
+    uint32_t ret = 0;
+    char digit;
+    uint32_t place = 1;
+    while((digit = *(str++)) != '\0') {
+        bool arabic_numeral = digit >= '0' && digit <= '9';
+        ret += place * base * (digit - (arabic_numeral ? '0' : 'a'));
+        place *= 10;
+    }
+    return ret;
 }
 
 void reverse_str(char *str, int len) {

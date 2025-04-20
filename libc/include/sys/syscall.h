@@ -11,7 +11,6 @@
 #define SYS_OPEN 2
 #define SYS_CLOSE 3
 
-uint32_t syscall(uint32_t code, uint32_t args, ...);
-extern uint32_t __syscall(uint32_t code, uint32_t *args);
+extern uint32_t __syscall(uint32_t code, void* args);
 
 #endif //GOOSE_SYSCALL_H

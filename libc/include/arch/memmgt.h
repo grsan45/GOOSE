@@ -30,7 +30,7 @@ typedef struct {
     uint8_t flags; // 1-7 unused | 8 allocated to pointer outside this page
 } mmap_page_t;
 
-void initialize_memory_map(multiboot_memory_map_t* memory_map);
+void initialize_memory_map(multiboot_memory_map_t* memory_map, uint8_t font_start_location);
 void *malloc(uint32_t num_bytes);
 void *calloc(uint32_t num_blocks, uint32_t block_size);
 void *realloc(void* ptr, uint32_t size);

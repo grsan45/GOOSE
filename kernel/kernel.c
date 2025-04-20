@@ -16,6 +16,11 @@
 #include <arch/cpu.h>
 
 #include <sys/syscall.h>
+#include <stdio.h>
+
+// font start location
+extern uint8_t _binary_Tamsyn8x16b_psf_end;
+
 
 void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // init serial for debugging COM1, if it fails then panic... or smth
@@ -55,6 +60,8 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
         return;
     }
 
+    fprintf(NULL, "TEST\n");
+
     // move multiboot header to somewhere it can be undisturbed while the memory map is created
     multiboot_tag_t *tag = (multiboot_tag_t*) memcpy(((void*)0x1000), (void*)multiboot_addr, *((uint32_t*)multiboot_addr)) + 8;
 
@@ -62,7 +69,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     while (tag->type != 0) {
         if (tag->type == 6) {
             memory_map_tag = (multiboot_memory_map_t *) tag;
-            initialize_memory_map(memory_map_tag);
+            initialize_memory_map(memory_map_tag, _binary_Tamsyn8x16b_psf_end);
         }
         if (tag->type == 8) {
             framebuffer_tag = (multiboot_framebuffer_tag_t *) tag;
@@ -137,13 +144,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // allow user input now
     setup_keyboard();
 
-    char *test_str = malloc(64);
-    memcpy(test_str, "Test str\n", 10);
-
-    uint32_t test_str_pointer = (uint32_t) test_str;
-    syscall(1, 56, test_str_pointer);
-
-    free(test_str);
+    printf("End of kmain() execution.\n");
 
     for(;;);
 }

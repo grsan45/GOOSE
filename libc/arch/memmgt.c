@@ -11,8 +11,6 @@
 // in bytes
 #define PAGE_SIZE 4096
 
-// font start location
-extern uint8_t _binary_Tamsyn8x16b_psf_end;
 
 mmap_page_t *pages = 0;
 mmap_page_t *earliest_free_page;
@@ -98,7 +96,7 @@ void free(void *ptr) {
     merge_blocks(block);
 }
 
-void initialize_memory_map(multiboot_memory_map_t* memory_map) {
+void initialize_memory_map(multiboot_memory_map_t* memory_map, uint8_t font_start_location) {
     fprintf(NULL, "Creating memory map...\n");
     uint32_t num_sectors = (memory_map->size-16)/memory_map->entry_size;
 
@@ -122,7 +120,7 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map) {
     fprintf(NULL, "Moving page array 32KiB forward so we don't hit the stack\n");
     uint32_t page_table_start_addr = largest_usable_entry.base_addr + PRE_MMAP_PADDING;
 
-    uint32_t font_offest = flp2((uint32_t) &_binary_Tamsyn8x16b_psf_end - 0x100000) << 1;
+    uint32_t font_offest = flp2((uint32_t) &font_start_location - 0x100000) << 1;
 
     // move forward to end of font object so we don't cause any issues
     fprintf(NULL, "Moving page array forward to avoid hitting the font object (0x%16d bytes)\n", font_offest);

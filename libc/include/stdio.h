@@ -4,7 +4,10 @@
 #include <stdarg.h>
 #include "string.h"
 
-typedef struct { char* start, end, cursor; } FILE;
+typedef struct {
+    uint32_t descriptor;
+    char* start, end, cursor;
+} FILE;
 extern FILE* stderr;
 extern FILE* stdout;
 
