@@ -48,7 +48,11 @@ char* itob(uint32_t num, char* buf, uint8_t base) {
     return buf;
 }
 
-uint32_t atoi(char* str, uint8_t base) {
+uint32_t atoi(const char *str) {
+    return atoi_base(str, 10);
+}
+
+uint32_t atoi_base(const char* str, uint8_t base) {
     uint32_t ret = 0;
     char digit;
     uint32_t place = 1;
