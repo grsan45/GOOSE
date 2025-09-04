@@ -8,8 +8,8 @@ typedef struct {
     uint32_t descriptor;
     char* start, end, cursor;
 } FILE;
-extern FILE* stderr;
 extern FILE* stdout;
+extern FILE* stderr;
 
 #define stdout stdout
 #define stderr stderr

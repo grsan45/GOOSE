@@ -73,7 +73,8 @@ void serial_printf(uint16_t port, const char* format, ...) {
                     serial_putc(port, '%');
                     break;
                 case 'd':
-                    serial_puts(port, itob(va_arg(args, uint32_t), digitbuffer, base > 1 ? base : 10));
+                    itob(va_arg(args, uint32_t), digitbuffer, base > 1 ? base : 10);
+                    serial_puts(port, digitbuffer);
                     base = 0;
                     break;
                 default:

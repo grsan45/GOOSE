@@ -27,14 +27,16 @@ void* memcpy(void *restrict dest, const void* restrict src, size_t size) {
     return destBuf;
 }
 
-// doesn't support negatives :)
-char* itob(uint32_t num, char* buf, uint8_t base) {
+uint32_t itob(int32_t num, char* buf, uint8_t base) {
     uint8_t i = 0;
 
     if (num == 0) {
         buf = "0";
-        return buf;
+        return 1;
     }
+
+    bool negative = num < 0;
+    if (negative) num = -num;
 
     while (num != 0) {
         uint8_t rem = num % base;
@@ -42,22 +44,29 @@ char* itob(uint32_t num, char* buf, uint8_t base) {
         num = num / base;
     }
 
+    if (negative) buf[i++] = '-';
+
     reverse_str(buf, i);
     buf[i] = '\0';
 
-    return buf;
+    return i;
 }
 
-uint32_t atoi(char* str, uint8_t base) {
+uint32_t atob(char* str, uint8_t base) {
+    bool negative = str[0] == '-';
+    if (negative) str++;
+
     uint32_t ret = 0;
     char digit;
-    uint32_t place = 1;
     while((digit = *(str++)) != '\0') {
-        bool arabic_numeral = digit >= '0' && digit <= '9';
-        ret += place * base * (digit - (arabic_numeral ? '0' : 'a'));
-        place *= 10;
+        ret *= base;
+
+        int digit_offset = '0';
+        if (digit >= 'a') digit_offset = 'a' - 10;
+        else if (digit >= 'A') digit_offset = 'A' - 10;
+        ret += digit - digit_offset;
     }
-    return ret;
+    return ret * (negative ? -1 : 1);
 }
 
 void reverse_str(char *str, int len) {

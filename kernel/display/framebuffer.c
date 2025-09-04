@@ -129,7 +129,8 @@ void fb_printf(const char *format, ...) {
                     putc('%');
                     break;
                 case 'd':
-                    puts(itob(va_arg(args, uint32_t), digitbuffer, base > 1 ? base : 10));
+                    itob(va_arg(args, uint32_t), digitbuffer, base > 1 ? base : 10);
+                    puts(digitbuffer);
                     base = 0;
                     break;
                 default:
