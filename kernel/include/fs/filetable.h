@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <unistd.h>
+#include <filedriver.h>
 
 #include <math.h>
 
@@ -15,11 +16,18 @@
 #define TYPE_DEVICE 0b0100
 
 #define MAX_FILES 4096
+#define MAX_NODES 4096
+
+typedef struct {
+    char* name;
+    uint8_t type_flags;
+    file_driver driver; // todo: better way
+} fs_node;
 
 typedef struct s_ft_entry {
     uint8_t access_flags;
     uint8_t type_flags;
-    //fs_node *node; todo
+    fs_node *node;
 } ft_entry;
 
 #define INVALID_ENTRY (ft_entry){}
@@ -35,6 +43,7 @@ extern file_table main_ft;
 int32_t init_ft(file_table *table);
 ft_entry find_entry(file_table *table, pid_t proc, uint32_t fd);
 int32_t create_entry(file_table *table, pid_t proc, uint32_t fd, uint8_t access_flags, uint8_t type_flags);
+int32_t remove_entry(file_table *table, pid_t proc, uint32_t fd);
 
 #define FD_HASH(proc, fd) HASH(HASH((proc)) + HASH((fd)))
 

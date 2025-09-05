@@ -7,7 +7,7 @@
 #include <display/psf_font.h>
 #include <arch/memmgt.h>
 
-#include "include/filetable.h"
+#include "include/fs/filetable.h"
 
 #include <io/timer.h>
 #include <io/keyboard.h>
