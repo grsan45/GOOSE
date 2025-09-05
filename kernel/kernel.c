@@ -7,6 +7,8 @@
 #include <display/psf_font.h>
 #include <arch/memmgt.h>
 
+#include "include/filetable.h"
+
 #include <io/timer.h>
 #include <io/keyboard.h>
 
@@ -21,6 +23,7 @@
 // font start location
 extern uint8_t _binary_Tamsyn8x16b_psf_end;
 
+file_table main_ft = {};
 
 void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // init serial for debugging COM1, if it fails then panic... or smth
@@ -98,6 +101,12 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
         tag = (multiboot_tag_t*)((uint8_t*)tag + ((tag->size + 7) & ~7));
     }
+
+    // initialize file table
+    init_ft(&main_ft);
+
+    // Create kernel stdout. Will print to framebuffer first, serial later, then kernel log file.
+    create_entry(&main_ft, 0, 1, FREAD | FWRITE, TYPE_DEVICE);
 
     // prepare framebuffer for use
     init_psf();

@@ -20,7 +20,6 @@ uint32_t num_pages;
 uint64_t usable_memory_start_address;
 
 void* malloc(uint32_t num_bytes) {
-    // TODO: new variable!
     num_bytes += BLOCK_HEADER_SIZE;
 
     uint32_t required_pages = num_bytes / PAGE_SIZE;

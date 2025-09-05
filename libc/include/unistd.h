@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 
-typedef int pid_t;
+typedef uint32_t pid_t;
 //typedef unsigned int intptr_t;
 
 int write(uint32_t fd, char* buf);
