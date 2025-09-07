@@ -21,7 +21,7 @@
 typedef struct {
     char* name;
     uint8_t type_flags;
-    file_driver driver; // todo: better way
+    file_driver *driver; // todo: better way
 } fs_node;
 
 typedef struct s_ft_entry {
@@ -33,7 +33,11 @@ typedef struct s_ft_entry {
 #define INVALID_ENTRY (ft_entry){}
 
 typedef struct s_file_table {
-    ft_entry *entries;
+    struct file_bucket {
+        bool valid;
+        uint32_t hash;
+        ft_entry value;
+    } *entries;
     uint32_t count;
 } file_table;
 
@@ -42,7 +46,8 @@ extern file_table main_ft;
 
 int32_t init_ft(file_table *table);
 ft_entry find_entry(file_table *table, pid_t proc, uint32_t fd);
-int32_t create_entry(file_table *table, pid_t proc, uint32_t fd, uint8_t access_flags, uint8_t type_flags);
+int32_t create_entry(file_table *table, pid_t proc, uint32_t fd, fs_node *node,
+                     uint8_t access_flags, uint8_t type_flags);
 int32_t remove_entry(file_table *table, pid_t proc, uint32_t fd);
 
 #define FD_HASH(proc, fd) HASH(HASH((proc)) + HASH((fd)))

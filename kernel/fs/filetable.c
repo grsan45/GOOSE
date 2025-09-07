@@ -3,7 +3,7 @@
 #include "../include/fs/filetable.h"
 
 int32_t init_ft(file_table *table) {
-    table->entries = malloc(sizeof(ft_entry) * MAX_FILES); // todo: realloc if we run out of files
+    table->entries = malloc(sizeof(struct file_bucket) * MAX_FILES); // todo: realloc if we run out of files
     if (table->entries <= 0)
         return -1;
 
@@ -12,12 +12,18 @@ int32_t init_ft(file_table *table) {
     return 0;
 }
 
-int32_t create_entry(file_table *table, pid_t proc, uint32_t fd, uint8_t access_flags, uint8_t type_flags) {
+int32_t create_entry(file_table *table, pid_t proc, uint32_t fd, fs_node *node, uint8_t access_flags, uint8_t type_flags) {
     if (table->count >= MAX_FILES) return -1;
 
     uint32_t index = FD_HASH(proc, fd) % MAX_FILES;
-    table->entries[index].access_flags = access_flags;
-    table->entries[index].type_flags = type_flags;
+
+    table->entries[index].valid = true;
+    table->entries[index].hash = FD_HASH(proc, fd);
+    table->entries[index].value.access_flags = access_flags;
+    table->entries[index].value.type_flags = type_flags;
+
+    table->entries[index] = (struct file_bucket){.valid = true, .hash = FD_HASH(proc, fd),
+            .value = {.access_flags = access_flags, .type_flags = type_flags, .node = node}};
 
     table->count++;
 
@@ -26,17 +32,21 @@ int32_t create_entry(file_table *table, pid_t proc, uint32_t fd, uint8_t access_
 
 ft_entry find_entry(file_table *table, pid_t proc, uint32_t fd) {
     uint32_t index = FD_HASH(proc, fd) % MAX_FILES;
-    ft_entry entry = table->entries[index];
 
-    if (entry.access_flags == 0 || entry.type_flags == 0)
+    struct file_bucket bucket = table->entries[index];
+    while (bucket.hash != FD_HASH(proc, fd)) {
+        bucket = table->entries[++index];
+    }
+
+    if (bucket.valid)
         return INVALID_ENTRY;
 
-    return table->entries[index];
+    return bucket.value;
 }
 
 int32_t remove_entry(file_table *table, pid_t proc, uint32_t fd) {
     uint32_t index = FD_HASH(proc, fd);
-    table->entries[index] = INVALID_ENTRY;
+    table->entries[index] = (struct file_bucket){.valid = false};
 
     table->count--;
 

@@ -8,6 +8,7 @@
 #include <arch/memmgt.h>
 
 #include "include/fs/filetable.h"
+#include "include/driver/klog_driver.h"
 
 #include <io/timer.h>
 #include <io/keyboard.h>
@@ -105,8 +106,17 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // initialize file table
     init_ft(&main_ft);
 
+    // set up klog file driver
+    file_driver klog_file_driver = {.write=klog_write,.read=klog_read};
+
+    // set up klog node
+    fs_node *log_node = malloc(sizeof(fs_node));
+    log_node->name="klog";
+    log_node->type_flags = TYPE_DEVICE;
+    log_node->driver = &klog_file_driver;
+
     // Create kernel stdout. Will print to framebuffer first, serial later, then kernel log file.
-    create_entry(&main_ft, 0, 1, FREAD | FWRITE, TYPE_DEVICE);
+    create_entry(&main_ft, 0, 1, log_node, FREAD | FWRITE, TYPE_DEVICE);
 
     // prepare framebuffer for use
     init_psf();
