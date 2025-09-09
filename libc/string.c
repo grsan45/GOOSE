@@ -31,7 +31,7 @@ uint32_t itob(int32_t num, char* buf, uint8_t base) {
     uint8_t i = 0;
 
     if (num == 0) {
-        buf = "0";
+        memcpy(buf, "0", 2);
         return 1;
     }
 
@@ -80,3 +80,11 @@ void reverse_str(char *str, int len) {
         start++;
     }
 }
+
+bool strcmp(const char *a, const char *b) {
+    uint32_t a_len = strlen(a);
+    uint32_t b_len = strlen(b);
+    if (a_len != b_len) return false;
+    return strncmp(a, b, a_len > b_len ? b_len : a_len);
+}
+

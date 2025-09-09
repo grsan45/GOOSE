@@ -21,4 +21,7 @@ char *strcpy(char *s, const char *ct);
 char *strcat(char *s, const char *ct);
 char *strchr(const char *cs, char c);
 
+bool strcmp(const char *a, const char *b);
+bool strncmp(const char *a, const char *b, uint32_t l);
+
 #endif //STRING_H

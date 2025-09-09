@@ -4,9 +4,14 @@
 #include <stdarg.h>
 #include "string.h"
 
+#define FILE_BUFFER_SIZE 1024
+#define FILE_MODE_READ 0
+#define FILE_MODE_WRITE 1
+#define FILE_MODE_APPEND 2
+
 typedef struct {
     uint32_t descriptor;
-    char* start, end, cursor;
+    char *start, *end, *cursor;
 } FILE;
 extern FILE* stdout;
 extern FILE* stderr;
