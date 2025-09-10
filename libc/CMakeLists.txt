@@ -9,7 +9,7 @@ set(CMAKE_C_COMPILER ${toolchain}/bin/i686-goose-gcc)
 set(CMAKE_ASM_COMPILER ${toolchain}/bin/i686-goose-as)
 set(CMAKE_AR ${toolchain}/bin/i686-goose-ar)
 
-set(CMAKE_C_FLAGS "-ffreestanding -nostdlib -O2 -Wall -Werror -std=c17")
+set(CMAKE_C_FLAGS "-ffreestanding -nostdlib -O0 -Wall -Werror -std=c17")
 set(CMAKE_ASM_FLAGS "")
 
 file(GLOB_RECURSE SRCS *.s *.c)

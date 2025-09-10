@@ -1,9 +1,7 @@
-//
-// Created by grsan on 5/22/23.
-//
-
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 size_t strlen(const char *str) {
     size_t len = 0;
@@ -86,5 +84,75 @@ bool strcmp(const char *a, const char *b) {
     uint32_t b_len = strlen(b);
     if (a_len != b_len) return false;
     return strncmp(a, b, a_len > b_len ? b_len : a_len);
+}
+
+int sprintf(char *str, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    return vsnprintf(UINT32_MAX, str, format, args);
+}
+
+int snprintf(size_t size, char *str, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    return vsnprintf(size, str, format, args);
+}
+
+int vsnprintf(size_t size, char *str, const char *format, va_list args) {
+    char *tmp_copy = 0;
+    uint32_t tmp_copy_len = 0;
+
+    int32_t flag_start = -1;
+
+    uint32_t out_idx = 0;
+    uint32_t fmt_len = strlen(format);
+    for (uint32_t i = 0; i < fmt_len; i++) {
+        if (out_idx >= size - 1) return 2; // todo: return # of bytes that would have been written
+
+        if ((format[i] == '%' || flag_start > 0) && format[++i]) {
+            flag_start = i;
+            switch (format[i]) {
+                case '%':
+                    str[out_idx++] = '%';
+
+                    flag_start = -1;
+                    continue;
+                case 's':
+                    tmp_copy = va_arg(args, char*);
+                    tmp_copy_len = strlen(tmp_copy);
+                    memcpy(str + out_idx, tmp_copy, tmp_copy_len);
+                    out_idx += tmp_copy_len;
+
+                    flag_start = -1;
+                    continue;
+                case 'd':
+                    // todo: flag support
+                    tmp_copy_len = itob(va_arg(args, uint32_t), str + out_idx, 10);
+                    out_idx += tmp_copy_len;
+
+                    flag_start = -1;
+                    continue;
+                case 'x':
+                    memcpy(str + out_idx, "0x", 2);
+                    out_idx += 2;
+
+                    tmp_copy_len = itob(va_arg(args, uint32_t), str + out_idx, 16);
+                    out_idx += tmp_copy_len;
+
+                    flag_start = -1;
+                    continue;
+                default:
+                    continue;
+            }
+        }
+
+        str[out_idx++] = format[i];
+    }
+
+    str[out_idx] = '\0';
+
+    if (flag_start > 0) return -1; // never found a directive, invalid format
+
+    return 0;
 }
 

@@ -7,7 +7,7 @@ int printf(const char *format, ...) {
 }
 
 int fprintf(FILE *f, const char *format, ...) {
-    write(, (char *)format);
+    write(0, (char *)format);
     return 0;
 }
 

@@ -32,6 +32,10 @@ void fflush(FILE *stream);
 void fseek(FILE *stream, long offset, int origin);
 long ftell(FILE *stream);
 
+int sprintf(char *str, const char *format, ...);
+int snprintf(size_t size, char *str, const char *format, ...);
+int vsnprintf(size_t size, char *str, const char *format, va_list args);
+
 int printf(const char *format, ...);
 int fprintf(FILE *stream, const char *format, ...);
 int sprintf(char *s, const char *format, ...);

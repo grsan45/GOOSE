@@ -124,6 +124,11 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
     fb_printf("Hello world!!\n");
 
+    char* snprintf_test = malloc(256 * sizeof(char));
+    snprintf(256, snprintf_test, "snprintf test %d%%, %x, %s.\n", -50, 255, "hello!!");
+    puts(snprintf_test);
+    free(snprintf_test);
+
     // test calloc
     char* ptr = calloc(119, sizeof(char));
     char* ptr2 = calloc(4096, sizeof(char));
