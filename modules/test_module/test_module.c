@@ -1,8 +1,4 @@
-//
-// Created by grsan on 10/2/2024.
-//
-
-#include <display/framebuffer.h>
+#include <stdio.h>
 
 int main() {
     printf("Kernel module test\n");
