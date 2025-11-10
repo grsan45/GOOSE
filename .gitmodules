@@ -1,6 +1,8 @@
 [submodule "toolchain/binutils-gdb"]
 	path = toolchain/binutils-gdb
 	url = https://sourceware.org/git/binutils-gdb.git
+    branch = binutils-2_45-branch 
 [submodule "toolchain/gcc"]
 	path = toolchain/gcc
 	url = https://gcc.gnu.org/git/gcc.git
+    branch = releases/gcc-15

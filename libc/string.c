@@ -50,11 +50,15 @@ uint32_t itob(int32_t num, char* buf, uint8_t base) {
     return i;
 }
 
-uint32_t atob(char* str, uint8_t base) {
+uint32_t itoa(int32_t num, char *buf) {
+    return itob(num, buf, 10);
+}
+
+int32_t atob(char* str, uint8_t base) {
     bool negative = str[0] == '-';
     if (negative) str++;
 
-    uint32_t ret = 0;
+    int32_t ret = 0;
     char digit;
     while((digit = *(str++)) != '\0') {
         ret *= base;
@@ -65,6 +69,10 @@ uint32_t atob(char* str, uint8_t base) {
         ret += digit - digit_offset;
     }
     return ret * (negative ? -1 : 1);
+}
+
+int32_t atoi(char* str) {
+    return atob(str, 10);
 }
 
 void reverse_str(char *str, int len) {

@@ -22,6 +22,7 @@ extern FILE* stderr;
 FILE *fopen(const char *filename, const char *mode);
 size_t fread(void *ptr, size_t size, size_t num_obj, FILE *stream);
 size_t fwrite(const void *ptr, size_t size, size_t num_obj, FILE *stream);
+int feof(FILE *stream);
 
 int fclose(FILE *stream);
 void fflush(FILE *stream);

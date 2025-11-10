@@ -60,7 +60,12 @@ if [[ ! -f $PREFIX/bin/i686-goose-gcc || $REBUILD == 1 ]] ; then
   make -j$(nproc) && make install
   popd >> /dev/null
 
-  echo "Binutils build complete."
+  if [ ! -d $PREFIX ]; then
+      echo "Binutils build failed. Check logs. Exiting"
+      exit 2
+  else
+    echo "Binutils build complete."
+  fi
 
   echo "Setting up gcc build"
   if git apply --check ./gcc.patch ; then

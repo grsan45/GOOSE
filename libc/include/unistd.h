@@ -14,8 +14,8 @@ int write(uint32_t fd, char* buf);
 
 pid_t fork();
 pid_t getpid();
-int execv(const char *filename, char const *argv[]);
-int execve(const char *filename, char const *argv[], char const *envp[]);
-int execvp(const char *filename, char const *argv[]);
+int execv(const char *filename, char *argv[]);
+int execve(const char *filename, char *argv[], char *envp[]);
+int execvp(const char *filename, char *argv[]);
 
 #endif //UNISTD_H
