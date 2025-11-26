@@ -13,7 +13,7 @@
 
 
 mmap_page_t *pages = 0;
-mmap_page_t *earliest_free_page;
+mmap_page_t *start_page;
 
 uint32_t num_pages;
 
@@ -33,11 +33,13 @@ void* malloc(uint32_t num_bytes) {
 //    fprintf(NULL, "best block location: 0x%16d, size: %d bytes\n", (uint32_t) block, (uint32_t) block->size);
     if (required_pages == 1) {
         block = split_block(block, num_bytes);
+        best_page->flags |= OCCUPIED;
     } else {
         // multi-page allocation
 
+        // set appropriate flags on all used pages
         for (uint32_t i = 0; i < required_pages - 2; i++) {
-            (best_page + i)->flags |= ALLOCATED_OUTSIDE;
+            (best_page + i)->flags |= ALLOCATED_OUTSIDE | OCCUPIED;
         }
 
         // find the number of remaining bytes the ending page will have, then compute the next lowest power of 2
@@ -66,7 +68,6 @@ void* malloc(uint32_t num_bytes) {
                       (uint32_t) ending_page->first_block, (uint32_t) ending_page->first_block->size,
                       (uint32_t) ending_page->last_block, (uint32_t) ending_page->last_block->size);
     }
-//    fprintf(NULL, "new block location: 0x%16d, size: %d bytes\n", (uint64_t) block, (uint64_t) block->size);
 
     block->flags &= ~FREE;
     return (void*) block + BLOCK_HEADER_SIZE;
@@ -139,7 +140,8 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map, uint8_t font_star
     fprintf(NULL, "sizeof page: %d, sizeof block %d\n", (uint32_t) sizeof(mmap_page_t), (uint32_t) sizeof(mmap_block_t));
 
     for(uint32_t i = 0; i < num_pages; i++) {
-        uint32_t page_addr = (i << log2(PAGE_SIZE)) + usable_memory_start_address; // multiply by 4096
+        uint32_t page_addr = (i << log2(PAGE_SIZE)) + usable_memory_start_address; // multiply by PAGE_SIZE
+        pages[i].flags = 0;
         pages[i].first_block = (mmap_block_t *) page_addr;
         pages[i].first_block->size = PAGE_SIZE;
         pages[i].first_block->flags |= FREE;
@@ -147,7 +149,7 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map, uint8_t font_star
         pages[i].last_block = pages[i].first_block;
     }
 
-    earliest_free_page = pages;
+    start_page = pages;
 
     fprintf(NULL, "first page firstblock addr: 0x%16d, size: %d\n", (uint32_t) pages[0].first_block,
                   (uint32_t) pages[0].first_block->size);
@@ -198,7 +200,7 @@ mmap_block_t *merge_blocks(mmap_block_t *block) {
             page->first_block->size = PAGE_SIZE;
             page->first_block->flags |= FREE;
 
-            page->flags &= ~ALLOCATED_OUTSIDE;
+            page->flags ^= ALLOCATED_OUTSIDE;
         }
 
         // fix ending page
@@ -258,6 +260,10 @@ mmap_block_t *merge_blocks(mmap_block_t *block) {
         return merge_blocks(resulting_block); // merge upwards as far as we can go
     }
 
+    // clear the occupied flag if this block is restored to a full page length
+    if (block->size == PAGE_SIZE)
+        get_block_page(block)->flags ^= OCCUPIED;
+
     return block;
 }
 
@@ -274,36 +280,43 @@ mmap_block_t* find_best_block(mmap_page_t *page, uint32_t size) {
     return block;
 }
 
-mmap_page_t *find_best_page(uint32_t size) {
-    mmap_page_t *page = earliest_free_page;
+mmap_page_t *find_best_page(uint32_t size)
+{
+    // note: this function does necessarily not find the perfect page for any given size,
+    // it just finds one that is *good enough* in a relatively shorter timeframe.
 
-    // state tracking vars
-    uint32_t page_moved_by = 0;
-    uint32_t remaining_size = size;
+    mmap_page_t *selected_page = start_page;
 
-    for (uint32_t i = 0; i < num_pages; i++, page++) {
-        if (size < PAGE_SIZE) break;
+    // loop through all pages. Will return when an appropriate page is found
+    // todo: be more efficient about this.
+    for (; selected_page < &pages[num_pages-1]; selected_page++)
+    {
+        if (selected_page->flags & ALLOCATED_OUTSIDE || !(selected_page->last_block->flags & FREE)) continue;
 
-        loop_body:
-        // skip if the last block in this page isn't free or if it's already allocated to an outside pointer
-        if (!(page->last_block->flags & FREE) || page->flags & ALLOCATED_OUTSIDE) continue;
+        // check for contiguous empty pages in case we are doing a multi-page allocation
+        if (size > PAGE_SIZE)
+        {
+            uint32_t required_extra_page_count = (size - selected_page->last_block->size) / PAGE_SIZE + 1;
+            bool all_free = true;
 
-        // determine whether we have enough free physical space to fit this allocation
-        while (remaining_size) {
-            i++;
-            remaining_size -= page->last_block->size;
-            if ((++page)->first_block->size < ((remaining_size > PAGE_SIZE) ? PAGE_SIZE : remaining_size)) {
-                remaining_size = size;
-                goto loop_body; // yucky goto, sorry
+            for (uint32_t i = 1; i < required_extra_page_count; i++)
+            {
+                // if any of the required blank pages have any flags set, then our selected page isn't usable
+                if ((selected_page + i)->flags > 0) { all_free = false; break; }
             }
-            page_moved_by++;
-            remaining_size -= ((remaining_size > PAGE_SIZE) ? PAGE_SIZE : remaining_size);
+
+            if (!all_free) continue;
+        } else
+        {
+            // for single-page allocations, just check that the last block has appropriate space.
+            // The allocator function will be more efficient if possible
+            if (selected_page->last_block->size < size) continue;
         }
 
-        return page - page_moved_by;
+        return selected_page;
     }
 
-    return earliest_free_page;
+    return NULL;
 }
 
 mmap_page_t *get_block_page(mmap_block_t *block) {
