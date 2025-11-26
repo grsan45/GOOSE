@@ -1,6 +1,8 @@
 #include <arch/syscalls.h>
 #include <io/serial.h>
-#include <display/framebuffer.h>
+
+#include "stddef.h"
+#include "../include/fs/filetable.h"
 
 void handle_syscall(isr_stacktrace *args) {
     syscall_args s_args = {args->ebx, args->ecx, args->edx, args->esi, args->edi, args->ebp};
@@ -19,11 +21,16 @@ int sys_write(syscall_args *args) {
     uint32_t fd = arg_arr[0];
     char* str = (char*)arg_arr[1];
 
-//    serial_printf(COM1, "sys_write, fp: %d, str: %s\n", argArr[0], str);
-    if (fd == 1)
-        fb_printf("%s", str);
-    else
+    if (fd == 0)
+    {
         serial_printf(COM1, "%s", str);
+        return 0;
+    }
+
+    const ft_entry entry = find_entry(FILE_TABLE, 0, fd);
+    const fs_node *node = entry.node;
+
+    node->driver->write(NULL, str, 0);
 
     return 0;
 }

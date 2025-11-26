@@ -2,7 +2,15 @@
 #include <unistd.h>
 
 int printf(const char *format, ...) {
-    write(1, (char *) format);
+    va_list args;
+    va_start(args, format);
+
+    char *buf = malloc(sizeof(char) * 128);
+    vsnprintf(128, buf, format, args);
+    va_end(args);
+
+    write(1, buf);
+    free(buf);
     return 0;
 }
 

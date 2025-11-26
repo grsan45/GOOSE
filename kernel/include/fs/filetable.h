@@ -42,7 +42,7 @@ typedef struct s_file_table {
 } file_table;
 
 extern file_table main_ft;
-#define FILE_TABLE main_ft
+#define FILE_TABLE &main_ft
 
 int32_t init_ft(file_table *table);
 ft_entry find_entry(file_table *table, pid_t proc, uint32_t fd);

@@ -64,10 +64,8 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
         return;
     }
 
-    fprintf(NULL, "TEST\n");
-
     // move multiboot header to somewhere it can be undisturbed while the memory map is created
-    multiboot_tag_t *tag = (multiboot_tag_t*) memcpy(((void*)0x1000), (void*)multiboot_addr, *((uint32_t*)multiboot_addr)) + 8;
+    multiboot_tag_t *tag = (multiboot_tag_t*) memcpy((void*)0x1000, (void*)multiboot_addr, *(uint32_t*)multiboot_addr) + 8;
 
     // get multiboot tags, or at least the ones I care about
     while (tag->type != 0) {
@@ -168,7 +166,7 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // allow user input now
     setup_keyboard();
 
-    printf("End of kmain() execution.\n");
+    printf("%s", "End of kmain() execution.\n");
 
     for(;;);
 }

@@ -17,11 +17,6 @@ int32_t create_entry(file_table *table, pid_t proc, uint32_t fd, fs_node *node, 
 
     uint32_t index = FD_HASH(proc, fd) % MAX_FILES;
 
-    table->entries[index].valid = true;
-    table->entries[index].hash = FD_HASH(proc, fd);
-    table->entries[index].value.access_flags = access_flags;
-    table->entries[index].value.type_flags = type_flags;
-
     table->entries[index] = (struct file_bucket){.valid = true, .hash = FD_HASH(proc, fd),
             .value = {.access_flags = access_flags, .type_flags = type_flags, .node = node}};
 
@@ -38,7 +33,7 @@ ft_entry find_entry(file_table *table, pid_t proc, uint32_t fd) {
         bucket = table->entries[++index];
     }
 
-    if (bucket.valid)
+    if (!bucket.valid)
         return INVALID_ENTRY;
 
     return bucket.value;
