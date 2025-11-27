@@ -25,12 +25,9 @@ void* malloc(uint32_t num_bytes) {
     uint32_t required_pages = num_bytes / PAGE_SIZE;
     if (num_bytes % PAGE_SIZE > 0) required_pages++;
 
-//    fprintf(NULL, "Allocation of %d bytes requires %d pages\n", total_bytes, (uint64_t) required_pages);
 
     mmap_page_t *best_page = find_best_page(num_bytes);
-//    fprintf(NULL, "best page: %d\n", (uint32_t) (best_page - pages)/ sizeof(mmap_page_t*));
     mmap_block_t *block = find_best_block(best_page, num_bytes);
-//    fprintf(NULL, "best block location: 0x%16d, size: %d bytes\n", (uint32_t) block, (uint32_t) block->size);
     if (required_pages == 1) {
         block = split_block(block, num_bytes);
         best_page->flags |= OCCUPIED;
@@ -49,12 +46,6 @@ void* malloc(uint32_t num_bytes) {
         // update the first block on the end page to ensure it still functions properly
         mmap_page_t *ending_page = best_page + required_pages - 1;
 
-        fprintf(NULL, "chose ending page %d\n", required_pages - 1);
-
-        fprintf(NULL, "ending page pre format firstblock addr: 0x%16d, size: %d\nending page lastblock addr: 0x%16d, size: %d\n",
-                      (uint32_t) ending_page->first_block, (uint32_t) ending_page->first_block->size,
-                      (uint32_t) ending_page->last_block, (uint32_t) ending_page->last_block->size);
-
         ending_page->first_block = (mmap_block_t *) ((uint32_t) ending_page->first_block + (PAGE_SIZE-ending_page_new_size));
         ending_page->first_block->size = ending_page_new_size;
         ending_page->first_block->flags |= FREE;
@@ -63,10 +54,6 @@ void* malloc(uint32_t num_bytes) {
         block->size = ((uint32_t) ending_page->first_block) - ((uint32_t) block);
 
         ending_page->last_block = ending_page->first_block;
-
-        fprintf(NULL, "ending page post format firstblock addr: 0x%16d, size: %d\nending page lastblock addr: 0x%16d, size: %d\n",
-                      (uint32_t) ending_page->first_block, (uint32_t) ending_page->first_block->size,
-                      (uint32_t) ending_page->last_block, (uint32_t) ending_page->last_block->size);
     }
 
     block->flags &= ~FREE;
@@ -97,7 +84,6 @@ void free(void *ptr) {
 }
 
 void initialize_memory_map(multiboot_memory_map_t* memory_map, uint8_t font_start_location) {
-    fprintf(NULL, "Creating memory map...\n");
     uint32_t num_sectors = (memory_map->size-16)/memory_map->entry_size;
 
     // find the largest usable entry, maybe take advantage of others once paging is implemented?
@@ -106,38 +92,26 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map, uint8_t font_star
         multiboot_memory_map_entry_t entry = memory_map->entries[i];
         if (entry.type != 1) continue; // cant use anything else
 
-        fprintf(NULL, "Found map entry: \n\tbaseaddr: 0x%16d, length: 0x%16d, type: %d\n\n",
-                      (uint32_t) entry.base_addr, (uint32_t) entry.length, (uint32_t) entry.type);
-
         if (entry.length > largest_usable_entry.length)
             largest_usable_entry = entry;
     }
 
-    fprintf(NULL, "Largest map entry: \n\tbaseaddr: 0x%16d, length: 0x%16d, type: %d\n\n",
-                  (uint32_t) largest_usable_entry.base_addr, (uint32_t) largest_usable_entry.length, (uint32_t) largest_usable_entry.type);
 
     // we really only need 24KiB of padding, but im adding an extra 8 to play things safe
-    fprintf(NULL, "Moving page array 32KiB forward so we don't hit the stack\n");
     uint32_t page_table_start_addr = largest_usable_entry.base_addr + PRE_MMAP_PADDING;
 
     uint32_t font_offest = flp2((uint32_t) &font_start_location - 0x100000) << 1;
 
     // move forward to end of font object so we don't cause any issues
-    fprintf(NULL, "Moving page array forward to avoid hitting the font object (0x%16d bytes)\n", font_offest);
     page_table_start_addr += font_offest;
 
-    fprintf(NULL, "Adjusting start addr by 16Mib\n");
     usable_memory_start_address = page_table_start_addr + 16777216;
     uint32_t length = largest_usable_entry.length - 16777216 - PRE_MMAP_PADDING;
 
     num_pages = (length >> log2(PAGE_SIZE)) - 1; // divide by PAGE_SIZE
 
-    fprintf(NULL, "Creating %d pages\n", num_pages);
-
     pages = (mmap_page_t*) page_table_start_addr;
 
-    fprintf(NULL, "Putting the page array at 0x%16d\n", pages);
-    fprintf(NULL, "sizeof page: %d, sizeof block %d\n", (uint32_t) sizeof(mmap_page_t), (uint32_t) sizeof(mmap_block_t));
 
     for(uint32_t i = 0; i < num_pages; i++) {
         uint32_t page_addr = (i << log2(PAGE_SIZE)) + usable_memory_start_address; // multiply by PAGE_SIZE
@@ -150,11 +124,6 @@ void initialize_memory_map(multiboot_memory_map_t* memory_map, uint8_t font_star
     }
 
     start_page = pages;
-
-    fprintf(NULL, "first page firstblock addr: 0x%16d, size: %d\n", (uint32_t) pages[0].first_block,
-                  (uint32_t) pages[0].first_block->size);
-    fprintf(NULL, "last page firstblock addr: 0x%16d, size: %d\n", (uint32_t) pages[num_pages-1].first_block,
-                  (uint32_t) pages[num_pages-1].first_block->size);
 }
 
 mmap_block_t* get_next_block(mmap_block_t* block) {
@@ -273,7 +242,6 @@ mmap_block_t* find_best_block(mmap_page_t *page, uint32_t size) {
 
     mmap_block_t *block = page->first_block;
     while (!(block->flags & FREE) || block->size < size) {
-//        fprintf(NULL, "block addr: 0x%16d, size: %d, free: %d\n", (uint64_t) block, (uint64_t) block->size, (uint64_t) block->free);
         block = get_next_block(block);
     }
 

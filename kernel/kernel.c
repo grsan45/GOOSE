@@ -120,53 +120,12 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     init_psf();
     clear();
 
-    fb_printf("Hello world!!\n");
-
-    char* snprintf_test = malloc(256 * sizeof(char));
-    snprintf(256, snprintf_test, "snprintf test %d%%, %x, %s.\n", -50, 255, "hello!!");
-    puts(snprintf_test);
-    free(snprintf_test);
-
-    // test calloc
-    char* ptr = calloc(119, sizeof(char));
-    char* ptr2 = calloc(4096, sizeof(char));
-    char* ptr3 = calloc(512, sizeof(char));
-    char* ptr4 = calloc(424, sizeof(char));
-    char* ptr5 = calloc(24576, sizeof(char));
-
-    ptr3 = realloc(ptr3, 1024);
-
-    fb_printf("Test pointer 1 located at 0x%16d, block size: %d\n", (uint32_t) ptr,
-              (uint32_t) get_block_of_ptr((uint32_t) ptr)->size);
-    fb_printf("Test pointer 2 located at 0x%16d, block size: %d\n", (uint32_t) ptr2,
-              (uint32_t) get_block_of_ptr((uint32_t) ptr2)->size);
-    fb_printf("Test pointer 3 located at 0x%16d, block size: %d\n", (uint32_t) ptr3,
-              (uint32_t) get_block_of_ptr((uint32_t) ptr3)->size);
-    fb_printf("Test pointer 4 located at 0x%16d, block size: %d\n", (uint32_t) ptr4,
-              (uint32_t) get_block_of_ptr((uint32_t) ptr4)->size);
-    fb_printf("Test pointer 5 located at 0x%16d, block size: %d\n", (uint32_t) ptr5,
-              (uint32_t) get_block_of_ptr((uint32_t) ptr5)->size);
-
-    mmap_block_t *ptr1_block = (mmap_block_t *) ((uint32_t) ptr - BLOCK_HEADER_SIZE);
-    fb_printf("PRE FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
-    free(ptr);
-    fb_printf("POST FREE PTR 1 block properties -- free: %d, block size: %d\n", ptr1_block->flags & FREE, ptr1_block->size);
-    free(ptr4);
-
-    mmap_block_t *ptr5_block = (mmap_block_t *) ((uint32_t) ptr5 - BLOCK_HEADER_SIZE);
-    fb_printf("PRE FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
-    free(ptr5);
-    fb_printf("POST FREE PTR 5 block properties -- free: %d, block size: %d\n", ptr5_block->flags & FREE, ptr5_block->size);
-
-    free(ptr3);
-    free(ptr2);
-
-    fb_printf("All pointers freed\n");
+    printf("Starting GOOSE\n");
 
     // allow user input now
     setup_keyboard();
 
-    printf("%s", "End of kmain() execution.\n");
+    printf("%s", "Halting.\n");
 
     for(;;);
 }
