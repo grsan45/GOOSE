@@ -56,4 +56,13 @@ typedef struct {
     multiboot_memory_map_entry_t entries[];
 } multiboot_memory_map_t;
 
+typedef struct
+{
+    uint32_t type;
+    uint32_t size;
+    void *mod_start;
+    void *mod_end;
+    char *name;
+} multiboot_module_tag_t;
+
 #endif //MULTIBOOT2_H

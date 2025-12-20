@@ -69,11 +69,14 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
     // get multiboot tags, or at least the ones I care about
     while (tag->type != 0) {
-        if (tag->type == 6) {
+        switch (tag->type)
+        {
+        case TAG_MODULES:
+
+        case TAG_MEMORY_MAP:
             memory_map_tag = (multiboot_memory_map_t *) tag;
             initialize_memory_map(memory_map_tag, _binary_Tamsyn8x16b_psf_end);
-        }
-        if (tag->type == 8) {
+        case TAG_FRAMEBUFFER:
             framebuffer_tag = (multiboot_framebuffer_tag_t *) tag;
             framebuffer_info info;
             info.addr = (void *) (long) framebuffer_tag->common.framebuffer_addr;
@@ -96,6 +99,8 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
             // TODO: mark the vram as used in the memory map
             serial_printf(COM1, "framebuffer location: 0x%16d\n",(uint32_t)info.addr);
+        default:
+            break;
         }
 
         tag = (multiboot_tag_t*)((uint8_t*)tag + ((tag->size + 7) & ~7));
