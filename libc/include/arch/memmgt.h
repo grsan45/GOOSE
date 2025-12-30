@@ -17,6 +17,7 @@
 #define HIGH_BLOCK 0b00000010
 
 #define ALLOCATED_OUTSIDE 0b00000001
+#define OCCUPIED 0b00000010
 
 typedef struct s_mmap_block_t {
     uint32_t size;

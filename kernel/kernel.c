@@ -15,11 +15,17 @@
 
 #include <io/serial.h>
 
+#include "./include/mod/kmod.h"
+
 #include <cpuid.h>
 #include <arch/cpu.h>
 
 #include <sys/syscall.h>
 #include <stdio.h>
+
+// configuration
+
+#define MAX_MODULES 16
 
 // font start location
 extern uint8_t _binary_Tamsyn8x16b_psf_end;
@@ -55,12 +61,14 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     // framebuffer tag
     multiboot_framebuffer_tag_t *framebuffer_tag;
 
-    // validate multiboot header
-    if (magic != 0x36d76289) {
-        return;
-    }
+    // Module vars. Not a constant value.
+    multiboot_module_tag_t *mod_tag;
 
-    if (multiboot_addr & 7) {
+    uint32_t mod_count = 0;
+    kmod_t mods[MAX_MODULES] = {0};
+
+    // validate multiboot header
+    if (magic != 0x36d76289 || multiboot_addr & 7) {
         return;
     }
 
@@ -71,12 +79,22 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     while (tag->type != 0) {
         switch (tag->type)
         {
-        case TAG_MODULES:
+        case MULTIBOOT_TAG_MODULES:
+            mod_tag = (multiboot_module_tag_t *) tag;
 
-        case TAG_MEMORY_MAP:
+            mods[mod_count++] = (kmod_t){
+                .start = mod_tag->mod_start,
+                .end = mod_tag->mod_end,
+                .name = &mod_tag->string
+            };
+
+            break;
+        case MULTIBOOT_TAG_MEM_MAP:
             memory_map_tag = (multiboot_memory_map_t *) tag;
             initialize_memory_map(memory_map_tag, _binary_Tamsyn8x16b_psf_end);
-        case TAG_FRAMEBUFFER:
+
+            break;
+        case MULTIBOOT_TAG_FRAMEBUFFER:
             framebuffer_tag = (multiboot_framebuffer_tag_t *) tag;
             framebuffer_info info;
             info.addr = (void *) (long) framebuffer_tag->common.framebuffer_addr;
@@ -99,6 +117,8 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
             // TODO: mark the vram as used in the memory map
             serial_printf(COM1, "framebuffer location: 0x%16d\n",(uint32_t)info.addr);
+
+            break;
         default:
             break;
         }
@@ -127,10 +147,15 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
 
     printf("Starting GOOSE\n");
 
+    for (uint32_t i = 0; i < mod_count; i++)
+    {
+        printf("Found module %s at %x\n", mods[i].name, (uint32_t)mods[i].start);
+    }
+
     // allow user input now
     setup_keyboard();
 
-    printf("%s", "Halting.\n");
+    printf("%s", "End of kmain. Halting.\n");
 
     for(;;);
 }

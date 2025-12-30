@@ -1,5 +1,9 @@
 #!/bin/bash
 
+pushd ../toolchain
+./build-toolchain.sh
+popd
+
 mkdir -p ../build >> /dev/null
 pushd ../build >> /dev/null
 

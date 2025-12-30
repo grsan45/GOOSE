@@ -7,13 +7,16 @@
 
 #include <stdint.h>
 
+#define MULTIBOOT_TAG_MODULES       3
+#define MULTIBOOT_TAG_MEM_MAP       6
+#define MULTIBOOT_TAG_FRAMEBUFFER   8
+
 typedef struct {
     uint16_t type;
     uint16_t flags;
     uint32_t size;
 } multiboot_tag_t;
 
-//TODO: implement the remaining tags later
 typedef struct {
     uint16_t type;
     uint16_t flags;
@@ -62,7 +65,7 @@ typedef struct
     uint32_t size;
     void *mod_start;
     void *mod_end;
-    char *name;
+    char string;
 } multiboot_module_tag_t;
 
 #endif //MULTIBOOT2_H

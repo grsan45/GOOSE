@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int modStart() {
+int main() {
     printf("Kernel module test\n");
     return 0;
 }

@@ -5,5 +5,7 @@ project(GOOSE_test_mod C ASM)
 set(toolchain ${PROJECT_SOURCE_DIR}/../../toolchain/i686-goose)
 set(CMAKE_C_COMPILER ${toolchain}/bin/i686-goose-gcc)
 
-add_library(test_module test_module.c)
+set(CMAKE_C_FLAGS "-ffreestanding -O2 -Wall -Werror -std=c17")
+
+add_executable(test_module test_module.c)
 target_link_libraries(test_module gcc c)
