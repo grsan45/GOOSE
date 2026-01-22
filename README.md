@@ -7,7 +7,7 @@ This project is a way for me to learn more about operating system development.
 Loosely guided by the [OSDev wiki](https://wiki.osdev.org) and [Bran's Kernel Guide](http://www.osdever.net/bkerndev/Docs/title.htm).
 
 Written in C & ASM. Don't expect high quality or overly efficient code. 
-This project is just for learning and experimenting. Maybe I'll have a "full" user mode OS in a few months.
+This project is just for learning and experimenting.
 
 No custom bootloaders here, using GRUB 2 (multiboot2). Writing a custom bootloader would be 
 [very educational](https://www.youtube.com/watch?v=afP127hsceU) but isn't worth the hassle for my
@@ -27,16 +27,15 @@ first serious OS project.
   - [x] PIT
   - [x] Keyboard
 - [x] Custom toolchain
-- [ ] More correct/robust libc impl, syscalls ***(WIP)***
+- [x] More correct/robust libc impl
+- [ ] Paging ***(WIP)*** 
 - [ ] Kernel Modules ***(WIP)***
   - [ ] ELF loader  
 - [ ] Filesystem
   - [ ] (S)ATA Driver
   - [ ] IDE Driver
   - [ ] FAT32 support (or ext4?)
-- [ ] Paging
 - [ ] Long mode (64-bit)
-  - [ ] SSEn for optimized memory operations
 - [ ] User Mode!
 
 ---

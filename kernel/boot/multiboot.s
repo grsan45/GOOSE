@@ -6,7 +6,7 @@
 .set FLAGS, ALIGN | MEMINFO
 .set CHECKSUM, 0x100000000 - (0xe85250d6 + 0 + (multiboot_start - multiboot_end))
 
-.section .multiboot
+.section .multiboot.data, "aw"
 multiboot_start:
 .align 8
 .long MAGIC

@@ -1,30 +1,48 @@
 ENTRY(_start)
 
+VIRTUAL_START = 0xC0000000;
+
 SECTIONS {
     . = 1M;
 
-    .text BLOCK(4K) : ALIGN(4K)
+    _kernel_start = .;
+    .multiboot.data :
     {
-        *(.multiboot)
+        *(.multiboot.data)
+    }
+
+    .multiboot.text :
+    {
+        *(.multiboot.text)
+    }
+
+    /* move to 3GB */
+    . += VIRTUAL_START;
+
+    /* code section */
+    .text ALIGN (4K) : AT (ADDR (.text) - VIRTUAL_START)
+    {
         *(.text)
     }
 
-    /* Read-only data. */
-    .rodata BLOCK(4K) : ALIGN(4K)
-    {
-        *(.rodata)
+    /* readonly data */
+    .rodata ALIGN (4K) : AT (ADDR (.rodata) - VIRTUAL_START)
+	{
+		*(.rodata)
+	}
+
+	/* r/w data */
+	.data ALIGN (4K) : AT (ADDR (.data) - VIRTUAL_START)
+	{
+		*(.data)
+	}
+
+	.bss ALIGN (4K) : AT (ADDR (.bss) - VIRTUAL_START)
+	{
+		*(COMMON)
+		*(.bss)
+        *(.stack)
     }
 
-    /* Read-write data (initialized) */
-    .data BLOCK(4K) : ALIGN(4K)
-    {
-        *(.data)
-    }
-
-    /* Read-write data (uninitialized) and stack */
-    .bss BLOCK(4K) : ALIGN(4K)
-    {
-        *(COMMON)
-        *(.bss)
-    }
+    _kernel_end = .;
 }

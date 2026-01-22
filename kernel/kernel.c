@@ -52,6 +52,9 @@ void kmain(uint32_t magic, uint32_t multiboot_addr) {
     gdt_install();
     idt_install();
 
+    // initialize page structures
+    serial_printf(COM1, "Initializing new page directory\n");
+
     setup_timer();
     setup_syscall_handler();
 
